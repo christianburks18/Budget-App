@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Budget Pro V8</title>
+    <title>Budget Pro V9</title>
     <style>
         :root {
             --bg: #f2f2f7; --card: #ffffff; --blue: #007aff;
@@ -13,75 +13,47 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 120px; line-height: 1.4; }
         
-        /* Fixed Header & Banner Fix */
         .header { padding: 20px 15px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; background: var(--bg); z-index: 10; gap: 8px; }
-        .banner { 
-            background: var(--card); 
-            padding: 12px 8px; 
-            border-radius: 18px; 
-            box-shadow: var(--shadow); 
-            flex: 1; 
-            text-align: center; 
-            font-weight: 700; 
-            font-size: 13px; 
-            min-width: 0; /* Prevents flex items from overflowing */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .banner span {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: block;
-            width: 100%;
-        }
+        .banner { background: var(--card); padding: 12px 15px; border-radius: 20px; box-shadow: var(--shadow); flex: 1; text-align: center; font-weight: 700; font-size: 14px; min-width: 0; color: var(--blue); }
+        .banner b { color: var(--green); }
         
         #searchContainer { padding: 0 15px 15px; }
         .search-input { width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid #d1d1d6; background: var(--card); font-size: 16px; outline: none; }
 
-        /* Card Layouts */
         .summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 15px 20px; }
-        .stat-card { background: var(--card); padding: 12px 4px; border-radius: 16px; text-align: center; box-shadow: var(--shadow); min-width: 0; }
-        .stat-card h5 { margin: 0; color: var(--gray); font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .stat-card p { margin: 4px 0 0; font-size: 13px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; }
+        .stat-card { background: var(--card); padding: 15px 5px; border-radius: 18px; text-align: center; box-shadow: var(--shadow); border-bottom: 3px solid transparent; }
+        .stat-card.spent { border-color: var(--red); }
+        .stat-card.income { border-color: var(--blue); }
+        .stat-card.saved { border-color: var(--green); }
+        .stat-card h5 { margin: 0; color: var(--gray); font-size: 10px; text-transform: uppercase; }
+        .stat-card p { margin: 5px 0 0; font-size: 14px; font-weight: 800; }
 
-        /* Filter Tabs */
         .filter-section { padding: 0 15px 15px; display: flex; gap: 8px; }
-        .filter-btn { flex: 1; padding: 10px; border-radius: 10px; border: none; background: #e3e3e8; font-weight: 600; font-size: 13px; color: var(--text); cursor: pointer; }
+        .filter-btn { flex: 1; padding: 12px; border-radius: 12px; border: none; background: #e3e3e8; font-weight: 700; font-size: 13px; color: var(--text); }
         .filter-btn.active { background: var(--blue); color: white; }
 
-        /* List & Items */
         .list-container { padding: 0 15px; }
-        .accordion-header { background: var(--card); padding: 16px; border-radius: 18px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; box-shadow: var(--shadow); font-weight: 700; font-size: 15px; }
+        .accordion-header { background: var(--card); padding: 16px; border-radius: 18px; display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px; box-shadow: var(--shadow); }
+        .acc-row { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .acc-row strong { font-size: 16px; }
+        .acc-date { font-size: 11px; color: var(--gray); font-weight: 600; text-transform: uppercase; }
+        
         .accordion-content { overflow: hidden; max-height: 0; transition: max-height 0.3s ease-out; }
         .accordion-content.open { max-height: 2000px; padding-bottom: 10px; }
 
         .item-card { background: var(--card); padding: 14px; border-radius: 14px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border: 0.5px solid #e5e5ea; }
         .item-info { display: flex; flex-direction: column; max-width: 65%; }
-        .item-info strong { font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .item-info strong { font-size: 15px; }
         .item-info small { color: var(--gray); font-size: 12px; }
-        .item-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-        .item-right strong { font-size: 15px; }
+        .item-right { display: flex; align-items: center; gap: 8px; }
 
-        /* Modal Sheets */
         .sheet { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card); border-radius: 24px 24px 0 0; padding: 25px 25px 40px; z-index: 1000; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.15, 0.85, 0.35, 1); }
         .sheet.active { transform: translateY(0); }
         .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); z-index: 999; display: none; }
         
-        input, select { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #d1d1d6; background: #f2f2f7; font-size: 16px; margin: 8px 0; outline: none; -webkit-appearance: none; }
-        .btn-blue { width: 100%; padding: 16px; background: var(--blue); color: white; border: none; border-radius: 14px; font-weight: 700; font-size: 16px; margin-top: 10px; }
-        .btn-outline { width: 100%; padding: 12px; background: none; color: var(--blue); border: 1.5px solid var(--blue); border-radius: 12px; margin-top: 10px; font-weight: 600; }
-
-        /* Nav & FAB */
         .bottom-nav { position: fixed; bottom: 0; width: 100%; background: rgba(255,255,255,0.9); backdrop-filter: blur(20px); display: flex; padding: 10px 0 35px; border-top: 0.5px solid #d1d1d6; z-index: 100; }
         .nav-tab { flex: 1; border: none; background: none; display: flex; flex-direction: column; align-items: center; color: var(--gray); font-size: 10px; font-weight: 700; }
         .nav-tab.active { color: var(--blue); }
-        
-        .bar-chart { display: flex; align-items: flex-end; justify-content: space-around; height: 160px; padding: 15px 0; }
-        .bar-wrap { display: flex; flex-direction: column; align-items: center; flex: 1; }
-        .bar { width: 28px; border-radius: 6px; transition: height 0.5s; background: var(--blue); }
-
         .fab { position: fixed; bottom: 110px; right: 20px; width: 56px; height: 56px; border-radius: 28px; background: var(--blue); color: white; border: none; font-size: 28px; box-shadow: 0 8px 20px rgba(0,122,255,0.4); z-index: 90; }
         .hidden { display: none !important; }
     </style>
@@ -90,22 +62,20 @@
 
     <header class="header">
         <button style="background:none; border:none; font-size:22px;" onclick="toggleSearch()">🔍</button>
-        <div class="banner">
-            <span id="savingsBanner">Calculating...</span>
-        </div>
+        <div class="banner">On track to save <b id="savingsBanner">$0</b></div>
         <button style="background:none; border:none; font-size:22px;" onclick="openSettings()">⚙️</button>
     </header>
 
     <div id="searchContainer" class="hidden">
-        <input type="text" id="searchInput" class="search-input" placeholder="Search stores..." oninput="render()">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search transactions..." oninput="render()">
     </div>
 
     <main id="mainContent">
         <section id="monthView">
             <div class="summary-grid">
-                <div class="stat-card"><h5>Spent</h5><p id="totalSpent">$0</p></div>
-                <div class="stat-card"><h5>Income</h5><p id="totalIncome">$0</p></div>
-                <div class="stat-card"><h5>Saved</h5><p id="totalSaved">$0</p></div>
+                <div class="stat-card spent"><h5>Spent</h5><p id="totalSpent" style="color:var(--red)">$0</p></div>
+                <div class="stat-card income"><h5>Income</h5><p id="totalIncome" style="color:var(--blue)">$0</p></div>
+                <div class="stat-card saved"><h5>Saved</h5><p id="totalSaved" style="color:var(--green)">$0</p></div>
             </div>
 
             <div class="filter-section">
@@ -120,18 +90,7 @@
         <section id="trendsView" class="hidden">
             <div style="padding: 15px">
                 <h2 style="margin:0 0 15px">Trends</h2>
-                <div class="filter-section" style="padding:0 0 15px">
-                    <button class="filter-btn active" id="tM" onclick="setTrendScale('M')">Month</button>
-                    <button class="filter-btn" id="tY" onclick="setTrendScale('Y')">Year</button>
-                </div>
-                <div class="stat-card" style="text-align:left; margin-bottom: 20px; padding: 15px;">
-                    <h5>Spending History</h5>
-                    <div id="spendingChart" class="bar-chart"></div>
-                </div>
-                <div class="stat-card" style="text-align:left; padding: 15px;">
-                    <h5>Savings History</h5>
-                    <div id="savingsChart" class="bar-chart"></div>
-                </div>
+                <div id="spendingChart" class="stat-card" style="height:200px; margin-bottom:20px"></div>
             </div>
         </section>
     </main>
@@ -141,19 +100,7 @@
     <div id="addSheet" class="sheet">
         <h3 id="stepTitle" style="margin:0 0 10px">Amount</h3>
         <div id="stepContainer"></div>
-        <button id="nextBtn" class="btn-blue" onclick="handleNext()">Next</button>
-    </div>
-
-    <div id="settingsSheet" class="sheet">
-        <h3 style="margin:0 0 10px">Settings</h3>
-        <input type="number" id="payInput" placeholder="Biweekly Amount">
-        <input type="date" id="payDateInput">
-        <button class="btn-blue" onclick="saveSettings()">Save Changes</button>
-        <div style="display:flex; gap:10px">
-            <button class="btn-outline" onclick="exportData()">Export</button>
-            <button class="btn-outline" onclick="document.getElementById('importFile').click()">Import</button>
-        </div>
-        <input type="file" id="importFile" class="hidden" onchange="importData(event)">
+        <button id="nextBtn" class="btn-blue" style="width:100%; padding:16px; background:var(--blue); color:white; border:none; border-radius:12px; font-weight:700;" onclick="handleNext()">Next</button>
     </div>
 
     <nav class="bottom-nav">
@@ -164,21 +111,88 @@
     <button class="fab" onclick="openAdd()">+</button>
 
     <script>
-        let purchases = JSON.parse(localStorage.getItem('b_v8_data') || '[]');
-        let settings = JSON.parse(localStorage.getItem('b_v8_set') || '{"pay": 2285, "payDate": "2026-02-06", "history": []}');
-        
+        let purchases = JSON.parse(localStorage.getItem('b_v9_data') || '[]');
+        let settings = JSON.parse(localStorage.getItem('b_v9_set') || '{"pay": 2285, "history": []}');
         let viewMode = 'all';
-        let trendScale = 'M';
-        let currentStep = 0;
-        let tempItem = {};
-        const steps = ["amount", "merchant", "category", "subcategory", "date"];
 
-        function switchTab(tab) {
-            document.getElementById('monthView').classList.toggle('hidden', tab !== 'month');
-            document.getElementById('trendsView').classList.toggle('hidden', tab !== 'trends');
-            document.getElementById('tabMonth').classList.toggle('active', tab === 'month');
-            document.getElementById('tabTrends').classList.toggle('active', tab === 'trends');
-            if(tab === 'trends') renderTrends();
+        function getWeekRanges(year, month) {
+            let ranges = [];
+            let firstDay = new Date(year, month, 1);
+            let lastDay = new Date(year, month + 1, 0);
+            
+            let currentStart = new Date(firstDay);
+            while (currentStart <= lastDay) {
+                // Find next Sunday or end of month
+                let currentEnd = new Date(currentStart);
+                let daysToSunday = 7 - (currentStart.getDay() === 0 ? 7 : currentStart.getDay());
+                currentEnd.setDate(currentStart.getDate() + daysToSunday);
+                
+                if (currentEnd > lastDay) currentEnd = new Date(lastDay);
+                
+                ranges.push({
+                    start: new Date(currentStart),
+                    end: new Date(currentEnd),
+                    label: `${currentStart.toLocaleString('default', {month:'short'})} ${currentStart.getDate()} - ${currentEnd.toLocaleString('default', {month:'short'})} ${currentEnd.getDate()}`
+                });
+                
+                currentStart = new Date(currentEnd);
+                currentStart.setDate(currentStart.getDate() + 1);
+            }
+            return ranges;
+        }
+
+        function render() {
+            const now = new Date();
+            const monthKey = now.toLocaleString('default', { month: 'short', year: 'numeric' });
+            const income = settings.pay * 2;
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = purchases.filter(p => p.merchant.toLowerCase().includes(query));
+            const spent = filtered.reduce((s, p) => s + Number(p.amount), 0);
+            
+            document.getElementById('totalSpent').innerText = `$${spent.toFixed(2)}`;
+            document.getElementById('totalIncome').innerText = `$${income}`;
+            document.getElementById('totalSaved').innerText = `$${(income - spent).toFixed(2)}`;
+            document.getElementById('savingsBanner').innerText = `$${(income - spent).toFixed(2)}`;
+
+            const list = document.getElementById('purchaseList');
+            if(viewMode === 'all') {
+                list.innerHTML = filtered.slice().reverse().map(p => itemHtml(p)).join('');
+            } else if(viewMode === 'category') {
+                const cats = filtered.reduce((acc, p) => { acc[p.category] = (acc[p.category] || 0) + Number(p.amount); return acc; }, {});
+                list.innerHTML = Object.entries(cats).map(([n, a], idx) => `
+                    <div class="accordion-header" onclick="toggleAccordion('cat${idx}')">
+                        <div class="acc-row"><strong>${n}</strong><strong>$${a.toFixed(2)}</strong></div>
+                    </div>
+                    <div id="cat${idx}" class="accordion-content">
+                        ${filtered.filter(p => p.category === n).map(p => itemHtml(p)).join('')}
+                    </div>
+                `).join('');
+            } else {
+                const ranges = getWeekRanges(now.getFullYear(), now.getMonth());
+                list.innerHTML = ranges.map((range, idx) => {
+                    const weekItems = filtered.filter(p => {
+                        const d = new Date(p.date);
+                        return d >= range.start && d <= range.end;
+                    });
+                    const total = weekItems.reduce((s, i) => s + Number(i.amount), 0);
+                    return `
+                        <div class="accordion-header" onclick="toggleAccordion('wk${idx}')">
+                            <span class="acc-date">${range.label}</span>
+                            <div class="acc-row"><strong>Week ${idx + 1}</strong><strong>$${total.toFixed(2)}</strong></div>
+                        </div>
+                        <div id="wk${idx}" class="accordion-content">
+                            ${weekItems.map(i => itemHtml(i)).join('')}
+                        </div>
+                    `;
+                }).join('');
+            }
+        }
+
+        function itemHtml(p) {
+            return `<div class="item-card">
+                <div class="item-info"><strong>${p.merchant}</strong><small>${p.category}${p.subcategory ? ' - ' + p.subcategory : ''}</small></div>
+                <div class="item-right"><strong>$${Number(p.amount).toFixed(2)}</strong><button style="background:none; border:none" onclick="deleteItem(${p.id})">🗑️</button></div>
+            </div>`;
         }
 
         function setViewMode(mode) {
@@ -188,17 +202,8 @@
             render();
         }
 
-        function setTrendScale(scale) {
-            trendScale = scale;
-            document.querySelectorAll('[id^="t"]').forEach(b => b.classList.remove('active'));
-            document.getElementById('t' + scale).classList.add('active');
-            renderTrends();
-        }
-
         function toggleSearch() { 
-            const container = document.getElementById('searchContainer');
-            container.classList.toggle('hidden');
-            if(!container.classList.contains('hidden')) document.getElementById('searchInput').focus();
+            document.getElementById('searchContainer').classList.toggle('hidden'); 
         }
 
         function toggleAccordion(id) {
@@ -208,97 +213,26 @@
             if(!isOpen) el.classList.add('open');
         }
 
-        function getIncomeForMonth(monthKey) {
-            const record = settings.history.find(h => h.month === monthKey);
-            return (record ? record.pay : settings.pay) * 2;
-        }
-
-        function render() {
-            const monthKey = new Date().toLocaleString('default', { month: 'short', year: 'numeric' });
-            const income = getIncomeForMonth(monthKey);
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            
-            const filtered = purchases.filter(p => p.merchant.toLowerCase().includes(query));
-            const spent = filtered.reduce((s, p) => s + Number(p.amount), 0);
-            
-            document.getElementById('totalSpent').innerText = `$${spent.toFixed(2)}`;
-            document.getElementById('totalIncome').innerText = `$${income}`;
-            document.getElementById('totalSaved').innerText = `$${(income - spent).toFixed(2)}`;
-            document.getElementById('savingsBanner').innerText = `On track to save $${(income - spent).toLocaleString()} this month`;
-
-            const list = document.getElementById('purchaseList');
-            if(viewMode === 'all') {
-                list.innerHTML = filtered.slice().reverse().map(p => itemHtml(p)).join('');
-            } else if(viewMode === 'category') {
-                const cats = filtered.reduce((acc, p) => { acc[p.category] = (acc[p.category] || 0) + Number(p.amount); return acc; }, {});
-                list.innerHTML = Object.entries(cats).sort((a,b) => b[1]-a[1]).map(([n, a], idx) => `
-                    <div class="accordion-header" onclick="toggleAccordion('cat${idx}')"><span>${n}</span><span>$${a.toFixed(2)}</span></div>
-                    <div id="cat${idx}" class="accordion-content">
-                        ${filtered.filter(p => p.category === n).map(p => itemHtml(p)).join('')}
-                    </div>
-                `).join('');
-            } else {
-                const wks = { "Week 1": [], "Week 2": [], "Week 3": [], "Week 4": [] };
-                filtered.forEach(p => {
-                    const wk = "Week " + Math.min(4, Math.ceil(new Date(p.date).getDate() / 7));
-                    wks[wk].push(p);
-                });
-                list.innerHTML = Object.entries(wks).map(([name, items], idx) => `
-                    <div class="accordion-header" onclick="toggleAccordion('wk${idx}')"><span>${name}</span><span>$${items.reduce((s, i) => s + Number(i.amount), 0).toFixed(2)}</span></div>
-                    <div id="wk${idx}" class="accordion-content">
-                        ${items.map(i => itemHtml(i)).join('')}
-                    </div>
-                `).join('');
-            }
-        }
-
-        function itemHtml(p) {
-            return `<div class="item-card">
-                <div class="item-info"><strong>${p.merchant}</strong><small>${p.category}${p.subcategory ? ' - ' + p.subcategory : ''}</small></div>
-                <div class="item-right"><strong>$${Number(p.amount).toFixed(2)}</strong><button style="background:none; border:none; padding:5px" onclick="deleteItem(${p.id})">🗑️</button></div>
-            </div>`;
-        }
-
-        function renderTrends() {
-            let data = {};
-            purchases.forEach(p => {
-                const d = new Date(p.date);
-                const key = trendScale === 'M' ? d.toLocaleString('default', { month: 'short' }) : d.getFullYear();
-                data[key] = (data[key] || 0) + Number(p.amount);
-            });
-            const keys = Object.keys(data);
-            const max = Math.max(...Object.values(data), 1);
-            const chart = (isSavings) => keys.map(k => {
-                const spending = data[k];
-                const inc = isSavings ? getIncomeForMonth(k) : 0;
-                const val = isSavings ? (inc - spending) : spending;
-                const h = (Math.max(5, val) / (isSavings ? (inc || 5000) : max)) * 120;
-                return `<div class="bar-wrap">
-                    <div class="bar" style="height:${h}px; background:${isSavings ? 'var(--green)' : 'var(--blue)'}"></div>
-                    <span style="font-size:10px; font-weight:700; margin-top:5px;">${k}</span>
-                    <span style="font-size:9px; color:var(--gray)">$${val.toFixed(0)}</span>
-                </div>`;
-            }).join('');
-            document.getElementById('spendingChart').innerHTML = chart(false);
-            document.getElementById('savingsChart').innerHTML = chart(true);
-        }
-
-        function openAdd() {
+        function openAdd() { 
             currentStep = 0; tempItem = { date: new Date().toISOString().split('T')[0] };
             updateStepUI();
             document.getElementById('addSheet').classList.add('active');
             document.getElementById('overlay').style.display = 'block';
         }
 
+        const steps = ["amount", "merchant", "category", "subcategory", "date"];
+        let currentStep = 0;
+        let tempItem = {};
+
         function updateStepUI() {
             const container = document.getElementById('stepContainer');
             const step = steps[currentStep];
-            document.getElementById('stepTitle').innerText = (step === "subcategory") ? "EXTRA INFO (OPTIONAL)" : step.toUpperCase();
-            if(step === 'amount') container.innerHTML = `<input type="number" id="stepInput" placeholder="0.00" autofocus inputmode="decimal">`;
-            else if(step === 'merchant') container.innerHTML = `<input type="text" id="stepInput" placeholder="Where?">`;
-            else if(step === 'category') container.innerHTML = `<select id="stepInput"><option>Food</option><option>Groceries</option><option>Leisure</option><option>Bills</option></select>`;
-            else if(step === 'subcategory') container.innerHTML = `<input type="text" id="stepInput" placeholder="Context (e.g. Movie, Electric)">`;
-            else container.innerHTML = `<input type="date" id="stepInput" value="${tempItem.date}">`;
+            document.getElementById('stepTitle').innerText = step.toUpperCase();
+            if(step === 'amount') container.innerHTML = `<input type="number" id="stepInput" style="width:100%; padding:15px; font-size:24px; border-radius:10px; border:1px solid #ddd; margin-bottom:15px;" placeholder="0.00" autofocus inputmode="decimal">`;
+            else if(step === 'merchant') container.innerHTML = `<input type="text" id="stepInput" style="width:100%; padding:15px; border-radius:10px; border:1px solid #ddd; margin-bottom:15px;" placeholder="Merchant Name">`;
+            else if(step === 'category') container.innerHTML = `<select id="stepInput" style="width:100%; padding:15px; border-radius:10px; border:1px solid #ddd; margin-bottom:15px;"><option>Food</option><option>Groceries</option><option>Leisure</option><option>Bills</option></select>`;
+            else if(step === 'subcategory') container.innerHTML = `<input type="text" id="stepInput" style="width:100%; padding:15px; border-radius:10px; border:1px solid #ddd; margin-bottom:15px;" placeholder="Context (Optional)">`;
+            else container.innerHTML = `<input type="date" id="stepInput" style="width:100%; padding:15px; border-radius:10px; border:1px solid #ddd; margin-bottom:15px;" value="${tempItem.date}">`;
         }
 
         function handleNext() {
@@ -308,36 +242,18 @@
             else { purchases.push({...tempItem, id: Date.now()}); save(); closeAll(); }
         }
 
-        function saveSettings() {
-            const newPay = Number(document.getElementById('payInput').value);
-            const monthKey = new Date().toLocaleString('default', { month: 'short', year: 'numeric' });
-            settings.history = settings.history.filter(h => h.month !== monthKey);
-            settings.history.push({ month: monthKey, pay: newPay });
-            settings.pay = newPay;
-            settings.payDate = document.getElementById('payDateInput').value;
-            localStorage.setItem('b_v8_set', JSON.stringify(settings));
-            closeAll(); render();
+        function switchTab(tab) {
+            document.getElementById('monthView').classList.toggle('hidden', tab !== 'month');
+            document.getElementById('trendsView').classList.toggle('hidden', tab !== 'trends');
+            document.getElementById('tabMonth').classList.toggle('active', tab === 'month');
+            document.getElementById('tabTrends').classList.toggle('active', tab === 'trends');
         }
 
-        function save() { localStorage.setItem('b_v8_data', JSON.stringify(purchases)); render(); }
-        function deleteItem(id) { if(confirm("Delete?")) { purchases = purchases.filter(p => p.id !== id); save(); } }
+        function save() { localStorage.setItem('b_v9_data', JSON.stringify(purchases)); render(); }
         function closeAll() { document.querySelectorAll('.sheet').forEach(s => s.classList.remove('active')); document.getElementById('overlay').style.display = 'none'; }
-        function openSettings() { document.getElementById('payInput').value = settings.pay; document.getElementById('payDateInput').value = settings.payDate; document.getElementById('settingsSheet').classList.add('active'); document.getElementById('overlay').style.display = 'block'; }
-        
-        function exportData() {
-            const b = new Blob([JSON.stringify({purchases, settings})], {type:'application/json'});
-            const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download='budget_data.json'; a.click();
-        }
+        function deleteItem(id) { if(confirm("Delete?")) { purchases = purchases.filter(p => p.id !== id); save(); } }
+        function openSettings() { alert("Settings - Income: " + settings.pay); }
 
-        function importData(e) {
-            const reader = new FileReader();
-            reader.onload = (ev) => {
-                const d = JSON.parse(ev.target.result);
-                purchases = d.purchases; settings = d.settings;
-                save(); render(); closeAll();
-            };
-            reader.readAsText(e.target.files[0]);
-        }
         render();
     </script>
 </body>
