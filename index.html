@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Budget Pro V15</title>
+    <title>Budget Pro Final</title>
     <style>
         :root {
             --bg: #f8f8fc; --card: #ffffff; --blue: #007aff;
@@ -40,17 +40,24 @@
 
         /* Archive Accordions */
         .archive-group { margin-bottom: 12px; }
-        .accordion-header { background: var(--card); padding: 18px; border-radius: 18px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow); cursor: pointer; }
+        .accordion-header { background: var(--card); padding: 18px; border-radius: 18px; display: flex; flex-direction: column; align-items: flex-start; box-shadow: var(--shadow); cursor: pointer; position: relative; }
+        .acc-meta { font-size: 10px; color: var(--gray); font-weight: 700; text-transform: uppercase; margin-bottom: 4px; }
+        .acc-row { display: flex; justify-content: space-between; width: 100%; align-items: center; }
         .accordion-content { overflow: hidden; max-height: 0; transition: max-height 0.3s ease; padding: 0 5px; }
         .accordion-content.open { max-height: 5000px; padding-top: 10px; }
 
-        /* Sheet/Modals */
-        .sheet { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card); border-radius: 24px 24px 0 0; padding: 25px 25px 40px; z-index: 1000; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.15, 0.85, 0.35, 1); }
+        /* Trends Chart Styles */
+        .chart-container { background: var(--card); border-radius: 20px; padding: 20px; margin-bottom: 15px; box-shadow: var(--shadow); }
+        .chart-title { font-size: 14px; font-weight: 700; margin-bottom: 15px; color: var(--text); }
+        .bar-chart { display: flex; align-items: flex-end; justify-content: space-around; height: 160px; padding-bottom: 25px; border-bottom: 1px solid #eee; gap: 8px; position: relative; }
+
+        /* Settings Sheet */
+        .sheet { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card); border-radius: 24px 24px 0 0; padding: 25px 25px 40px; z-index: 1000; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.15, 0.85, 0.35, 1); box-shadow: 0 -5px 20px rgba(0,0,0,0.1); }
         .sheet.active { transform: translateY(0); }
         .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); z-index: 999; display: none; }
-        .input-group { margin-bottom: 15px; }
-        .input-label { font-size: 11px; color: var(--gray); font-weight: 700; text-transform: uppercase; margin-bottom: 6px; display: block; }
-        input, select { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #d1d1d6; background: #f2f2f7; font-size: 16px; margin: 4px 0; outline: none; }
+        .input-group { margin-bottom: 20px; }
+        .input-label { font-size: 11px; color: var(--gray); font-weight: 700; text-transform: uppercase; margin-bottom: 8px; display: block; }
+        input, select { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #d1d1d6; background: #f2f2f7; font-size: 16px; outline: none; }
 
         /* Nav & FAB */
         .bottom-nav { position: fixed; bottom: 0; width: 100%; background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); display: flex; padding: 10px 0 35px; border-top: 0.5px solid #d1d1d6; z-index: 100; }
@@ -88,44 +95,48 @@
             <div id="purchaseList" style="padding: 0 15px"></div>
         </section>
 
-        <section id="archiveView" class="hidden" style="padding: 0 15px">
-            <h2 style="margin: 10px 0 20px">Archive</h2>
-            <div id="archiveList"></div>
-        </section>
-
         <section id="trendsView" class="hidden" style="padding: 0 15px">
             <h2 style="margin: 10px 0 20px">Trends</h2>
             <div class="filter-section" style="padding: 0 0 20px">
                 <button class="filter-btn active" id="tM" onclick="setTrendScale('M')">Month</button>
                 <button class="filter-btn" id="tY" onclick="setTrendScale('Y')">Year</button>
             </div>
-            <div style="background:var(--card); border-radius:20px; padding:20px; margin-bottom:15px; box-shadow:var(--shadow);">
-                <div style="font-size:14px; font-weight:700; margin-bottom:15px">Spending History</div>
-                <div id="spendingChart" style="display:flex; align-items:flex-end; justify-content:space-around; height:160px; padding-bottom:25px; border-bottom:1px solid #eee; position:relative;"></div>
+            <div class="chart-container">
+                <div class="chart-title">Spending History</div>
+                <div id="spendingChart" class="bar-chart"></div>
             </div>
-            <div style="background:var(--card); border-radius:20px; padding:20px; margin-bottom:15px; box-shadow:var(--shadow);">
-                <div style="font-size:14px; font-weight:700; margin-bottom:15px">Top Categories</div>
+            <div class="chart-container">
+                <div class="chart-title">Savings History</div>
+                <div id="savingsChart" class="bar-chart"></div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title">Top Categories (This Month)</div>
                 <div id="categoryBreakdown"></div>
             </div>
+        </section>
+
+        <section id="archiveView" class="hidden" style="padding: 0 15px">
+            <h2 style="margin: 10px 0 20px">Archive</h2>
+            <div id="archiveList"></div>
         </section>
     </main>
 
     <div id="overlay" class="overlay" onclick="closeAll()"></div>
 
     <div id="settingsSheet" class="sheet">
-        <h3 style="margin:0 0 20px">Settings</h3>
+        <h3 style="margin:0 0 25px">Settings</h3>
         <div class="input-group">
             <label class="input-label">Biweekly Paycheck ($)</label>
-            <input type="number" id="payInput">
+            <input type="number" id="payInput" placeholder="e.g. 2285">
         </div>
         <div class="input-group">
             <label class="input-label">Pay Period Start Date</label>
             <input type="date" id="payDateInput">
         </div>
-        <button class="btn-blue" style="width:100%; padding:16px; background:var(--blue); color:white; border:none; border-radius:14px; font-weight:700" onclick="saveSettings()">Save Changes</button>
-        <div style="display:flex; gap:10px; margin-top:12px">
-            <button class="btn-outline" style="flex:1" onclick="exportData()">Export JSON</button>
-            <button class="btn-outline" style="flex:1" onclick="document.getElementById('importFile').click()">Import JSON</button>
+        <button style="width:100%; padding:16px; background:var(--blue); color:white; border:none; border-radius:14px; font-weight:700; font-size:16px" onclick="saveSettings()">Save Changes</button>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:15px">
+            <button style="padding:12px; background:#e3e3e8; border:none; border-radius:12px; font-weight:600; font-size:13px" onclick="exportData()">Export JSON</button>
+            <button style="padding:12px; background:#e3e3e8; border:none; border-radius:12px; font-weight:600; font-size:13px" onclick="document.getElementById('importFile').click()">Import JSON</button>
         </div>
         <input type="file" id="importFile" class="hidden" onchange="importData(event)">
     </div>
@@ -133,13 +144,13 @@
     <div id="addSheet" class="sheet">
         <h3 id="stepTitle" style="margin:0 0 15px">Amount</h3>
         <div id="stepContainer"></div>
-        <button class="btn-blue" style="width:100%; padding:16px; background:var(--blue); color:white; border:none; border-radius:14px; font-weight:700; margin-top:15px" onclick="handleNext()">Next</button>
+        <button style="width:100%; padding:16px; background:var(--blue); color:white; border:none; border-radius:14px; font-weight:700; margin-top:15px" onclick="handleNext()">Next</button>
     </div>
 
     <nav class="bottom-nav">
         <button class="nav-tab active" id="tabMonth" onclick="switchTab('month')">📅<span>MONTH</span></button>
-        <button class="nav-tab" id="tabArchive" onclick="switchTab('archive')">📂<span>ARCHIVE</span></button>
         <button class="nav-tab" id="tabTrends" onclick="switchTab('trends')">📈<span>TRENDS</span></button>
+        <button class="nav-tab" id="tabArchive" onclick="switchTab('archive')">📂<span>ARCHIVE</span></button>
     </nav>
 
     <button class="fab" onclick="openAdd()">+</button>
@@ -165,7 +176,6 @@
             const inc = getInc(currentMonthKey);
             const query = document.getElementById('searchInput').value.toLowerCase();
             
-            // Filter to ONLY current month for the main view
             const currentMonthPurchases = purchases.filter(p => getMonthKey(p.date) === currentMonthKey);
             const filtered = currentMonthPurchases.filter(p => p.merchant.toLowerCase().includes(query));
             const spent = filtered.reduce((s, p) => s + Number(p.amount), 0);
@@ -176,7 +186,6 @@
             document.getElementById('totalSaved').innerText = `$${(inc - spent).toFixed(2)}`;
 
             const list = document.getElementById('purchaseList');
-            // Sorted Most Recent First
             const sorted = filtered.slice().sort((a,b) => new Date(b.date) - new Date(a.date));
 
             if(viewMode === 'all') {
@@ -184,23 +193,28 @@
             } else if(viewMode === 'category') {
                 const cats = sorted.reduce((acc, p) => { acc[p.category] = (acc[p.category] || 0) + Number(p.amount); return acc; }, {});
                 list.innerHTML = Object.entries(cats).sort((a,b)=>b[1]-a[1]).map(([n, a], idx) => `
-                    <div class="accordion-header" style="margin-bottom:8px" onclick="toggleAcc('cat${idx}')"><strong>${n}</strong><strong>$${a.toFixed(2)}</strong></div>
+                    <div class="accordion-header" style="margin-bottom:8px" onclick="toggleAcc('cat${idx}')">
+                        <div class="acc-row"><strong>${n}</strong><strong>$${a.toFixed(2)}</strong></div>
+                    </div>
                     <div id="cat${idx}" class="accordion-content">${sorted.filter(p => p.category === n).map(p => itemHtml(p)).join('')}</div>
                 `).join('');
             } else {
-                // Week view logic
                 const ranges = getWeekRanges(now.getFullYear(), now.getMonth());
                 list.innerHTML = ranges.map((r, i) => {
                     const items = sorted.filter(p => { const d = new Date(p.date); return d >= r.start && d <= r.end; });
                     const total = items.reduce((s, x) => s + Number(x.amount), 0);
-                    return `<div class="accordion-header" style="margin-bottom:8px" onclick="toggleAcc('wk${i}')"><span>Week ${i+1}</span><strong>$${total.toFixed(2)}</strong></div>
-                            <div id="wk${i}" class="accordion-content">${items.map(x => itemHtml(x)).join('')}</div>`;
+                    return `
+                    <div class="accordion-header" style="margin-bottom:8px" onclick="toggleAcc('wk${i}')">
+                        <div class="acc-meta">${r.label}</div>
+                        <div class="acc-row"><strong>Week ${i+1}</strong><strong>$${total.toFixed(2)}</strong></div>
+                    </div>
+                    <div id="wk${i}" class="accordion-content">${items.map(x => itemHtml(x)).join('')}</div>`;
                 }).join('');
             }
         }
 
         function itemHtml(p) {
-            const d = new Date(p.date + 'T12:00:00'); // Prevent timezone shift
+            const d = new Date(p.date + 'T12:00:00');
             const dateStr = d.toLocaleString('default', { month: 'short', day: 'numeric' });
             return `<div class="item-card">
                 <div class="item-main">
@@ -219,7 +233,6 @@
             const now = new Date();
             const currentMonthKey = getMonthKey(now);
             const archiveList = document.getElementById('archiveList');
-            
             const months = [...new Set(purchases.map(p => getMonthKey(p.date)))]
                             .filter(m => m !== currentMonthKey)
                             .sort((a,b) => new Date(b) - new Date(a));
@@ -230,17 +243,13 @@
                 return `
                     <div class="archive-group">
                         <div class="accordion-header" onclick="toggleAcc('arc${idx}')">
-                            <div style="display:flex; flex-direction:column">
-                                <strong>${m}</strong>
-                                <small style="color:var(--gray)">${items.length} Transactions</small>
+                            <div class="acc-row">
+                                <div style="display:flex; flex-direction:column"><strong>${m}</strong><small style="color:var(--gray)">${items.length} Transactions</small></div>
+                                <strong style="color:var(--red)">-$${total.toFixed(2)}</strong>
                             </div>
-                            <strong style="color:var(--red)">-$${total.toFixed(2)}</strong>
                         </div>
-                        <div id="arc${idx}" class="accordion-content">
-                            ${items.map(p => itemHtml(p)).join('')}
-                        </div>
-                    </div>
-                `;
+                        <div id="arc${idx}" class="accordion-content">${items.map(p => itemHtml(p)).join('')}</div>
+                    </div>`;
             }).join('') || `<div style="text-align:center; padding:40px; color:var(--gray)">No archived months yet.</div>`;
         }
 
@@ -256,20 +265,30 @@
             });
             const keys = Object.keys(sData).sort((a,b) => new Date(a) - new Date(b));
             const sMax = Math.max(...Object.values(sData), 1);
-            document.getElementById('spendingChart').innerHTML = keys.map(k => {
-                const h = (sData[k] / sMax) * 120;
-                return `<div style="display:flex; flex-direction:column; align-items:center; flex:1">
-                    <span style="font-size:9px; color:var(--gray); margin-bottom:4px">$${sData[k].toFixed(0)}</span>
-                    <div style="width:70%; max-width:30px; height:${h}px; background:var(--blue); border-radius:6px 6px 2px 2px"></div>
-                    <span style="font-size:10px; font-weight:700; margin-top:8px">${k}</span>
-                </div>`;
-            }).join('');
+            
+            const createChart = (isSavings) => {
+                return keys.map(k => {
+                    const spent = sData[k];
+                    const monthYear = trendScale === 'M' ? k + " " + new Date().getFullYear() : k;
+                    const income = isSavings ? getInc(monthYear) : 0;
+                    const val = isSavings ? Math.max(0, income - spent) : spent;
+                    const h = (val / (isSavings ? (income || 5000) : sMax)) * 130;
+                    return `<div style="display:flex; flex-direction:column; align-items:center; flex:1">
+                        <span style="font-size:9px; color:var(--gray); margin-bottom:4px">$${val.toFixed(0)}</span>
+                        <div style="width:70%; max-width:30px; height:${Math.max(h,4)}px; background:${isSavings ? 'var(--green)' : 'var(--blue)'}; border-radius:6px 6px 2px 2px"></div>
+                        <span style="font-size:10px; font-weight:700; margin-top:8px">${k}</span>
+                    </div>`;
+                }).join('');
+            };
+
+            document.getElementById('spendingChart').innerHTML = createChart(false);
+            document.getElementById('savingsChart').innerHTML = createChart(true);
+
             const breakdown = Object.entries(cData).sort((a,b) => b[1]-a[1]);
             document.getElementById('categoryBreakdown').innerHTML = breakdown.map(([n, t]) => `
                 <div style="display:flex; justify-content:space-between; padding:12px 0; border-bottom:0.5px solid #eee">
                     <span style="font-weight:600">${n}</span><span style="color:var(--red); font-weight:700">$${t.toFixed(2)}</span>
-                </div>
-            `).join('');
+                </div>`).join('') || '<p style="text-align:center; color:var(--gray)">No category data this month</p>';
         }
 
         // UX HELPERS
@@ -318,7 +337,7 @@
         function closeAll() { document.querySelectorAll('.sheet').forEach(s => s.classList.remove('active')); document.getElementById('overlay').style.display = 'none'; }
         function setViewMode(m) { viewMode = m; document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); document.getElementById('f'+m.charAt(0).toUpperCase()+m.slice(1)).classList.add('active'); render(); }
         function setTrendScale(s) { trendScale = s; renderTrends(); }
-        function deleteItem(id) { if(confirm("Delete this transaction?")) { purchases = purchases.filter(p => p.id !== id); localStorage.setItem('bp_purchases', JSON.stringify(purchases)); render(); if(!document.getElementById('archiveView').classList.contains('hidden')) renderArchive(); } }
+        function deleteItem(id) { if(confirm("Delete this transaction?")) { purchases = purchases.filter(p => p.id !== id); localStorage.setItem('bp_purchases', JSON.stringify(purchases)); render(); } }
 
         // ADD FLOW
         const steps = ["amount", "merchant", "category", "subcategory", "date"];
@@ -345,7 +364,8 @@
             while (start <= endMonth) {
                 let end = new Date(start); let daysToSat = 6 - start.getDay(); end.setDate(start.getDate() + daysToSat);
                 if (end > endMonth) end = new Date(endMonth);
-                r.push({ start: new Date(start), end: new Date(end) });
+                const l = `${start.toLocaleString('default',{month:'short'})} ${start.getDate()} - ${end.toLocaleString('default',{month:'short'})} ${end.getDate()}`;
+                r.push({ start: new Date(start), end: new Date(end), label: l });
                 start = new Date(end); start.setDate(start.getDate() + 1);
             }
             return r;
@@ -353,7 +373,7 @@
 
         function exportData() {
             const b = new Blob([JSON.stringify({purchases, settings})], {type:'application/json'});
-            const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download=`budget_pro_data.json`; a.click();
+            const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download=`budget_pro_final.json`; a.click();
         }
 
         function importData(e) {
