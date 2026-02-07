@@ -4,302 +4,333 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Budget V5 - Pro</title>
+    <title>Budget Pro V5</title>
     <style>
         :root {
-            --ios-bg: #f2f2f7;
-            --ios-card: #ffffff;
-            --ios-blue: #007aff;
-            --ios-text: #1c1c1e;
-            --ios-gray: #8e8e93;
-            --ios-green: #34c759;
-            --shadow: 0 4px 12px rgba(0,0,0,0.05);
+            --bg: #f2f2f7;
+            --card: #ffffff;
+            --blue: #007aff;
+            --red: #ff3b30;
+            --text: #1c1c1e;
+            --gray: #8e8e93;
+            --shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
-            background: var(--ios-bg);
-            color: var(--ios-text);
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
             margin: 0;
-            padding-bottom: 90px;
+            padding-bottom: 100px;
             overflow-x: hidden;
         }
 
-        /* Top Bar & Banner */
-        .top-bar {
+        /* Top Bar */
+        .header {
             padding: 20px 15px 10px;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            position: sticky;
+            top: 0;
+            background: var(--bg);
+            z-index: 10;
         }
 
-        .icon-btn { background: none; border: none; font-size: 22px; cursor: pointer; }
+        .search-trigger, .settings-trigger {
+            background: #e3e3e8;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            font-size: 18px;
+            cursor: pointer;
+        }
 
-        .banner-card { 
-            background: white; 
-            padding: 18px 25px; 
-            border-radius: 18px; 
-            font-weight: 600; 
-            font-size: 15px;
+        .banner {
+            background: var(--card);
+            padding: 15px;
+            border-radius: 18px;
             box-shadow: var(--shadow);
-            text-align: center;
             flex-grow: 1;
-            margin: 0 15px;
+            margin: 0 12px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
         }
 
-        /* Grid Cards */
-        .summary-grid { 
-            display: grid; 
-            grid-template-columns: repeat(3, 1fr); 
-            gap: 12px; 
-            padding: 15px; 
+        /* Summary Grid */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            padding: 15px;
         }
 
-        .card { 
-            background: white; 
-            padding: 15px 10px; 
-            border-radius: 16px; 
-            text-align: center; 
+        .stat-card {
+            background: var(--card);
+            padding: 15px 10px;
+            border-radius: 18px;
+            text-align: center;
             box-shadow: var(--shadow);
         }
 
-        .card h5 { margin: 0; color: var(--ios-gray); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .card p { margin: 6px 0 0; font-size: 16px; font-weight: 700; }
+        .stat-card h5 { margin: 0; color: var(--gray); font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .stat-card p { margin: 5px 0 0; font-size: 16px; font-weight: 700; }
 
-        /* Toggle Switches */
-        .view-toggle { 
-            display: flex; 
-            background: #e3e3e8; 
-            margin: 10px 15px; 
-            border-radius: 10px; 
-            padding: 2px;
-        }
-
-        .toggle-btn { 
-            flex: 1; border: none; padding: 8px; border-radius: 8px; 
-            font-size: 13px; font-weight: 600; cursor: pointer; background: none; color: var(--ios-gray);
-        }
-
-        .toggle-btn.active { background: white; color: var(--ios-text); box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-
-        /* Transaction List */
-        .list-container { padding: 15px; }
-        .transaction-item {
-            background: white; 
-            padding: 16px; 
-            display: flex; 
-            justify-content: space-between; 
+        /* Tabs & Lists */
+        .list-container { padding: 0 15px; }
+        .item-card {
+            background: var(--card);
+            padding: 16px;
+            border-radius: 18px;
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-            border-radius: 16px;
             margin-bottom: 10px;
             box-shadow: var(--shadow);
         }
 
-        .item-info strong { display: block; font-size: 16px; margin-bottom: 2px; }
-        .item-info small { color: var(--ios-gray); font-size: 13px; }
-        .item-amount { font-weight: 700; font-size: 16px; }
+        .item-info strong { display: block; font-size: 16px; }
+        .item-info small { color: var(--gray); font-size: 13px; }
+        .item-right { text-align: right; display: flex; align-items: center; gap: 12px; }
+        .delete-btn { color: var(--red); background: none; border: none; font-size: 18px; cursor: pointer; }
 
-        /* Trends View */
-        .section-title { padding: 0 15px; font-size: 22px; font-weight: 800; margin-top: 20px; }
-        .chart-card { margin: 15px; text-align: left; }
-        .chart-card h3 { font-size: 15px; margin-top: 0; color: var(--ios-gray); }
-
-        .weekly-bars { display: flex; align-items: flex-end; justify-content: space-around; height: 140px; padding-top: 25px; }
-        .bar-wrap { display: flex; flex-direction: column; align-items: center; flex: 1; }
-        .bar { width: 35px; background: var(--ios-blue); border-radius: 6px 6px 0 0; transition: height 0.6s ease; position: relative; }
-        .bar-val { font-size: 10px; font-weight: 700; margin-bottom: 5px; }
-        .bar-label { font-size: 11px; color: var(--ios-gray); margin-top: 8px; }
-
-        .cat-row { margin-bottom: 18px; }
-        .progress-bg { background: #e5e5ea; height: 10px; border-radius: 5px; overflow: hidden; margin-top: 8px; }
-        .progress-fill { background: var(--ios-blue); height: 100%; border-radius: 5px; transition: width 0.8s ease; }
-
-        /* Bottom Sheet & Modals */
-        .bottom-sheet {
-            position: fixed; bottom: 0; left: 0; right: 0; background: white;
-            border-radius: 25px 25px 0 0; padding: 25px; z-index: 1000;
-            transition: transform 0.4s cubic-bezier(0.1, 0.7, 0.1, 1);
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+        /* Bottom Sheet (The Add UI) */
+        .sheet {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: var(--card);
+            border-radius: 30px 30px 0 0;
+            padding: 25px;
+            z-index: 1000;
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.15, 0.85, 0.35, 1);
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.1);
         }
-        .bottom-sheet.hidden { transform: translateY(100%); }
-        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 999; backdrop-filter: blur(4px); }
 
-        /* Buttons & Inputs */
-        input, select { 
-            width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #ddd; 
-            font-size: 17px; background: var(--ios-bg); margin: 15px 0;
+        .sheet.active { transform: translateY(0); }
+        .overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(4px);
+            z-index: 999;
+            display: none;
         }
-        .btn-pri { width: 100%; padding: 16px; background: var(--ios-blue); color: white; border: none; border-radius: 14px; font-weight: 600; font-size: 17px; }
-        .btn-sec { width: 100%; padding: 12px; background: none; color: var(--ios-blue); border: none; font-weight: 600; margin-top: 10px; }
 
-        .fab { 
-            position: fixed; bottom: 100px; right: 20px; width: 60px; height: 60px; 
-            border-radius: 30px; background: var(--ios-blue); color: white; 
-            font-size: 28px; border: none; box-shadow: 0 8px 15px rgba(0,122,255,0.3);
+        /* Inputs */
+        input, select {
+            width: 100%;
+            padding: 16px;
+            border-radius: 14px;
+            border: 1px solid #e5e5ea;
+            background: #f2f2f7;
+            font-size: 17px;
+            margin: 15px 0;
+            outline: none;
+        }
+
+        .btn-blue {
+            width: 100%;
+            padding: 18px;
+            background: var(--blue);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 17px;
+            cursor: pointer;
+        }
+
+        /* Nav Bar */
+        .bottom-nav {
+            position: fixed; bottom: 0; width: 100%;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(20px);
+            display: flex;
+            padding: 10px 0 30px;
+            border-top: 0.5px solid #d1d1d6;
+            z-index: 100;
+        }
+
+        .nav-tab {
+            flex: 1; border: none; background: none;
+            display: flex; flex-direction: column; align-items: center;
+            color: var(--gray); cursor: pointer;
+        }
+
+        .nav-tab.active { color: var(--blue); }
+        .nav-tab span { font-size: 10px; font-weight: 600; margin-top: 4px; }
+
+        .fab {
+            position: fixed; bottom: 100px; right: 20px;
+            width: 60px; height: 60px; border-radius: 30px;
+            background: var(--blue); color: white; border: none;
+            font-size: 30px; box-shadow: 0 8px 20px rgba(0,122,255,0.4);
             z-index: 90; cursor: pointer;
         }
 
-        .bottom-nav { 
-            position: fixed; bottom: 0; width: 100%; background: rgba(255,255,255,0.9);
-            backdrop-filter: blur(15px); display: flex; border-top: 0.5px solid #ccc; padding-bottom: 20px;
-        }
-        .nav-item { flex: 1; border: none; background: none; padding: 12px; color: var(--ios-gray); display: flex; flex-direction: column; align-items: center; }
-        .nav-item.active { color: var(--ios-blue); }
-        .nav-icon { font-size: 20px; margin-bottom: 4px; }
-        .nav-label { font-size: 10px; font-weight: 600; }
-
+        /* Trends Bars */
+        .bar-chart { display: flex; align-items: flex-end; justify-content: space-around; height: 150px; margin: 20px 0; }
+        .bar-container { display: flex; flex-direction: column; align-items: center; flex: 1; }
+        .bar { width: 35px; background: var(--blue); border-radius: 8px 8px 0 0; transition: height 0.5s ease; }
+        
         .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
-    <header class="top-bar">
-        <button class="icon-btn" onclick="toggleSearch()">🔍</button>
-        <div class="banner-card" id="savingsBanner">You're on track to save $0</div>
-        <button class="icon-btn" onclick="toggleSettings()">⚙️</button>
+    <header class="header">
+        <button class="search-trigger" onclick="toggleSearch()">🔍</button>
+        <div class="banner" id="savingsBanner">On track to save $0</div>
+        <button class="settings-trigger" onclick="openSettings()">⚙️</button>
     </header>
 
     <div id="searchBar" class="list-container hidden">
         <input type="text" id="searchInput" placeholder="Search merchants..." oninput="render()">
     </div>
 
-    <main class="container">
+    <main id="mainContent">
         <section id="monthView">
             <div class="summary-grid">
-                <div class="card"><h5>Spent</h5><p id="totalSpent">$0</p></div>
-                <div class="card"><h5>Income</h5><p id="totalIncome">$0</p></div>
-                <div class="card"><h5>Saved</h5><p id="totalSaved">$0</p></div>
+                <div class="stat-card"><h5>Spent</h5><p id="totalSpent">$0</p></div>
+                <div class="stat-card"><h5>Income</h5><p id="totalIncome">$0</p></div>
+                <div class="stat-card"><h5>Saved</h5><p id="totalSaved">$0</p></div>
             </div>
-
-            <div class="view-toggle">
-                <button class="toggle-btn active" id="viewCats">Categories</button>
-                <button class="toggle-btn" disabled>Weeks</button>
-            </div>
-
             <div id="purchaseList" class="list-container"></div>
         </section>
 
         <section id="trendsView" class="hidden">
-            <h2 class="section-title">Spending Trends</h2>
-            <div class="card chart-card">
-                <h3>Weekly Spending</h3>
-                <div id="weeklyChart" class="weekly-bars"></div>
-            </div>
-            <div class="card chart-card">
-                <h3>Top Categories</h3>
-                <div id="categoryChart"></div>
+            <div style="padding: 15px">
+                <h2 style="margin-bottom: 0;">Spending Trends</h2>
+                <div class="stat-card" style="margin-top: 15px; text-align: left;">
+                    <h5>Weekly Spending</h5>
+                    <div id="weeklyChart" class="bar-chart"></div>
+                </div>
+                <div id="categoryChart" style="margin-top: 20px;"></div>
             </div>
         </section>
     </main>
 
-    <div id="modalOverlay" class="overlay hidden" onclick="closeModals()"></div>
-    
-    <div id="addSheet" class="bottom-sheet hidden">
+    <div id="overlay" class="overlay" onclick="closeAll()"></div>
+
+    <div id="addSheet" class="sheet">
         <div style="display:flex; justify-content:space-between; align-items:center;">
             <h3 id="stepTitle" style="margin:0">Amount</h3>
-            <button onclick="closeModals()" style="background:none; border:none; font-size:20px; color:var(--ios-gray)">✕</button>
+            <button onclick="closeAll()" style="background:none; border:none; font-size:20px; color:var(--gray)">✕</button>
         </div>
         <div id="stepContainer"></div>
-        <div style="margin-top:10px">
-            <button id="nextBtn" class="btn-pri" onclick="handleNext()">Next</button>
-            <button id="prevBtn" class="btn-sec hidden" onclick="handlePrev()">Back</button>
-        </div>
+        <button id="nextBtn" class="btn-blue" style="margin-top:20px" onclick="handleNext()">Next</button>
     </div>
 
-    <div id="settingsPanel" class="bottom-sheet hidden">
-        <h2>Settings</h2>
-        <label>Biweekly Paycheck ($)</label>
+    <div id="settingsSheet" class="sheet">
+        <h3>Settings</h3>
+        <label style="font-size: 13px; color: var(--gray);">Biweekly Paycheck ($)</label>
         <input type="number" id="payInput" placeholder="2000">
-        <button class="btn-pri" onclick="saveSettings()">Save & Close</button>
-        <button class="btn-sec" onclick="exportData()">Export Backup</button>
+        <button class="btn-blue" onclick="saveSettings()">Save Settings</button>
     </div>
 
     <nav class="bottom-nav">
-        <button class="nav-item active" id="navMonth" onclick="switchTab('month')">
-            <span class="nav-icon">📅</span><span class="nav-label">This Month</span>
+        <button class="nav-tab active" id="tabMonth" onclick="switchTab('month')">
+            <span style="font-size:20px">📅</span><span>This Month</span>
         </button>
-        <button class="nav-item" id="navTrends" onclick="switchTab('trends')">
-            <span class="nav-icon">📈</span><span class="nav-label">Trends</span>
+        <button class="nav-tab" id="tabTrends" onclick="switchTab('trends')">
+            <span style="font-size:20px">📈</span><span>Trends</span>
         </button>
     </nav>
 
-    <button class="fab" onclick="openAddSheet()">+</button>
+    <button class="fab" onclick="openAdd()">+</button>
 
     <script>
-        let purchases = JSON.parse(localStorage.getItem('budget_v5_data') || '[]');
-        let settings = JSON.parse(localStorage.getItem('budget_v5_settings') || '{"pay": 4000}');
+        // Data State
+        let purchases = JSON.parse(localStorage.getItem('v5_data') || '[]');
+        let settings = JSON.parse(localStorage.getItem('v5_set') || '{"pay": 4000}');
         let currentStep = 0;
         let tempItem = {};
         const steps = ["amount", "merchant", "category", "date"];
 
+        // Navigation
         function switchTab(tab) {
             document.getElementById('monthView').classList.toggle('hidden', tab !== 'month');
             document.getElementById('trendsView').classList.toggle('hidden', tab !== 'trends');
-            document.getElementById('navMonth').classList.toggle('active', tab === 'month');
-            document.getElementById('navTrends').classList.toggle('active', tab === 'trends');
+            document.getElementById('tabMonth').classList.toggle('active', tab === 'month');
+            document.getElementById('tabTrends').classList.toggle('active', tab === 'trends');
             if(tab === 'trends') renderTrends();
         }
 
-        function openAddSheet() {
+        // Add Purchase Flow
+        function openAdd() {
             currentStep = 0;
             tempItem = { date: new Date().toISOString().split('T')[0] };
-            showStep();
-            document.getElementById('addSheet').classList.remove('hidden');
-            document.getElementById('modalOverlay').classList.remove('hidden');
+            updateStepUI();
+            document.getElementById('addSheet').classList.add('active');
+            document.getElementById('overlay').style.display = 'block';
         }
 
-        function showStep() {
+        function updateStepUI() {
             const container = document.getElementById('stepContainer');
             const step = steps[currentStep];
-            document.getElementById('stepTitle').innerText = step.charAt(0).toUpperCase() + step.slice(1);
-            
+            document.getElementById('stepTitle').innerText = "Enter " + step.charAt(0).toUpperCase() + step.slice(1);
+
             if(step === 'amount') container.innerHTML = `<input type="number" id="stepInput" placeholder="0.00" autofocus>`;
-            else if(step === 'merchant') container.innerHTML = `<input type="text" id="stepInput" placeholder="Store name...">`;
-            else if(step === 'category') container.innerHTML = `<select id="stepInput"><option>Food</option><option>Groceries</option><option>Shopping</option><option>Bills</option><option>Transport</option></select>`;
-            else if(step === 'date') container.innerHTML = `<input type="date" id="stepInput" value="${tempItem.date}">`;
-            
-            document.getElementById('prevBtn').classList.toggle('hidden', currentStep === 0);
-            document.getElementById('nextBtn').innerText = currentStep === steps.length -1 ? 'Save Purchase' : 'Next';
+            else if(step === 'merchant') container.innerHTML = `<input type="text" id="stepInput" placeholder="e.g. Starbucks">`;
+            else if(step === 'category') container.innerHTML = `<select id="stepInput"><option>Food</option><option>Shopping</option><option>Bills</option><option>Groceries</option><option>Travel</option></select>`;
+            else container.innerHTML = `<input type="date" id="stepInput" value="${tempItem.date}">`;
+
+            document.getElementById('nextBtn').innerText = currentStep === steps.length - 1 ? "Save Purchase" : "Next";
         }
 
         function handleNext() {
             const val = document.getElementById('stepInput').value;
             if(!val) return;
             tempItem[steps[currentStep]] = val;
+
             if(currentStep < steps.length - 1) {
                 currentStep++;
-                showStep();
+                updateStepUI();
             } else {
                 purchases.push({...tempItem, id: Date.now()});
-                localStorage.setItem('budget_v5_data', JSON.stringify(purchases));
-                closeModals();
-                render();
+                save();
+                closeAll();
             }
         }
 
-        function handlePrev() { currentStep--; showStep(); }
-
-        function closeModals() {
-            document.getElementById('addSheet').classList.add('hidden');
-            document.getElementById('settingsPanel').classList.add('hidden');
-            document.getElementById('modalOverlay').classList.add('hidden');
-        }
-
-        function toggleSettings() {
+        // Settings
+        function openSettings() {
             document.getElementById('payInput').value = settings.pay;
-            document.getElementById('settingsPanel').classList.remove('hidden');
-            document.getElementById('modalOverlay').classList.remove('hidden');
+            document.getElementById('settingsSheet').classList.add('active');
+            document.getElementById('overlay').style.display = 'block';
         }
 
         function saveSettings() {
-            settings.pay = document.getElementById('payInput').value;
-            localStorage.setItem('budget_v5_settings', JSON.stringify(settings));
-            closeModals();
+            settings.pay = Number(document.getElementById('payInput').value);
+            localStorage.setItem('v5_set', JSON.stringify(settings));
+            closeAll();
             render();
         }
 
+        // Delete & Storage
+        function deleteItem(id) {
+            if(confirm("Delete this transaction?")) {
+                purchases = purchases.filter(p => p.id !== id);
+                save();
+            }
+        }
+
+        function save() {
+            localStorage.setItem('v5_data', JSON.stringify(purchases));
+            render();
+        }
+
+        function closeAll() {
+            document.querySelectorAll('.sheet').forEach(s => s.classList.remove('active'));
+            document.getElementById('overlay').style.display = 'none';
+        }
+
+        function toggleSearch() { document.getElementById('searchBar').classList.toggle('hidden'); }
+
+        // Render Logic
         function render() {
             const filter = document.getElementById('searchInput').value.toLowerCase();
             const filtered = purchases.filter(p => p.merchant.toLowerCase().includes(filter));
@@ -311,27 +342,26 @@
             document.getElementById('totalSpent').innerText = `$${spent.toLocaleString()}`;
             document.getElementById('totalIncome').innerText = `$${income.toLocaleString()}`;
             document.getElementById('totalSaved').innerText = `$${saved.toLocaleString()}`;
-            document.getElementById('savingsBanner').innerText = `You're on track to save $${saved.toLocaleString()} this month`;
+            document.getElementById('savingsBanner').innerText = `On track to save $${saved.toLocaleString()} this month`;
 
-            document.getElementById('purchaseList').innerHTML = filtered.map(p => `
-                <div class="transaction-item">
-                    <div class="item-info">
-                        <strong>${p.merchant}</strong>
-                        <small>${p.category}</small>
+            document.getElementById('purchaseList').innerHTML = filtered.reverse().map(p => `
+                <div class="item-card">
+                    <div class="item-info"><strong>${p.merchant}</strong><small>${p.category} • ${p.date}</small></div>
+                    <div class="item-right">
+                        <strong>$${Number(p.amount).toFixed(2)}</strong>
+                        <button class="delete-btn" onclick="deleteItem(${p.id})">🗑️</button>
                     </div>
-                    <div class="item-amount">$${Number(p.amount).toFixed(2)}</div>
                 </div>
-            `).reverse().join('');
+            `).join('');
         }
 
         function renderTrends() {
-            // Mock Weekly Data for visual
-            const weekly = [350, 420, 280, 510];
-            document.getElementById('weeklyChart').innerHTML = weekly.map((v, i) => `
-                <div class="bar-wrap">
-                    <span class="bar-val">$${v}</span>
-                    <div class="bar" style="height:${(v/600)*100}%"></div>
-                    <span class="bar-label">Wk ${i+1}</span>
+            // Static example bars - logic can be added to group by week
+            const data = [200, 450, 300, 550];
+            document.getElementById('weeklyChart').innerHTML = data.map(v => `
+                <div class="bar-container">
+                    <div class="bar" style="height: ${(v/600)*100}%"></div>
+                    <span style="font-size:10px; color:var(--gray); margin-top:5px;">$${v}</span>
                 </div>
             `).join('');
 
@@ -341,21 +371,12 @@
             }, {});
 
             document.getElementById('categoryChart').innerHTML = Object.entries(cats).map(([name, amt]) => `
-                <div class="cat-row">
-                    <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:600">
-                        <span>${name}</span><span>$${amt.toFixed(2)}</span>
+                <div class="stat-card" style="margin-bottom:10px; text-align:left;">
+                    <div style="display:flex; justify-content:space-between;">
+                        <strong>${name}</strong><span>$${amt.toFixed(2)}</span>
                     </div>
-                    <div class="progress-bg"><div class="progress-fill" style="width:${Math.min(100, (amt/(settings.pay*2))*100)}%"></div></div>
                 </div>
             `).join('');
-        }
-
-        function toggleSearch() { document.getElementById('searchBar').classList.toggle('hidden'); }
-        function exportData() {
-            const blob = new Blob([JSON.stringify({purchases, settings})], {type: 'application/json'});
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url; a.download = 'budget_backup.json'; a.click();
         }
 
         render();
