@@ -2,69 +2,97 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Budget App</title>
-  <link rel="stylesheet" href="styles.css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Budget V5</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header class="topbar">
-  <button id="searchBtn">🔍</button>
-  <h1>This Month</h1>
-  <button id="settingsBtn">⚙️</button>
-</header>
+    <header class="top-bar">
+        <button class="icon-btn" id="searchBtn">🔍</button>
+        <div class="banner-card" id="savingsBanner">You're on track to save $0</div>
+        <button class="icon-btn" id="settingsBtn">⚙️</button>
+    </header>
 
-<div id="searchBar" class="hidden">
-  <input type="text" id="searchInput" placeholder="Search by merchant or subcategory"/>
-</div>
-
-<section class="banner">
-  <p id="statusText">You're on track to save $0 this month.</p>
-</section>
-
-<section class="cards">
-  <div class="card red"><span id="spent">$0</span><small>Spent</small></div>
-  <div class="card blue"><span id="income">$0</span><small>Income</small></div>
-  <div class="card green"><span id="saved">$0</span><small>Saved</small></div>
-</section>
-
-<div class="toggle">
-  <button class="active" id="catTab">Categories</button>
-  <button id="weekTab">Weeks</button>
-</div>
-
-<section id="list"></section>
-
-<button id="addBtn">+ Add Purchase</button>
-
-<div id="modal" class="modal hidden">
-  <div class="sheet">
-    <h2>Add Purchase</h2>
-    <input id="amount" type="number" placeholder="Amount"/>
-    <input id="merchant" placeholder="Merchant"/>
-    <select id="category">
-      <option value="">Category</option>
-      <option>Dining</option>
-      <option>Groceries</option>
-      <option>Bills</option>
-      <option>Leisure</option>
-    </select>
-    <input id="subcategory" placeholder="Details (Bills / Leisure)" class="hidden"/>
-    <label><input type="checkbox" id="today" checked/> Use today</label>
-    <input type="date" id="date"/>
-    <div class="actions">
-      <button onclick="closeModal()">Cancel</button>
-      <button onclick="addPurchase()">Save</button>
+    <div id="searchBar" class="search-overlay hidden">
+        <input type="text" id="searchInput" placeholder="Search merchants...">
     </div>
-  </div>
-</div>
 
-<nav>
-  <button class="active">This Month</button>
-  <button onclick="alert('Trends page coming next')">Trends</button>
-</nav>
+    <main class="container">
+        
+        <section id="monthView">
+            <div class="summary-grid">
+                <div class="card"><h5>Spent</h5><p id="totalSpent">$0</p></div>
+                <div class="card"><h5>Income</h5><p id="totalIncome">$0</p></div>
+                <div class="card"><h5>Saved</h5><p id="totalSaved">$0</p></div>
+            </div>
 
-<script src="app.js"></script>
+            <div class="view-toggle">
+                <button class="toggle-btn active" id="viewCats">Categories</button>
+                <button class="toggle-btn" id="viewWeeks">Weeks</button>
+            </div>
+
+            <div id="purchaseList" class="list-container">
+                </div>
+        </section>
+
+        <section id="trendsView" class="hidden">
+            <h2 class="section-title">Spending Trends</h2>
+            <div class="card chart-card">
+                <h3>Weekly Spending</h3>
+                <div id="weeklyChart" class="weekly-bars"></div>
+            </div>
+            
+            <div class="card chart-card">
+                <h3>Top Categories</h3>
+                <div id="categoryChart" class="category-bars"></div>
+            </div>
+        </section>
+    </main>
+
+    <div id="modalOverlay" class="overlay hidden"></div>
+    <div id="addSheet" class="bottom-sheet hidden">
+        <div class="sheet-header">
+            <h3 id="stepTitle">Amount</h3>
+            <button id="closeSheet">✕</button>
+        </div>
+        <div id="stepContainer" class="step-body"></div>
+        <div class="sheet-footer">
+            <button id="prevBtn" class="btn-sec hidden">Back</button>
+            <button id="nextBtn" class="btn-pri">Next</button>
+        </div>
+    </div>
+
+    <div id="settingsPanel" class="side-panel hidden">
+        <div class="panel-header"><h2>Settings</h2><button id="closeSettings">Done</button></div>
+        <div class="panel-body">
+            <label>Biweekly Paycheck ($)</label>
+            <input type="number" id="payInput" placeholder="2000">
+            <label>Payday</label>
+            <select id="paydayInput">
+                <option>Friday</option><option>Monday</option>
+            </select>
+            <hr>
+            <button id="exportBtn" class="btn-sec">Export JSON</button>
+            <input type="file" id="importFile" hidden>
+            <button onclick="document.getElementById('importFile').click()" class="btn-sec">Import JSON</button>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <button class="nav-item active" id="navMonth">
+            <span class="nav-icon">📅</span>
+            <span class="nav-label">This Month</span>
+        </button>
+        <button class="nav-item" id="navTrends">
+            <span class="nav-icon">📈</span>
+            <span class="nav-label">Trends</span>
+        </button>
+    </nav>
+
+    <button id="fab" class="fab">+</button>
+
+    <script src="app.js"></script>
 </body>
 </html>
