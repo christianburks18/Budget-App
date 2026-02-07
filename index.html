@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Budget App</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+
+<header class="topbar">
+  <button id="searchBtn">🔍</button>
+  <h1>This Month</h1>
+  <button id="settingsBtn">⚙️</button>
+</header>
+
+<div id="searchBar" class="hidden">
+  <input type="text" id="searchInput" placeholder="Search by merchant or subcategory"/>
+</div>
+
+<section class="banner">
+  <p id="statusText">You're on track to save $0 this month.</p>
+</section>
+
+<section class="cards">
+  <div class="card red"><span id="spent">$0</span><small>Spent</small></div>
+  <div class="card blue"><span id="income">$0</span><small>Income</small></div>
+  <div class="card green"><span id="saved">$0</span><small>Saved</small></div>
+</section>
+
+<div class="toggle">
+  <button class="active" id="catTab">Categories</button>
+  <button id="weekTab">Weeks</button>
+</div>
+
+<section id="list"></section>
+
+<button id="addBtn">+ Add Purchase</button>
+
+<div id="modal" class="modal hidden">
+  <div class="sheet">
+    <h2>Add Purchase</h2>
+    <input id="amount" type="number" placeholder="Amount"/>
+    <input id="merchant" placeholder="Merchant"/>
+    <select id="category">
+      <option value="">Category</option>
+      <option>Dining</option>
+      <option>Groceries</option>
+      <option>Bills</option>
+      <option>Leisure</option>
+    </select>
+    <input id="subcategory" placeholder="Details (Bills / Leisure)" class="hidden"/>
+    <label><input type="checkbox" id="today" checked/> Use today</label>
+    <input type="date" id="date"/>
+    <div class="actions">
+      <button onclick="closeModal()">Cancel</button>
+      <button onclick="addPurchase()">Save</button>
+    </div>
+  </div>
+</div>
+
+<nav>
+  <button class="active">This Month</button>
+  <button onclick="alert('Trends page coming next')">Trends</button>
+</nav>
+
+<script src="app.js"></script>
+</body>
+</html>
