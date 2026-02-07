@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Budget Pro V12</title>
+    <title>Budget Pro V13</title>
     <style>
         :root {
             --bg: #f2f2f7; --card: #ffffff; --blue: #007aff;
@@ -13,7 +13,7 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 120px; }
         
-        /* Header */
+        /* Header & Navigation */
         .header { padding: 20px 15px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; background: var(--bg); z-index: 10; gap: 8px; }
         .banner { background: var(--card); padding: 12px 15px; border-radius: 20px; box-shadow: var(--shadow); flex: 1; text-align: center; font-weight: 700; font-size: 14px; min-width: 0; }
         .banner b { color: var(--green); }
@@ -21,7 +21,7 @@
         #searchContainer { padding: 0 15px 15px; }
         .search-input { width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid #d1d1d6; background: var(--card); font-size: 16px; outline: none; }
 
-        /* Summary & Filters */
+        /* Stats Grid */
         .summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 15px 20px; }
         .stat-card { background: var(--card); padding: 15px 5px; border-radius: 18px; text-align: center; box-shadow: var(--shadow); border-bottom: 3px solid transparent; }
         .stat-card.spent { border-color: var(--red); }
@@ -30,32 +30,41 @@
         .stat-card h5 { margin: 0; color: var(--gray); font-size: 10px; text-transform: uppercase; }
         .stat-card p { margin: 5px 0 0; font-size: 14px; font-weight: 800; }
 
+        /* Filter Tabs */
         .filter-section { padding: 0 15px 15px; display: flex; gap: 8px; }
         .filter-btn { flex: 1; padding: 12px; border-radius: 12px; border: none; background: #e3e3e8; font-weight: 700; font-size: 13px; color: var(--text); }
         .filter-btn.active { background: var(--blue); color: white; }
 
-        /* Trends Specific */
-        .trend-card { background: var(--card); padding: 15px; border-radius: 18px; box-shadow: var(--shadow); margin-bottom: 15px; }
-        .bar-chart { display: flex; align-items: flex-end; justify-content: space-around; height: 140px; padding-top: 20px; gap: 4px; }
-        .bar-group { display: flex; flex-direction: column; align-items: center; flex: 1; }
-        .bar { width: 100%; max-width: 30px; border-radius: 4px 4px 0 0; transition: height 0.3s ease; }
-        .cat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 0.5px solid #eee; font-size: 14px; }
+        /* Trends Chart Styles */
+        .chart-container { background: var(--card); border-radius: 20px; padding: 20px; margin-bottom: 15px; box-shadow: var(--shadow); }
+        .chart-title { font-size: 14px; font-weight: 700; margin-bottom: 15px; color: var(--text); }
+        .bar-chart { display: flex; align-items: flex-end; justify-content: space-around; height: 160px; padding-bottom: 25px; border-bottom: 1px solid #eee; gap: 8px; position: relative; }
+        .bar-wrapper { display: flex; flex-direction: column; align-items: center; flex: 1; height: 100%; justify-content: flex-end; }
+        .bar { width: 100%; max-width: 35px; border-radius: 6px 6px 2px 2px; transition: height 0.6s ease; min-height: 4px; }
+        .bar-label { font-size: 10px; font-weight: 700; margin-top: 8px; position: absolute; transform: translateY(20px); }
+        .bar-val { font-size: 9px; color: var(--gray); margin-bottom: 4px; }
 
-        /* Standard Components */
+        /* Breakdown List */
+        .breakdown-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 0.5px solid #eee; }
+        .breakdown-item:last-child { border: none; }
+
+        /* Accordions */
         .list-container { padding: 0 15px; }
-        .accordion-header { background: var(--card); padding: 16px; border-radius: 18px; display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px; box-shadow: var(--shadow); }
-        .acc-row { display: flex; justify-content: space-between; align-items: center; }
-        .accordion-content { overflow: hidden; max-height: 0; transition: max-height 0.3s ease; }
+        .accordion-header { background: var(--card); padding: 16px; border-radius: 18px; display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px; box-shadow: var(--shadow); cursor: pointer; }
+        .acc-row { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .acc-date { font-size: 11px; color: var(--gray); font-weight: 600; text-transform: uppercase; }
+        .accordion-content { overflow: hidden; max-height: 0; transition: max-height 0.3s ease-out; }
         .accordion-content.open { max-height: 3000px; padding-bottom: 10px; }
-        .item-card { background: var(--card); padding: 14px; border-radius: 14px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border: 0.5px solid #e5e5ea; }
 
+        /* Modals & Inputs */
         .sheet { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card); border-radius: 24px 24px 0 0; padding: 25px 25px 40px; z-index: 1000; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.15, 0.85, 0.35, 1); }
         .sheet.active { transform: translateY(0); }
         .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); z-index: 999; display: none; }
+        
         input, select { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #d1d1d6; background: #f2f2f7; font-size: 16px; margin: 8px 0; outline: none; }
         .btn-blue { width: 100%; padding: 16px; background: var(--blue); color: white; border: none; border-radius: 14px; font-weight: 700; font-size: 16px; margin-top: 10px; }
-        .btn-outline { width: 100%; padding: 12px; background: none; color: var(--blue); border: 1.5px solid var(--blue); border-radius: 12px; margin-top: 10px; font-weight: 600; }
 
+        /* Nav & FAB */
         .bottom-nav { position: fixed; bottom: 0; width: 100%; background: rgba(255,255,255,0.9); backdrop-filter: blur(20px); display: flex; padding: 10px 0 35px; border-top: 0.5px solid #d1d1d6; z-index: 100; }
         .nav-tab { flex: 1; border: none; background: none; display: flex; flex-direction: column; align-items: center; color: var(--gray); font-size: 10px; font-weight: 700; }
         .nav-tab.active { color: var(--blue); }
@@ -90,40 +99,28 @@
             <div id="purchaseList" class="list-container"></div>
         </section>
 
-        <section id="trendsView" class="hidden" style="padding: 0 15px;">
-            <h2 style="margin: 10px 0">Trends</h2>
-            <div class="filter-section" style="padding: 0 0 15px;">
+        <section id="trendsView" class="hidden" style="padding: 0 15px">
+            <h2 style="margin: 10px 0 20px">Trends</h2>
+            <div class="filter-section" style="padding: 0 0 20px">
                 <button class="filter-btn active" id="tM" onclick="setTrendScale('M')">Month</button>
                 <button class="filter-btn" id="tY" onclick="setTrendScale('Y')">Year</button>
             </div>
-
-            <div class="trend-card">
-                <h5>Spending vs Savings</h5>
-                <div id="trendsChart" class="bar-chart"></div>
+            <div class="chart-container">
+                <div class="chart-title">Spending History</div>
+                <div id="spendingChart" class="bar-chart"></div>
             </div>
-
-            <div class="trend-card">
-                <h5>Breakdown by Category</h5>
-                <div id="categoryBreakdown" style="margin-top: 10px"></div>
+            <div class="chart-container">
+                <div class="chart-title">Savings History</div>
+                <div id="savingsChart" class="bar-chart"></div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title">Top Spending Categories</div>
+                <div id="categoryBreakdown"></div>
             </div>
         </section>
     </main>
 
     <div id="overlay" class="overlay" onclick="closeAll()"></div>
-    
-    <div id="settingsSheet" class="sheet">
-        <h3 style="margin:0 0 10px">Settings</h3>
-        <label style="font-size:11px; font-weight:700; color:var(--gray)">BIWEEKLY PAY</label>
-        <input type="number" id="payInput">
-        <label style="font-size:11px; font-weight:700; color:var(--gray)">NEXT PAY DATE</label>
-        <input type="date" id="payDateInput">
-        <button class="btn-blue" onclick="saveSettings()">Save Changes</button>
-        <div style="display:flex; gap:10px">
-            <button class="btn-outline" onclick="exportData()">Export JSON</button>
-            <button class="btn-outline" onclick="document.getElementById('importFile').click()">Import JSON</button>
-        </div>
-        <input type="file" id="importFile" class="hidden" onchange="importData(event)">
-    </div>
 
     <div id="addSheet" class="sheet">
         <h3 id="stepTitle" style="margin:0 0 10px">Amount</h3>
@@ -131,35 +128,67 @@
         <button id="nextBtn" class="btn-blue" onclick="handleNext()">Next</button>
     </div>
 
+    <div id="settingsSheet" class="sheet">
+        <h3 style="margin:0 0 10px">Settings</h3>
+        <label style="font-size:12px; color:var(--gray); font-weight:600;">BIWEEKLY PAYCHECK</label>
+        <input type="number" id="payInput">
+        <label style="font-size:12px; color:var(--gray); font-weight:600;">NEXT PAY DATE</label>
+        <input type="date" id="payDateInput">
+        <button class="btn-blue" onclick="saveSettings()">Save Changes</button>
+        <div style="display:flex; gap:10px">
+            <button class="btn-outline" style="flex:1" onclick="exportData()">Export JSON</button>
+            <button class="btn-outline" style="flex:1" onclick="document.getElementById('importFile').click()">Import JSON</button>
+        </div>
+        <input type="file" id="importFile" class="hidden" onchange="importData(event)">
+    </div>
+
     <nav class="bottom-nav">
         <button class="nav-tab active" id="tabMonth" onclick="switchTab('month')">📅<span>MONTH</span></button>
         <button class="nav-tab" id="tabTrends" onclick="switchTab('trends')">📈<span>TRENDS</span></button>
     </nav>
+
     <button class="fab" onclick="openAdd()">+</button>
 
     <script>
-        const D_KEY = 'budget_v12_p'; const S_KEY = 'budget_v12_s';
-        let purchases = JSON.parse(localStorage.getItem(D_KEY) || '[]');
-        let settings = JSON.parse(localStorage.getItem(S_KEY) || '{"pay":2285,"payDate":"","history":[]}');
-        let viewMode = 'all'; let trendScale = 'M';
+        const D_KEY = 'budget_v13_p';
+        const S_KEY = 'budget_v13_s';
 
-        function getIncomeForMonth(mKey) {
-            const h = settings.history.find(x => x.month === mKey);
+        let purchases = JSON.parse(localStorage.getItem(D_KEY) || '[]');
+        let settings = JSON.parse(localStorage.getItem(S_KEY) || '{"pay": 2285, "payDate": "", "history": []}');
+        let viewMode = 'all';
+        let trendScale = 'M';
+
+        function getInc(monthKey) {
+            const h = settings.history.find(r => r.month === monthKey);
             return (h ? h.pay : settings.pay) * 2;
+        }
+
+        function getWeekRanges(year, month) {
+            let r = []; let start = new Date(year, month, 1); let endMonth = new Date(year, month + 1, 0);
+            while (start <= endMonth) {
+                let end = new Date(start);
+                let daysToSat = 6 - start.getDay();
+                end.setDate(start.getDate() + daysToSat);
+                if (end > endMonth) end = new Date(endMonth);
+                r.push({ start: new Date(start), end: new Date(end), 
+                         label: `${start.toLocaleString('default',{month:'short'})} ${start.getDate()} - ${end.toLocaleString('default',{month:'short'})} ${end.getDate()}`});
+                start = new Date(end); start.setDate(start.getDate() + 1);
+            }
+            return r;
         }
 
         function render() {
             const now = new Date();
             const mKey = now.toLocaleString('default', { month: 'short', year: 'numeric' });
-            const income = getIncomeForMonth(mKey);
+            const inc = getInc(mKey);
             const query = document.getElementById('searchInput').value.toLowerCase();
             const filtered = purchases.filter(p => p.merchant.toLowerCase().includes(query));
             const spent = filtered.reduce((s, p) => s + Number(p.amount), 0);
             
             document.getElementById('totalSpent').innerText = `$${spent.toFixed(2)}`;
-            document.getElementById('totalIncome').innerText = `$${income}`;
-            document.getElementById('totalSaved').innerText = `$${(income - spent).toFixed(2)}`;
-            document.getElementById('savingsBanner').innerText = `$${(income - spent).toFixed(2)}`;
+            document.getElementById('totalIncome').innerText = `$${inc}`;
+            document.getElementById('totalSaved').innerText = `$${(inc - spent).toFixed(2)}`;
+            document.getElementById('savingsBanner').innerHTML = `Saved <b>$${(inc - spent).toFixed(2)}</b>`;
 
             const list = document.getElementById('purchaseList');
             if(viewMode === 'all') {
@@ -167,138 +196,119 @@
             } else if(viewMode === 'category') {
                 const cats = filtered.reduce((acc, p) => { acc[p.category] = (acc[p.category] || 0) + Number(p.amount); return acc; }, {});
                 list.innerHTML = Object.entries(cats).sort((a,b)=>b[1]-a[1]).map(([n, a], idx) => `
-                    <div class="accordion-header" onclick="toggleAccordion('cat${idx}')">
-                        <div class="acc-row"><strong>${n}</strong><strong>$${a.toFixed(2)}</strong></div>
-                    </div>
-                    <div id="cat${idx}" class="accordion-content">
-                        ${filtered.filter(p => p.category === n).map(p => itemHtml(p)).join('')}
-                    </div>`).join('');
+                    <div class="accordion-header" onclick="toggleAccordion('cat${idx}')"><div class="acc-row"><strong>${n}</strong><strong>$${a.toFixed(2)}</strong></div></div>
+                    <div id="cat${idx}" class="accordion-content">${filtered.filter(p => p.category === n).map(p => itemHtml(p)).join('')}</div>
+                `).join('');
             } else {
-                renderWeeks(filtered);
+                list.innerHTML = getWeekRanges(now.getFullYear(), now.getMonth()).map((r, i) => {
+                    const items = filtered.filter(p => { const d = new Date(p.date); return d >= r.start && d <= r.end; });
+                    const total = items.reduce((s, x) => s + Number(x.amount), 0);
+                    return `<div class="accordion-header" onclick="toggleAccordion('wk${i}')"><span class="acc-date">${r.label}</span><div class="acc-row"><strong>Week ${i+1}</strong><strong>$${total.toFixed(2)}</strong></div></div>
+                            <div id="wk${i}" class="accordion-content">${items.map(x => itemHtml(x)).join('')}</div>`;
+                }).join('');
             }
-        }
-
-        function renderWeeks(filtered) {
-            const now = new Date();
-            let first = new Date(now.getFullYear(), now.getMonth(), 1);
-            let last = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-            let html = ''; let curr = new Date(first); let wkNum = 1;
-            while(curr <= last) {
-                let start = new Date(curr);
-                let end = new Date(curr); end.setDate(start.getDate() + (6 - start.getDay()));
-                if(end > last) end = new Date(last);
-                const items = filtered.filter(p => { const d = new Date(p.date); return d >= start && d <= end; });
-                const total = items.reduce((s,i)=>s+Number(i.amount),0);
-                const label = `${start.toLocaleString('default',{month:'short'})} ${start.getDate()} - ${end.getDate()}`;
-                html += `
-                    <div class="accordion-header" onclick="toggleAccordion('wk${wkNum}')">
-                        <span style="font-size:10px; color:var(--gray); font-weight:700">${label}</span>
-                        <div class="acc-row"><strong>Week ${wkNum}</strong><strong>$${total.toFixed(2)}</strong></div>
-                    </div>
-                    <div id="wk${wkNum}" class="accordion-content">${items.map(i => itemHtml(i)).join('')}</div>`;
-                curr.setDate(end.getDate() + 1); wkNum++;
-            }
-            document.getElementById('purchaseList').innerHTML = html;
-        }
-
-        function renderTrends() {
-            let data = {};
-            purchases.forEach(p => {
-                const d = new Date(p.date);
-                const k = trendScale === 'M' ? d.toLocaleString('default', {month:'short'}) : d.getFullYear();
-                if(!data[k]) data[k] = { s: 0, inc: getIncomeForMonth(d.toLocaleString('default',{month:'short', year:'numeric'})) };
-                data[k].s += Number(p.amount);
-            });
-
-            const keys = Object.keys(data);
-            const max = Math.max(...keys.map(k => Math.max(data[k].s, data[k].inc - data[k].s)), 1);
-            
-            document.getElementById('trendsChart').innerHTML = keys.map(k => {
-                const saved = data[k].inc - data[k].s;
-                return `<div class="bar-group">
-                    <div style="display:flex; align-items:flex-end; gap:2px; height:100px; width:100%">
-                        <div class="bar" style="height:${(data[k].s/max)*100}px; background:var(--red)"></div>
-                        <div class="bar" style="height:${(Math.max(0,saved)/max)*100}px; background:var(--green)"></div>
-                    </div>
-                    <span style="font-size:10px; font-weight:700; margin-top:5px">${k}</span>
-                </div>`;
-            }).join('');
-
-            const cats = purchases.reduce((acc, p) => { acc[p.category] = (acc[p.category]||0) + Number(p.amount); return acc; }, {});
-            document.getElementById('categoryBreakdown').innerHTML = Object.entries(cats).sort((a,b)=>b[1]-a[1]).map(([n,v])=>`
-                <div class="cat-row"><span>${n}</span><strong>$${v.toFixed(2)}</strong></div>`).join('');
         }
 
         function itemHtml(p) {
-            return `<div class="item-card">
-                <div style="display:flex; flex-direction:column"><strong>${p.merchant}</strong><small style="color:var(--gray); font-size:11px">${p.category} ${p.subcategory?'• '+p.subcategory:''}</small></div>
-                <div style="display:flex; align-items:center; gap:8px"><strong>$${Number(p.amount).toFixed(2)}</strong><button style="border:none; background:none" onclick="deleteItem(${p.id})">🗑️</button></div>
-            </div>`;
+            return `<div class="item-card"><div class="item-info"><strong>${p.merchant}</strong><small>${p.category}${p.subcategory ? ' - '+p.subcategory : ''}</small></div>
+                    <div class="item-right"><strong>$${Number(p.amount).toFixed(2)}</strong><button style="background:none; border:none; padding:5px" onclick="deleteItem(${p.id})">🗑️</button></div></div>`;
         }
 
-        // Feature Functions
+        function renderTrends() {
+            let sData = {};
+            let cData = {};
+            purchases.forEach(p => {
+                const d = new Date(p.date);
+                const k = trendScale === 'M' ? d.toLocaleString('default', {month:'short'}) : d.getFullYear();
+                sData[k] = (sData[k]||0) + Number(p.amount);
+                cData[p.category] = (cData[p.category]||0) + Number(p.amount);
+            });
+
+            const keys = Object.keys(sData).sort();
+            const sMax = Math.max(...Object.values(sData), 1);
+            
+            const createChart = (isSavings) => {
+                return keys.map(k => {
+                    const spent = sData[k];
+                    const income = isSavings ? getInc(k + (trendScale === 'M' ? ` ${new Date().getFullYear()}` : "")) : 0;
+                    const val = isSavings ? (income - spent) : spent;
+                    const h = Math.max((val / (isSavings ? (income || 5000) : sMax)) * 130, 5);
+                    return `<div class="bar-wrapper">
+                        <span class="bar-val">$${val.toFixed(0)}</span>
+                        <div class="bar" style="height:${h}px; background:${isSavings ? 'var(--green)' : 'var(--blue)'}"></div>
+                        <span class="bar-label">${k}</span>
+                    </div>`;
+                }).join('');
+            };
+
+            document.getElementById('spendingChart').innerHTML = createChart(false);
+            document.getElementById('savingsChart').innerHTML = createChart(true);
+
+            // Category Breakdown
+            const breakdown = Object.entries(cData).sort((a,b) => b[1]-a[1]);
+            document.getElementById('categoryBreakdown').innerHTML = breakdown.map(([name, total]) => `
+                <div class="breakdown-item">
+                    <span style="font-weight:600">${name}</span>
+                    <span style="color:var(--red); font-weight:700">$${total.toFixed(2)}</span>
+                </div>
+            `).join('') || '<p style="color:var(--gray); text-align:center;">No data for this period</p>';
+        }
+
+        function setTrendScale(s) { 
+            trendScale = s; 
+            document.querySelectorAll('[id^="t"]').forEach(b => b.classList.remove('active'));
+            document.getElementById('t' + s).classList.add('active');
+            renderTrends(); 
+        }
+
         function saveSettings() {
-            const p = Number(document.getElementById('payInput').value);
-            const d = document.getElementById('payDateInput').value;
-            const m = new Date().toLocaleString('default', {month:'short', year:'numeric'});
-            settings.history = settings.history.filter(x => x.month !== m);
-            settings.history.push({month: m, pay: p});
-            settings.pay = p; settings.payDate = d;
-            localStorage.setItem(S_KEY, JSON.stringify(settings));
-            closeAll(); render();
+            const pay = Number(document.getElementById('payInput').value);
+            const date = document.getElementById('payDateInput').value;
+            const mKey = new Date().toLocaleString('default', { month: 'short', year: 'numeric' });
+            settings.history = settings.history.filter(h => h.month !== mKey);
+            settings.history.push({ month: mKey, pay: pay });
+            settings.pay = pay; settings.payDate = date;
+            localStorage.setItem(S_KEY, JSON.stringify(settings)); closeAll(); render();
         }
 
         function exportData() {
-            const blob = new Blob([JSON.stringify({purchases, settings})], {type:'application/json'});
-            const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'budget_backup.json'; a.click();
+            const b = new Blob([JSON.stringify({purchases, settings})], {type:'application/json'});
+            const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download=`budget_${new Date().toISOString().split('T')[0]}.json`; a.click();
         }
 
         function importData(e) {
-            const reader = new FileReader();
-            reader.onload = (ev) => {
-                const data = JSON.parse(ev.target.result);
-                purchases = data.purchases; settings = data.settings;
-                localStorage.setItem(D_KEY, JSON.stringify(purchases));
-                localStorage.setItem(S_KEY, JSON.stringify(settings));
+            const f = e.target.files[0]; if(!f) return;
+            const r = new FileReader(); r.onload = (ev) => {
+                const d = JSON.parse(ev.target.result);
+                purchases = d.purchases; settings = d.settings;
+                localStorage.setItem(D_KEY, JSON.stringify(purchases)); localStorage.setItem(S_KEY, JSON.stringify(settings));
                 render(); alert("Imported!"); closeAll();
-            };
-            reader.readAsText(e.target.files[0]);
+            }; r.readAsText(f);
         }
 
-        // Navigation & UI
-        function switchTab(t) {
-            document.getElementById('monthView').classList.toggle('hidden', t!=='month');
-            document.getElementById('trendsView').classList.toggle('hidden', t!=='trends');
-            document.querySelectorAll('.nav-tab').forEach(x => x.classList.remove('active'));
-            document.getElementById('tab' + t.charAt(0).toUpperCase()+t.slice(1)).classList.add('active');
-            if(t==='trends') renderTrends();
-        }
-        function setTrendScale(s) { trendScale = s; document.querySelectorAll('[id^="t"]').forEach(x=>x.classList.remove('active')); document.getElementById('t'+s).classList.add('active'); renderTrends(); }
-        function setViewMode(m) { viewMode = m; document.querySelectorAll('.filter-btn').forEach(x=>x.classList.remove('active')); document.getElementById('f'+m.charAt(0).toUpperCase()+m.slice(1)).classList.add('active'); render(); }
         function toggleSearch() { document.getElementById('searchContainer').classList.toggle('hidden'); }
-        function toggleAccordion(id) { const el = document.getElementById(id); const open = el.classList.contains('open'); document.querySelectorAll('.accordion-content').forEach(x=>x.classList.remove('open')); if(!open) el.classList.add('open'); }
+        function toggleAccordion(id) { const el = document.getElementById(id); const isOpen = el.classList.contains('open'); document.querySelectorAll('.accordion-content').forEach(c => c.classList.remove('open')); if(!isOpen) el.classList.add('open'); }
+        function openAdd() { currentStep = 0; tempItem = { date: new Date().toISOString().split('T')[0] }; updateStepUI(); document.getElementById('addSheet').classList.add('active'); document.getElementById('overlay').style.display = 'block'; }
         function openSettings() { document.getElementById('payInput').value = settings.pay; document.getElementById('payDateInput').value = settings.payDate; document.getElementById('settingsSheet').classList.add('active'); document.getElementById('overlay').style.display = 'block'; }
-        function closeAll() { document.querySelectorAll('.sheet').forEach(x=>x.classList.remove('active')); document.getElementById('overlay').style.display='none'; }
-
-        // Transaction Entry Logic
+        function closeAll() { document.querySelectorAll('.sheet').forEach(s => s.classList.remove('active')); document.getElementById('overlay').style.display = 'none'; }
+        function setViewMode(m) { viewMode = m; document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); document.getElementById('f'+m.charAt(0).toUpperCase()+m.slice(1)).classList.add('active'); render(); }
+        function switchTab(t) { document.getElementById('monthView').classList.toggle('hidden', t !== 'month'); document.getElementById('trendsView').classList.toggle('hidden', t !== 'trends'); document.querySelectorAll('.nav-tab').forEach(n => n.classList.remove('active')); document.getElementById('tab'+t.charAt(0).toUpperCase()+t.slice(1)).classList.add('active'); if(t==='trends') renderTrends(); }
+        
         const steps = ["amount", "merchant", "category", "subcategory", "date"];
         let currentStep = 0; let tempItem = {};
-        function openAdd() { currentStep = 0; tempItem = {date: new Date().toISOString().split('T')[0]}; updateStepUI(); document.getElementById('addSheet').classList.add('active'); document.getElementById('overlay').style.display='block'; }
         function updateStepUI() {
-            const c = document.getElementById('stepContainer'); const s = steps[currentStep];
-            document.getElementById('stepTitle').innerText = s.toUpperCase();
-            if(s==='amount') c.innerHTML = `<input type="number" id="stepInput" placeholder="0.00" autofocus inputmode="decimal">`;
-            else if(s==='merchant') c.innerHTML = `<input type="text" id="stepInput" placeholder="Store Name">`;
-            else if(s==='category') c.innerHTML = `<select id="stepInput"><option>Food</option><option>Groceries</option><option>Leisure</option><option>Bills</option></select>`;
-            else if(s==='subcategory') c.innerHTML = `<input type="text" id="stepInput" placeholder="Context (Optional)">`;
-            else c.innerHTML = `<input type="date" id="stepInput" value="${tempItem.date}">`;
+            const container = document.getElementById('stepContainer');
+            const step = steps[currentStep];
+            document.getElementById('stepTitle').innerText = step.toUpperCase();
+            if(step === 'amount') container.innerHTML = `<input type="number" id="stepInput" placeholder="0.00" autofocus inputmode="decimal">`;
+            else if(step === 'merchant') container.innerHTML = `<input type="text" id="stepInput" placeholder="Where?">`;
+            else if(step === 'category') container.innerHTML = `<select id="stepInput"><option>Food</option><option>Groceries</option><option>Leisure</option><option>Bills</option></select>`;
+            else if(step === 'subcategory') container.innerHTML = `<input type="text" id="stepInput" placeholder="Context (Optional)">`;
+            else container.innerHTML = `<input type="date" id="stepInput" value="${tempItem.date}">`;
         }
-        function handleNext() {
-            tempItem[steps[currentStep]] = document.getElementById('stepInput').value;
-            if(currentStep < 4) { currentStep++; updateStepUI(); }
-            else { purchases.push({...tempItem, id: Date.now()}); localStorage.setItem(D_KEY, JSON.stringify(purchases)); render(); closeAll(); }
-        }
-        function deleteItem(id) { if(confirm("Delete?")) { purchases = purchases.filter(x=>x.id!==id); localStorage.setItem(D_KEY, JSON.stringify(purchases)); render(); if(!document.getElementById('trendsView').classList.contains('hidden')) renderTrends(); } }
+        function handleNext() { const val = document.getElementById('stepInput').value; tempItem[steps[currentStep]] = val; if(currentStep < 4) { currentStep++; updateStepUI(); } else { purchases.push({...tempItem, id: Date.now()}); save(); closeAll(); } }
+        function save() { localStorage.setItem(D_KEY, JSON.stringify(purchases)); render(); }
+        function deleteItem(id) { if(confirm("Delete?")) { purchases = purchases.filter(p => p.id !== id); save(); } }
 
         render();
     </script>
