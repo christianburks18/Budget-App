@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Budget Pro V10</title>
+    <title>Budget Pro V12</title>
     <style>
         :root {
             --bg: #f2f2f7; --card: #ffffff; --blue: #007aff;
@@ -11,17 +11,17 @@
             --gray: #8e8e93; --shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 120px; line-height: 1.4; }
+        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 120px; }
         
-        /* Layout & Header */
+        /* Header */
         .header { padding: 20px 15px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; background: var(--bg); z-index: 10; gap: 8px; }
-        .banner { background: var(--card); padding: 12px 15px; border-radius: 20px; box-shadow: var(--shadow); flex: 1; text-align: center; font-weight: 700; font-size: 14px; min-width: 0; color: var(--text); }
+        .banner { background: var(--card); padding: 12px 15px; border-radius: 20px; box-shadow: var(--shadow); flex: 1; text-align: center; font-weight: 700; font-size: 14px; min-width: 0; }
         .banner b { color: var(--green); }
         
         #searchContainer { padding: 0 15px 15px; }
         .search-input { width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid #d1d1d6; background: var(--card); font-size: 16px; outline: none; }
 
-        /* Summary Stats */
+        /* Summary & Filters */
         .summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 15px 20px; }
         .stat-card { background: var(--card); padding: 15px 5px; border-radius: 18px; text-align: center; box-shadow: var(--shadow); border-bottom: 3px solid transparent; }
         .stat-card.spent { border-color: var(--red); }
@@ -30,30 +30,28 @@
         .stat-card h5 { margin: 0; color: var(--gray); font-size: 10px; text-transform: uppercase; }
         .stat-card p { margin: 5px 0 0; font-size: 14px; font-weight: 800; }
 
-        /* Navigation & Lists */
         .filter-section { padding: 0 15px 15px; display: flex; gap: 8px; }
         .filter-btn { flex: 1; padding: 12px; border-radius: 12px; border: none; background: #e3e3e8; font-weight: 700; font-size: 13px; color: var(--text); }
         .filter-btn.active { background: var(--blue); color: white; }
 
+        /* Trends Specific */
+        .trend-card { background: var(--card); padding: 15px; border-radius: 18px; box-shadow: var(--shadow); margin-bottom: 15px; }
+        .bar-chart { display: flex; align-items: flex-end; justify-content: space-around; height: 140px; padding-top: 20px; gap: 4px; }
+        .bar-group { display: flex; flex-direction: column; align-items: center; flex: 1; }
+        .bar { width: 100%; max-width: 30px; border-radius: 4px 4px 0 0; transition: height 0.3s ease; }
+        .cat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 0.5px solid #eee; font-size: 14px; }
+
+        /* Standard Components */
         .list-container { padding: 0 15px; }
         .accordion-header { background: var(--card); padding: 16px; border-radius: 18px; display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px; box-shadow: var(--shadow); }
-        .acc-row { display: flex; justify-content: space-between; align-items: center; width: 100%; }
-        .acc-row strong { font-size: 16px; }
-        .acc-date { font-size: 11px; color: var(--gray); font-weight: 600; text-transform: uppercase; }
-        
-        .accordion-content { overflow: hidden; max-height: 0; transition: max-height 0.3s ease-out; }
-        .accordion-content.open { max-height: 2000px; padding-bottom: 10px; }
-
+        .acc-row { display: flex; justify-content: space-between; align-items: center; }
+        .accordion-content { overflow: hidden; max-height: 0; transition: max-height 0.3s ease; }
+        .accordion-content.open { max-height: 3000px; padding-bottom: 10px; }
         .item-card { background: var(--card); padding: 14px; border-radius: 14px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border: 0.5px solid #e5e5ea; }
-        .item-info { display: flex; flex-direction: column; max-width: 65%; }
-        .item-info strong { font-size: 15px; }
-        .item-info small { color: var(--gray); font-size: 12px; }
 
-        /* Modals & Inputs */
         .sheet { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card); border-radius: 24px 24px 0 0; padding: 25px 25px 40px; z-index: 1000; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.15, 0.85, 0.35, 1); }
         .sheet.active { transform: translateY(0); }
         .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); z-index: 999; display: none; }
-        
         input, select { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #d1d1d6; background: #f2f2f7; font-size: 16px; margin: 8px 0; outline: none; }
         .btn-blue { width: 100%; padding: 16px; background: var(--blue); color: white; border: none; border-radius: 14px; font-weight: 700; font-size: 16px; margin-top: 10px; }
         .btn-outline { width: 100%; padding: 12px; background: none; color: var(--blue); border: 1.5px solid var(--blue); border-radius: 12px; margin-top: 10px; font-weight: 600; }
@@ -84,28 +82,48 @@
                 <div class="stat-card income"><h5>Income</h5><p id="totalIncome" style="color:var(--blue)">$0</p></div>
                 <div class="stat-card saved"><h5>Saved</h5><p id="totalSaved" style="color:var(--green)">$0</p></div>
             </div>
-
             <div class="filter-section">
                 <button class="filter-btn active" id="fAll" onclick="setViewMode('all')">All</button>
                 <button class="filter-btn" id="fCategory" onclick="setViewMode('category')">Category</button>
                 <button class="filter-btn" id="fWeek" onclick="setViewMode('week')">Week</button>
             </div>
-
             <div id="purchaseList" class="list-container"></div>
         </section>
 
-        <section id="trendsView" class="hidden">
-            <div style="padding: 15px">
-                <h2 style="margin:0 0 15px">Trends</h2>
-                <div class="stat-card" style="text-align:left; padding:15px; margin-bottom:15px;">
-                    <h5>Monthly Spending</h5>
-                    <div id="spendingChart" style="display:flex; align-items:flex-end; height:150px; gap:10px; margin-top:10px"></div>
-                </div>
+        <section id="trendsView" class="hidden" style="padding: 0 15px;">
+            <h2 style="margin: 10px 0">Trends</h2>
+            <div class="filter-section" style="padding: 0 0 15px;">
+                <button class="filter-btn active" id="tM" onclick="setTrendScale('M')">Month</button>
+                <button class="filter-btn" id="tY" onclick="setTrendScale('Y')">Year</button>
+            </div>
+
+            <div class="trend-card">
+                <h5>Spending vs Savings</h5>
+                <div id="trendsChart" class="bar-chart"></div>
+            </div>
+
+            <div class="trend-card">
+                <h5>Breakdown by Category</h5>
+                <div id="categoryBreakdown" style="margin-top: 10px"></div>
             </div>
         </section>
     </main>
 
     <div id="overlay" class="overlay" onclick="closeAll()"></div>
+    
+    <div id="settingsSheet" class="sheet">
+        <h3 style="margin:0 0 10px">Settings</h3>
+        <label style="font-size:11px; font-weight:700; color:var(--gray)">BIWEEKLY PAY</label>
+        <input type="number" id="payInput">
+        <label style="font-size:11px; font-weight:700; color:var(--gray)">NEXT PAY DATE</label>
+        <input type="date" id="payDateInput">
+        <button class="btn-blue" onclick="saveSettings()">Save Changes</button>
+        <div style="display:flex; gap:10px">
+            <button class="btn-outline" onclick="exportData()">Export JSON</button>
+            <button class="btn-outline" onclick="document.getElementById('importFile').click()">Import JSON</button>
+        </div>
+        <input type="file" id="importFile" class="hidden" onchange="importData(event)">
+    </div>
 
     <div id="addSheet" class="sheet">
         <h3 id="stepTitle" style="margin:0 0 10px">Amount</h3>
@@ -113,69 +131,28 @@
         <button id="nextBtn" class="btn-blue" onclick="handleNext()">Next</button>
     </div>
 
-    <div id="settingsSheet" class="sheet">
-        <h3 style="margin:0 0 10px">Income Settings</h3>
-        <p style="font-size:12px; color:var(--gray); margin-bottom:10px">Changes only affect this month forward.</p>
-        <input type="number" id="payInput" placeholder="Paycheck Amount">
-        <button class="btn-blue" onclick="saveSettings()">Save Changes</button>
-        <div style="display:flex; gap:10px">
-            <button class="btn-outline" onclick="exportData()">Export</button>
-            <button class="btn-outline" onclick="document.getElementById('importFile').click()">Import</button>
-        </div>
-        <input type="file" id="importFile" class="hidden" onchange="importData(event)">
-    </div>
-
     <nav class="bottom-nav">
         <button class="nav-tab active" id="tabMonth" onclick="switchTab('month')">📅<span>MONTH</span></button>
         <button class="nav-tab" id="tabTrends" onclick="switchTab('trends')">📈<span>TRENDS</span></button>
     </nav>
-
     <button class="fab" onclick="openAdd()">+</button>
 
     <script>
-        let purchases = JSON.parse(localStorage.getItem('b_v10_data') || '[]');
-        let settings = JSON.parse(localStorage.getItem('b_v10_set') || '{"pay": 2285, "history": []}');
-        let viewMode = 'all';
+        const D_KEY = 'budget_v12_p'; const S_KEY = 'budget_v12_s';
+        let purchases = JSON.parse(localStorage.getItem(D_KEY) || '[]');
+        let settings = JSON.parse(localStorage.getItem(S_KEY) || '{"pay":2285,"payDate":"","history":[]}');
+        let viewMode = 'all'; let trendScale = 'M';
 
-        // Logic: Calculate income snapshot for specific month
-        function getIncomeForMonth(monthKey) {
-            const record = settings.history.find(h => h.month === monthKey);
-            return (record ? record.pay : settings.pay) * 2;
-        }
-
-        // Logic: Sunday - Saturday Weeks cut by Month
-        function getWeekRanges(year, month) {
-            let ranges = [];
-            let firstDay = new Date(year, month, 1);
-            let lastDay = new Date(year, month + 1, 0);
-            
-            let currentStart = new Date(firstDay);
-            while (currentStart <= lastDay) {
-                let currentEnd = new Date(currentStart);
-                // 0 is Sunday. Days to next Saturday is (6 - currentDay)
-                let daysToSaturday = 6 - currentStart.getDay();
-                currentEnd.setDate(currentStart.getDate() + daysToSaturday);
-                
-                if (currentEnd > lastDay) currentEnd = new Date(lastDay);
-                
-                ranges.push({
-                    start: new Date(currentStart),
-                    end: new Date(currentEnd),
-                    label: `${currentStart.toLocaleString('default', {month:'short'})} ${currentStart.getDate()} - ${currentEnd.toLocaleString('default', {month:'short'})} ${currentEnd.getDate()}`
-                });
-                
-                currentStart = new Date(currentEnd);
-                currentStart.setDate(currentStart.getDate() + 1);
-            }
-            return ranges;
+        function getIncomeForMonth(mKey) {
+            const h = settings.history.find(x => x.month === mKey);
+            return (h ? h.pay : settings.pay) * 2;
         }
 
         function render() {
             const now = new Date();
-            const monthKey = now.toLocaleString('default', { month: 'short', year: 'numeric' });
-            const income = getIncomeForMonth(monthKey);
+            const mKey = now.toLocaleString('default', { month: 'short', year: 'numeric' });
+            const income = getIncomeForMonth(mKey);
             const query = document.getElementById('searchInput').value.toLowerCase();
-            
             const filtered = purchases.filter(p => p.merchant.toLowerCase().includes(query));
             const spent = filtered.reduce((s, p) => s + Number(p.amount), 0);
             
@@ -195,87 +172,133 @@
                     </div>
                     <div id="cat${idx}" class="accordion-content">
                         ${filtered.filter(p => p.category === n).map(p => itemHtml(p)).join('')}
-                    </div>
-                `).join('');
+                    </div>`).join('');
             } else {
-                const ranges = getWeekRanges(now.getFullYear(), now.getMonth());
-                list.innerHTML = ranges.map((range, idx) => {
-                    const weekItems = filtered.filter(p => {
-                        const d = new Date(p.date);
-                        return d >= range.start && d <= range.end;
-                    });
-                    const total = weekItems.reduce((s, i) => s + Number(i.amount), 0);
-                    return `
-                        <div class="accordion-header" onclick="toggleAccordion('wk${idx}')">
-                            <span class="acc-date">${range.label}</span>
-                            <div class="acc-row"><strong>Week ${idx + 1}</strong><strong>$${total.toFixed(2)}</strong></div>
-                        </div>
-                        <div id="wk${idx}" class="accordion-content">
-                            ${weekItems.map(i => itemHtml(i)).join('')}
-                        </div>
-                    `;
-                }).join('');
+                renderWeeks(filtered);
             }
+        }
+
+        function renderWeeks(filtered) {
+            const now = new Date();
+            let first = new Date(now.getFullYear(), now.getMonth(), 1);
+            let last = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+            let html = ''; let curr = new Date(first); let wkNum = 1;
+            while(curr <= last) {
+                let start = new Date(curr);
+                let end = new Date(curr); end.setDate(start.getDate() + (6 - start.getDay()));
+                if(end > last) end = new Date(last);
+                const items = filtered.filter(p => { const d = new Date(p.date); return d >= start && d <= end; });
+                const total = items.reduce((s,i)=>s+Number(i.amount),0);
+                const label = `${start.toLocaleString('default',{month:'short'})} ${start.getDate()} - ${end.getDate()}`;
+                html += `
+                    <div class="accordion-header" onclick="toggleAccordion('wk${wkNum}')">
+                        <span style="font-size:10px; color:var(--gray); font-weight:700">${label}</span>
+                        <div class="acc-row"><strong>Week ${wkNum}</strong><strong>$${total.toFixed(2)}</strong></div>
+                    </div>
+                    <div id="wk${wkNum}" class="accordion-content">${items.map(i => itemHtml(i)).join('')}</div>`;
+                curr.setDate(end.getDate() + 1); wkNum++;
+            }
+            document.getElementById('purchaseList').innerHTML = html;
+        }
+
+        function renderTrends() {
+            let data = {};
+            purchases.forEach(p => {
+                const d = new Date(p.date);
+                const k = trendScale === 'M' ? d.toLocaleString('default', {month:'short'}) : d.getFullYear();
+                if(!data[k]) data[k] = { s: 0, inc: getIncomeForMonth(d.toLocaleString('default',{month:'short', year:'numeric'})) };
+                data[k].s += Number(p.amount);
+            });
+
+            const keys = Object.keys(data);
+            const max = Math.max(...keys.map(k => Math.max(data[k].s, data[k].inc - data[k].s)), 1);
+            
+            document.getElementById('trendsChart').innerHTML = keys.map(k => {
+                const saved = data[k].inc - data[k].s;
+                return `<div class="bar-group">
+                    <div style="display:flex; align-items:flex-end; gap:2px; height:100px; width:100%">
+                        <div class="bar" style="height:${(data[k].s/max)*100}px; background:var(--red)"></div>
+                        <div class="bar" style="height:${(Math.max(0,saved)/max)*100}px; background:var(--green)"></div>
+                    </div>
+                    <span style="font-size:10px; font-weight:700; margin-top:5px">${k}</span>
+                </div>`;
+            }).join('');
+
+            const cats = purchases.reduce((acc, p) => { acc[p.category] = (acc[p.category]||0) + Number(p.amount); return acc; }, {});
+            document.getElementById('categoryBreakdown').innerHTML = Object.entries(cats).sort((a,b)=>b[1]-a[1]).map(([n,v])=>`
+                <div class="cat-row"><span>${n}</span><strong>$${v.toFixed(2)}</strong></div>`).join('');
         }
 
         function itemHtml(p) {
             return `<div class="item-card">
-                <div class="item-info"><strong>${p.merchant}</strong><small>${p.category}${p.subcategory ? ' - ' + p.subcategory : ''}</small></div>
-                <div class="item-right"><strong>$${Number(p.amount).toFixed(2)}</strong><button style="background:none; border:none; padding:5px" onclick="deleteItem(${p.id})">🗑️</button></div>
+                <div style="display:flex; flex-direction:column"><strong>${p.merchant}</strong><small style="color:var(--gray); font-size:11px">${p.category} ${p.subcategory?'• '+p.subcategory:''}</small></div>
+                <div style="display:flex; align-items:center; gap:8px"><strong>$${Number(p.amount).toFixed(2)}</strong><button style="border:none; background:none" onclick="deleteItem(${p.id})">🗑️</button></div>
             </div>`;
         }
 
-        function setViewMode(mode) {
-            viewMode = mode;
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('f' + mode.charAt(0).toUpperCase() + mode.slice(1)).classList.add('active');
-            render();
-        }
-
+        // Feature Functions
         function saveSettings() {
-            const newPay = Number(document.getElementById('payInput').value);
-            const monthKey = new Date().toLocaleString('default', { month: 'short', year: 'numeric' });
-            settings.history = settings.history.filter(h => h.month !== monthKey);
-            settings.history.push({ month: monthKey, pay: newPay });
-            settings.pay = newPay;
-            localStorage.setItem('b_v10_set', JSON.stringify(settings));
+            const p = Number(document.getElementById('payInput').value);
+            const d = document.getElementById('payDateInput').value;
+            const m = new Date().toLocaleString('default', {month:'short', year:'numeric'});
+            settings.history = settings.history.filter(x => x.month !== m);
+            settings.history.push({month: m, pay: p});
+            settings.pay = p; settings.payDate = d;
+            localStorage.setItem(S_KEY, JSON.stringify(settings));
             closeAll(); render();
         }
 
-        // Standard Utility Functions
+        function exportData() {
+            const blob = new Blob([JSON.stringify({purchases, settings})], {type:'application/json'});
+            const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'budget_backup.json'; a.click();
+        }
+
+        function importData(e) {
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                const data = JSON.parse(ev.target.result);
+                purchases = data.purchases; settings = data.settings;
+                localStorage.setItem(D_KEY, JSON.stringify(purchases));
+                localStorage.setItem(S_KEY, JSON.stringify(settings));
+                render(); alert("Imported!"); closeAll();
+            };
+            reader.readAsText(e.target.files[0]);
+        }
+
+        // Navigation & UI
+        function switchTab(t) {
+            document.getElementById('monthView').classList.toggle('hidden', t!=='month');
+            document.getElementById('trendsView').classList.toggle('hidden', t!=='trends');
+            document.querySelectorAll('.nav-tab').forEach(x => x.classList.remove('active'));
+            document.getElementById('tab' + t.charAt(0).toUpperCase()+t.slice(1)).classList.add('active');
+            if(t==='trends') renderTrends();
+        }
+        function setTrendScale(s) { trendScale = s; document.querySelectorAll('[id^="t"]').forEach(x=>x.classList.remove('active')); document.getElementById('t'+s).classList.add('active'); renderTrends(); }
+        function setViewMode(m) { viewMode = m; document.querySelectorAll('.filter-btn').forEach(x=>x.classList.remove('active')); document.getElementById('f'+m.charAt(0).toUpperCase()+m.slice(1)).classList.add('active'); render(); }
         function toggleSearch() { document.getElementById('searchContainer').classList.toggle('hidden'); }
-        function toggleAccordion(id) { const el = document.getElementById(id); const isOpen = el.classList.contains('open'); document.querySelectorAll('.accordion-content').forEach(c => c.classList.remove('open')); if(!isOpen) el.classList.add('open'); }
-        function openAdd() { currentStep = 0; tempItem = { date: new Date().toISOString().split('T')[0] }; updateStepUI(); document.getElementById('addSheet').classList.add('active'); document.getElementById('overlay').style.display = 'block'; }
-        function openSettings() { document.getElementById('payInput').value = settings.pay; document.getElementById('settingsSheet').classList.add('active'); document.getElementById('overlay').style.display = 'block'; }
-        function closeAll() { document.querySelectorAll('.sheet').forEach(s => s.classList.remove('active')); document.getElementById('overlay').style.display = 'none'; }
-        function switchTab(tab) { document.getElementById('monthView').classList.toggle('hidden', tab !== 'month'); document.getElementById('trendsView').classList.toggle('hidden', tab !== 'trends'); document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active')); document.getElementById('tab' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add('active'); if(tab==='trends') renderTrends(); }
-        
+        function toggleAccordion(id) { const el = document.getElementById(id); const open = el.classList.contains('open'); document.querySelectorAll('.accordion-content').forEach(x=>x.classList.remove('open')); if(!open) el.classList.add('open'); }
+        function openSettings() { document.getElementById('payInput').value = settings.pay; document.getElementById('payDateInput').value = settings.payDate; document.getElementById('settingsSheet').classList.add('active'); document.getElementById('overlay').style.display = 'block'; }
+        function closeAll() { document.querySelectorAll('.sheet').forEach(x=>x.classList.remove('active')); document.getElementById('overlay').style.display='none'; }
+
+        // Transaction Entry Logic
         const steps = ["amount", "merchant", "category", "subcategory", "date"];
         let currentStep = 0; let tempItem = {};
+        function openAdd() { currentStep = 0; tempItem = {date: new Date().toISOString().split('T')[0]}; updateStepUI(); document.getElementById('addSheet').classList.add('active'); document.getElementById('overlay').style.display='block'; }
         function updateStepUI() {
-            const container = document.getElementById('stepContainer');
-            const step = steps[currentStep];
-            document.getElementById('stepTitle').innerText = step.toUpperCase();
-            if(step === 'amount') container.innerHTML = `<input type="number" id="stepInput" placeholder="0.00" autofocus inputmode="decimal">`;
-            else if(step === 'merchant') container.innerHTML = `<input type="text" id="stepInput" placeholder="Store Name">`;
-            else if(step === 'category') container.innerHTML = `<select id="stepInput"><option>Food</option><option>Groceries</option><option>Leisure</option><option>Bills</option></select>`;
-            else if(step === 'subcategory') container.innerHTML = `<input type="text" id="stepInput" placeholder="Extra Info (Optional)">`;
-            else container.innerHTML = `<input type="date" id="stepInput" value="${tempItem.date}">`;
+            const c = document.getElementById('stepContainer'); const s = steps[currentStep];
+            document.getElementById('stepTitle').innerText = s.toUpperCase();
+            if(s==='amount') c.innerHTML = `<input type="number" id="stepInput" placeholder="0.00" autofocus inputmode="decimal">`;
+            else if(s==='merchant') c.innerHTML = `<input type="text" id="stepInput" placeholder="Store Name">`;
+            else if(s==='category') c.innerHTML = `<select id="stepInput"><option>Food</option><option>Groceries</option><option>Leisure</option><option>Bills</option></select>`;
+            else if(s==='subcategory') c.innerHTML = `<input type="text" id="stepInput" placeholder="Context (Optional)">`;
+            else c.innerHTML = `<input type="date" id="stepInput" value="${tempItem.date}">`;
         }
-        function handleNext() { const val = document.getElementById('stepInput').value; tempItem[steps[currentStep]] = val; if(currentStep < 4) { currentStep++; updateStepUI(); } else { purchases.push({...tempItem, id: Date.now()}); save(); closeAll(); } }
-        function save() { localStorage.setItem('b_v10_data', JSON.stringify(purchases)); render(); }
-        function deleteItem(id) { if(confirm("Delete?")) { purchases = purchases.filter(p => p.id !== id); save(); } }
-
-        function renderTrends() {
-            let data = {};
-            purchases.forEach(p => { const k = new Date(p.date).toLocaleString('default', {month:'short'}); data[k] = (data[k]||0) + Number(p.amount); });
-            const max = Math.max(...Object.values(data), 1);
-            document.getElementById('spendingChart').innerHTML = Object.entries(data).map(([k,v]) => `
-                <div style="flex:1; display:flex; flex-direction:column; align-items:center;">
-                    <div style="width:30px; background:var(--blue); border-radius:5px 5px 0 0; height:${(v/max)*100}px"></div>
-                    <span style="font-size:10px; font-weight:700; margin-top:5px">${k}</span>
-                </div>`).join('');
+        function handleNext() {
+            tempItem[steps[currentStep]] = document.getElementById('stepInput').value;
+            if(currentStep < 4) { currentStep++; updateStepUI(); }
+            else { purchases.push({...tempItem, id: Date.now()}); localStorage.setItem(D_KEY, JSON.stringify(purchases)); render(); closeAll(); }
         }
+        function deleteItem(id) { if(confirm("Delete?")) { purchases = purchases.filter(x=>x.id!==id); localStorage.setItem(D_KEY, JSON.stringify(purchases)); render(); if(!document.getElementById('trendsView').classList.contains('hidden')) renderTrends(); } }
 
         render();
     </script>
