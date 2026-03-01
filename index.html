@@ -15,26 +15,29 @@
         body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); padding-bottom: 120px; }
 
 ```
-    /* ── iOS-safe header ── */
+    /* ── Header: CSS Grid so iOS Safari can't collapse it ── */
     .header {
-        padding: 12px 16px 8px;
-        /* safe area inset for notch phones */
+        display: grid;
+        grid-template-columns: 38px 1fr 38px;
+        align-items: center;
+        column-gap: 10px;
+        padding: 12px 16px 10px;
         padding-top: max(12px, env(safe-area-inset-top));
-        display: flex; align-items: center; justify-content: space-between;
-        position: sticky; top: 0; background: var(--bg); z-index: 10;
+        position: sticky; top: 0;
+        background: var(--bg); z-index: 10;
     }
     .header-btn {
         width: 38px; height: 38px; border-radius: 19px;
         background: var(--card); border: none;
         font-size: 18px; display: flex; align-items: center; justify-content: center;
-        box-shadow: var(--shadow); flex-shrink: 0;
-        cursor: pointer;
+        box-shadow: var(--shadow); cursor: pointer;
+        /* prevent shrinking */
+        flex-shrink: 0; -webkit-flex-shrink: 0;
     }
-    /* month label centred between the two buttons */
     .header-month {
-        flex: 1; text-align: center;
+        text-align: center;
         font-size: 15px; font-weight: 700; color: var(--text);
-        letter-spacing: -0.2px;
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
 
     /* ── Search bar ── */
@@ -42,9 +45,7 @@
     .search-input { width: 100%; padding: 12px 40px 12px 16px; border-radius: 12px; border: 1px solid #d1d1d6; background: var(--card); font-size: 16px; outline: none; }
     .clear-btn { position: absolute; right: 26px; top: 12px; font-size: 18px; color: var(--gray); border: none; background: none; display: none; cursor: pointer; }
 
-    /* ═══════════════════════════════════════
-       HERO SAVINGS CARD — hybrid A×B
-    ═══════════════════════════════════════ */
+    /* ── Hero savings card ── */
     .hero-card {
         margin: 0 16px 16px;
         border-radius: 24px;
@@ -67,9 +68,9 @@
     .hero-bar-labels { display: flex; justify-content: space-between; margin-bottom: 14px; }
     .hero-bar-labels span { font-size: 10px; font-weight: 600; opacity: 0.7; }
     .hero-pills { display: flex; gap: 8px; }
-    .hero-pill { flex: 1; background: rgba(255,255,255,0.15); border-radius: 12px; padding: 8px 10px; text-align: center; backdrop-filter: blur(4px); }
+    .hero-pill { flex: 1; background: rgba(255,255,255,0.15); border-radius: 12px; padding: 8px 6px; text-align: center; backdrop-filter: blur(4px); }
     .hero-pill h5 { font-size: 9px; font-weight: 700; opacity: 0.75; text-transform: uppercase; margin-bottom: 3px; letter-spacing: 0.3px; }
-    .hero-pill p  { font-size: 13px; font-weight: 800; }
+    .hero-pill p  { font-size: 12px; font-weight: 800; }
 
     /* ── Filter tabs ── */
     .filter-section { padding: 0 16px 14px; display: flex; gap: 8px; }
@@ -138,7 +139,7 @@
 <body>
 
 ```
-<!-- ── Header ── -->
+<!-- ── Header: 3-column grid ── -->
 <header class="header">
     <button class="header-btn" onclick="toggleSearch()">🔍</button>
     <span class="header-month" id="headerMonth"></span>
@@ -153,8 +154,6 @@
 <main>
     <!-- ── Month view ── -->
     <section id="monthView">
-
-        <!-- Hero savings card -->
         <div class="hero-card" id="heroCard">
             <div class="hero-top">
                 <div>
@@ -327,12 +326,11 @@
         if (added) localStorage.setItem('bp_purchases', JSON.stringify(purchases));
     }
 
-    // ── Hero card render ──────────────────────────────────────────────────────
+    // ── Hero card ─────────────────────────────────────────────────────────────
 
     function renderHero(spent, inc, monthKey) {
-        const now   = new Date();
-        const saved = inc - spent;
-        const pct   = inc > 0 ? Math.min(100, Math.max(0, (saved / inc) * 100)) : 0;
+        const saved    = inc - spent;
+        const pct      = inc > 0 ? Math.min(100, Math.max(0, (saved / inc) * 100)) : 0;
         const spendPct = inc > 0 ? Math.min(100, (spent / inc) * 100) : 0;
 
         document.getElementById('heroMonth').textContent     = monthKey;
@@ -343,16 +341,18 @@
         document.getElementById('heroIncome').textContent    = `$${inc.toLocaleString()}`;
         document.getElementById('heroSpent').textContent     = `$${spent.toFixed(2)}`;
         document.getElementById('heroRemaining').textContent = `$${saved.toFixed(2)}`;
-        document.getElementById('headerMonth').textContent   = now.toLocaleString('default', { month:'long' });
 
-        // Turn bar/badge red when overspent
-        const fill = document.getElementById('heroBar');
+        const now = new Date();
+        document.getElementById('headerMonth').textContent = now.toLocaleString('default', { month: 'long' });
+
+        const fill  = document.getElementById('heroBar');
+        const badge = document.getElementById('heroRate');
         if (saved < 0) {
-            fill.style.background = 'linear-gradient(90deg, rgba(255,255,255,0.85), #ff3b30)';
-            document.getElementById('heroRate').style.background = 'rgba(255,59,48,0.25)';
+            fill.style.background  = 'linear-gradient(90deg, rgba(255,255,255,0.85), #ff3b30)';
+            badge.style.background = 'rgba(255,59,48,0.25)';
         } else {
-            fill.style.background = 'linear-gradient(90deg, rgba(255,255,255,0.85), #30d158)';
-            document.getElementById('heroRate').style.background = 'rgba(255,255,255,0.2)';
+            fill.style.background  = 'linear-gradient(90deg, rgba(255,255,255,0.85), #30d158)';
+            badge.style.background = 'rgba(255,255,255,0.2)';
         }
     }
 
@@ -385,16 +385,16 @@
             const lastMonthKey  = getMonthKey(`${lastMonthDate.getFullYear()}-${String(lastMonthDate.getMonth()+1).padStart(2,'0')}-01`);
             const lastCats = purchases.filter(p => getMonthKey(p.date) === lastMonthKey)
                 .reduce((acc,p) => { acc[p.category]=(acc[p.category]||0)+Number(p.amount); return acc; }, {});
-
             const cats = sorted.reduce((acc,p) => { acc[p.category]=(acc[p.category]||0)+Number(p.amount); return acc; }, {});
+
             list.innerHTML = Object.entries(cats).sort((a,b)=>b[1]-a[1]).map(([n,amt],idx) => {
                 const last = lastCats[n]||0;
                 const diff = amt - last;
                 let momHtml = '';
-                if (last===0) momHtml = `<span class="mom-badge mom-flat">New</span>`;
-                else if (Math.abs(diff)<0.01) momHtml = `<span class="mom-badge mom-flat">= same</span>`;
-                else if (diff>0) momHtml = `<span class="mom-badge mom-up">↑ $${diff.toFixed(2)}</span>`;
-                else momHtml = `<span class="mom-badge mom-down">↓ $${Math.abs(diff).toFixed(2)}</span>`;
+                if      (last===0)             momHtml = `<span class="mom-badge mom-flat">New</span>`;
+                else if (Math.abs(diff)<0.01)  momHtml = `<span class="mom-badge mom-flat">= same</span>`;
+                else if (diff>0)               momHtml = `<span class="mom-badge mom-up">↑ $${diff.toFixed(2)}</span>`;
+                else                           momHtml = `<span class="mom-badge mom-down">↓ $${Math.abs(diff).toFixed(2)}</span>`;
                 return `
                     <div class="accordion-header" style="margin-bottom:8px" onclick="toggleAcc('cat${idx}')">
                         <div class="acc-row">
@@ -491,8 +491,8 @@
         });
         const sMax = Math.max(...Object.values(sData),1);
         const makeChart = isSavings => keys.map(k => {
-            const spent = sData[k];
-            const imk   = trendScale==='M' ? abbrevMonthToKey(...k.split('|').map((v,i)=>i?Number(v):v)) : getMonthKey(todayStr());
+            const spent  = sData[k];
+            const imk    = trendScale==='M' ? abbrevMonthToKey(k.split('|')[0], Number(k.split('|')[1])) : getMonthKey(todayStr());
             const income = isSavings ? getInc(imk) : 0;
             const val    = isSavings ? Math.max(0, income-spent) : spent;
             const h      = (val / (isSavings ? (income||5000) : sMax)) * 130;
@@ -506,12 +506,11 @@
         document.getElementById('spendingChart').innerHTML = makeChart(false);
         document.getElementById('savingsChart').innerHTML  = makeChart(true);
 
-        // 3-month average
         const avg3 = computeCategoryThreeMonthAvg();
         const breakdown = Object.entries(cData).sort((a,b)=>b[1]-a[1]);
         document.getElementById('categoryBreakdown').innerHTML = breakdown.map(([n,t]) => {
-            const avg = avg3[n];
-            const avgHtml = avg!==undefined
+            const avg     = avg3[n];
+            const avgHtml = avg !== undefined
                 ? `<span style="color:var(--gray);font-weight:600;text-align:right;padding-right:16px">$${avg.toFixed(2)}</span>`
                 : `<span style="color:var(--gray);font-weight:600;text-align:right;padding-right:16px">—</span>`;
             return `<div style="display:grid;grid-template-columns:1fr auto auto;align-items:center;padding:12px 0;border-bottom:0.5px solid #eee">
@@ -623,12 +622,12 @@
         document.getElementById('stepTitle').innerText = step==='recurring' ? 'RECURRING?' : step.toUpperCase();
         document.getElementById('nextBtn').innerText   = currentStep===steps.length-1 ? 'Save' : 'Next';
 
-        if      (step==='amount')    container.innerHTML = `<input type="number" id="stepInput" placeholder="0.00" autofocus inputmode="decimal">`;
-        else if (step==='merchant')  container.innerHTML = `<input type="text" id="stepInput" placeholder="Store name">`;
-        else if (step==='category')  container.innerHTML = `<select id="stepInput"><option>Food</option><option>Groceries</option><option>Leisure</option><option>Bills</option><option>Travel</option></select>`;
+        if      (step==='amount')      container.innerHTML = `<input type="number" id="stepInput" placeholder="0.00" autofocus inputmode="decimal">`;
+        else if (step==='merchant')    container.innerHTML = `<input type="text" id="stepInput" placeholder="Store name">`;
+        else if (step==='category')    container.innerHTML = `<select id="stepInput"><option>Food</option><option>Groceries</option><option>Leisure</option><option>Bills</option><option>Travel</option></select>`;
         else if (step==='subcategory') container.innerHTML = `<input type="text" id="stepInput" placeholder="Optional context">`;
-        else if (step==='date')      container.innerHTML = `<input type="date" id="stepInput" value="${tempItem.date}">`;
-        else if (step==='recurring') container.innerHTML = `
+        else if (step==='date')        container.innerHTML = `<input type="date" id="stepInput" value="${tempItem.date}">`;
+        else if (step==='recurring')   container.innerHTML = `
             <p style="color:var(--gray);font-size:13px;margin:0 0 12px">Does this repeat every month?<br><small>(e.g. rent, subscriptions, gym)</small></p>
             <div class="recur-row">
                 <button class="recur-btn ${recurringSelection===true?'selected':''}"  onclick="selectRecurring(true)">🔁 Yes, monthly</button>
