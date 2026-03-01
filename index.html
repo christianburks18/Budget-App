@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -12,381 +13,719 @@
         }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 120px; }
-        
-        /* Header & Search */
-        .header { padding: 20px 15px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; background: var(--bg); z-index: 10; gap: 8px; }
-        .banner { background: var(--card); padding: 12px 15px; border-radius: 20px; box-shadow: var(--shadow); flex: 1; text-align: center; font-weight: 700; font-size: 13px; }
-        .banner b { color: var(--green); }
-        
-        .search-box { position: relative; padding: 0 15px 15px; }
-        .search-input { width: 100%; padding: 12px 40px 12px 16px; border-radius: 12px; border: 1px solid #d1d1d6; background: var(--card); font-size: 16px; outline: none; }
-        .clear-btn { position: absolute; right: 25px; top: 12px; font-size: 18px; color: var(--gray); border: none; background: none; display: none; }
 
-        /* Stats & Tabs */
-        .summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 15px 20px; }
-        .stat-card { background: var(--card); padding: 15px 5px; border-radius: 18px; text-align: center; box-shadow: var(--shadow); }
-        .stat-card h5 { margin: 0; color: var(--gray); font-size: 10px; text-transform: uppercase; }
-        .stat-card p { margin: 5px 0 0; font-size: 14px; font-weight: 800; }
+```
+    /* Header & Search */
+    .header { padding: 20px 15px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; background: var(--bg); z-index: 10; gap: 8px; }
+    .banner { background: var(--card); padding: 12px 15px; border-radius: 20px; box-shadow: var(--shadow); flex: 1; text-align: center; font-weight: 700; font-size: 13px; }
+    .banner b { color: var(--green); }
+    
+    .search-box { position: relative; padding: 0 15px 15px; }
+    .search-input { width: 100%; padding: 12px 40px 12px 16px; border-radius: 12px; border: 1px solid #d1d1d6; background: var(--card); font-size: 16px; outline: none; }
+    .clear-btn { position: absolute; right: 25px; top: 12px; font-size: 18px; color: var(--gray); border: none; background: none; display: none; }
 
-        .filter-section { padding: 0 15px 15px; display: flex; gap: 8px; }
-        .filter-btn { flex: 1; padding: 12px; border-radius: 12px; border: none; background: #e3e3e8; font-weight: 700; font-size: 13px; }
-        .filter-btn.active { background: var(--blue); color: white; }
+    /* Stats & Tabs */
+    .summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 15px 20px; }
+    .stat-card { background: var(--card); padding: 15px 5px; border-radius: 18px; text-align: center; box-shadow: var(--shadow); }
+    .stat-card h5 { margin: 0; color: var(--gray); font-size: 10px; text-transform: uppercase; }
+    .stat-card p { margin: 5px 0 0; font-size: 14px; font-weight: 800; }
 
-        /* Purchase Logs */
-        .item-card { background: var(--card); padding: 16px; border-radius: 18px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; box-shadow: var(--shadow); }
-        .item-main { display: flex; flex-direction: column; }
-        .item-date { font-size: 10px; color: var(--blue); font-weight: 700; text-transform: uppercase; margin-bottom: 2px; }
-        .item-sub { font-size: 12px; color: var(--gray); }
+    .filter-section { padding: 0 15px 15px; display: flex; gap: 8px; }
+    .filter-btn { flex: 1; padding: 12px; border-radius: 12px; border: none; background: #e3e3e8; font-weight: 700; font-size: 13px; }
+    .filter-btn.active { background: var(--blue); color: white; }
 
-        /* Archive Accordions */
-        .archive-group { margin-bottom: 12px; }
-        .accordion-header { background: var(--card); padding: 18px; border-radius: 18px; display: flex; flex-direction: column; align-items: flex-start; box-shadow: var(--shadow); cursor: pointer; position: relative; }
-        .acc-meta { font-size: 10px; color: var(--gray); font-weight: 700; text-transform: uppercase; margin-bottom: 4px; }
-        .acc-row { display: flex; justify-content: space-between; width: 100%; align-items: center; }
-        .accordion-content { overflow: hidden; max-height: 0; transition: max-height 0.3s ease; padding: 0 5px; }
-        .accordion-content.open { max-height: 5000px; padding-top: 10px; }
+    /* Purchase Logs */
+    .item-card { background: var(--card); padding: 16px; border-radius: 18px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; box-shadow: var(--shadow); }
+    .item-main { display: flex; flex-direction: column; }
+    .item-date { font-size: 10px; color: var(--blue); font-weight: 700; text-transform: uppercase; margin-bottom: 2px; }
+    .item-sub { font-size: 12px; color: var(--gray); }
 
-        /* Trends Chart Styles */
-        .chart-container { background: var(--card); border-radius: 20px; padding: 20px; margin-bottom: 15px; box-shadow: var(--shadow); }
-        .chart-title { font-size: 14px; font-weight: 700; margin-bottom: 15px; color: var(--text); }
-        .bar-chart { display: flex; align-items: flex-end; justify-content: space-around; height: 160px; padding-bottom: 25px; border-bottom: 1px solid #eee; gap: 8px; position: relative; }
+    /* Recurring badge on item cards */
+    .recurring-badge { font-size: 9px; font-weight: 700; color: var(--blue); background: #e8f0fe; border-radius: 6px; padding: 2px 6px; display: inline-block; margin-top: 3px; width: fit-content; }
 
-        /* Settings Sheet */
-        .sheet { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card); border-radius: 24px 24px 0 0; padding: 25px 25px 40px; z-index: 1000; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.15, 0.85, 0.35, 1); box-shadow: 0 -5px 20px rgba(0,0,0,0.1); }
-        .sheet.active { transform: translateY(0); }
-        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); z-index: 999; display: none; }
-        .input-group { margin-bottom: 20px; }
-        .input-label { font-size: 11px; color: var(--gray); font-weight: 700; text-transform: uppercase; margin-bottom: 8px; display: block; }
-        input, select { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #d1d1d6; background: #f2f2f7; font-size: 16px; outline: none; }
+    /* Month-over-month badge in category view */
+    .mom-badge { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 8px; white-space: nowrap; }
+    .mom-up   { color: var(--red);   background: #fff0ef; }
+    .mom-down { color: var(--green); background: #edfaf1; }
+    .mom-flat { color: var(--gray);  background: #f2f2f7; }
 
-        /* Nav & FAB */
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); display: flex; padding: 10px 0 35px; border-top: 0.5px solid #d1d1d6; z-index: 100; }
-        .nav-tab { flex: 1; border: none; background: none; display: flex; flex-direction: column; align-items: center; color: var(--gray); font-size: 10px; font-weight: 700; gap: 4px; }
-        .nav-tab.active { color: var(--blue); }
-        .fab { position: fixed; bottom: 110px; right: 20px; width: 56px; height: 56px; border-radius: 28px; background: var(--blue); color: white; border: none; font-size: 28px; box-shadow: 0 8px 20px rgba(0,122,255,0.4); z-index: 90; }
-        .hidden { display: none !important; }
-    </style>
+    /* Archive Accordions */
+    .archive-group { margin-bottom: 12px; }
+    .accordion-header { background: var(--card); padding: 18px; border-radius: 18px; display: flex; flex-direction: column; align-items: flex-start; box-shadow: var(--shadow); cursor: pointer; position: relative; }
+    .acc-meta { font-size: 10px; color: var(--gray); font-weight: 700; text-transform: uppercase; margin-bottom: 4px; }
+    .acc-row { display: flex; justify-content: space-between; width: 100%; align-items: center; }
+    .accordion-content { overflow: hidden; max-height: 0; transition: max-height 0.3s ease; padding: 0 5px; }
+    .accordion-content.open { max-height: 5000px; padding-top: 10px; }
+
+    /* Trends Chart Styles */
+    .chart-container { background: var(--card); border-radius: 20px; padding: 20px; margin-bottom: 15px; box-shadow: var(--shadow); }
+    .chart-title { font-size: 14px; font-weight: 700; margin-bottom: 15px; color: var(--text); }
+    .bar-chart { display: flex; align-items: flex-end; justify-content: space-around; height: 160px; padding-bottom: 25px; border-bottom: 1px solid #eee; gap: 8px; position: relative; }
+
+    /* Settings Sheet */
+    .sheet { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card); border-radius: 24px 24px 0 0; padding: 25px 25px 40px; z-index: 1000; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.15, 0.85, 0.35, 1); box-shadow: 0 -5px 20px rgba(0,0,0,0.1); }
+    .sheet.active { transform: translateY(0); }
+    .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); z-index: 999; display: none; }
+    .input-group { margin-bottom: 20px; }
+    .input-label { font-size: 11px; color: var(--gray); font-weight: 700; text-transform: uppercase; margin-bottom: 8px; display: block; }
+    input, select { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #d1d1d6; background: #f2f2f7; font-size: 16px; outline: none; }
+
+    /* Recurring Yes/No toggle in add flow */
+    .recur-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px; }
+    .recur-btn { padding: 18px; border-radius: 14px; border: 2px solid #d1d1d6; background: #f2f2f7; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+    .recur-btn.selected { border-color: var(--blue); background: #e8f0fe; color: var(--blue); }
+
+    /* Nav & FAB */
+    .bottom-nav { position: fixed; bottom: 0; width: 100%; background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); display: flex; padding: 10px 0 35px; border-top: 0.5px solid #d1d1d6; z-index: 100; }
+    .nav-tab { flex: 1; border: none; background: none; display: flex; flex-direction: column; align-items: center; color: var(--gray); font-size: 10px; font-weight: 700; gap: 4px; }
+    .nav-tab.active { color: var(--blue); }
+    .fab { position: fixed; bottom: 110px; right: 20px; width: 56px; height: 56px; border-radius: 28px; background: var(--blue); color: white; border: none; font-size: 28px; box-shadow: 0 8px 20px rgba(0,122,255,0.4); z-index: 90; }
+    .hidden { display: none !important; }
+
+    /* Archive export button */
+    .export-month-btn { font-size: 11px; font-weight: 700; color: var(--blue); background: none; border: 1px solid var(--blue); border-radius: 8px; padding: 4px 10px; cursor: pointer; white-space: nowrap; }
+</style>
+```
+
 </head>
 <body>
 
-    <header class="header">
-        <button style="background:none; border:none; font-size:22px;" onclick="toggleSearch()">🔍</button>
-        <div class="banner" id="savingsBanner"></div>
-        <button style="background:none; border:none; font-size:22px;" onclick="openSettings()">⚙️</button>
-    </header>
+```
+<header class="header">
+    <button style="background:none; border:none; font-size:22px;" onclick="toggleSearch()">🔍</button>
+    <div class="banner" id="savingsBanner"></div>
+    <button style="background:none; border:none; font-size:22px;" onclick="openSettings()">⚙️</button>
+</header>
 
-    <div id="searchContainer" class="search-box hidden">
-        <input type="text" id="searchInput" class="search-input" placeholder="Search by merchant..." oninput="handleSearchInput()">
-        <button id="clearSearch" class="clear-btn" onclick="clearSearch()">✕</button>
-    </div>
+<div id="searchContainer" class="search-box hidden">
+    <input type="text" id="searchInput" class="search-input" placeholder="Search merchant, category..." oninput="handleSearchInput()">
+    <button id="clearSearch" class="clear-btn" onclick="clearSearch()">✕</button>
+</div>
 
-    <main id="mainContent">
-        <section id="monthView">
-            <div class="summary-grid">
-                <div class="stat-card" style="border-bottom:3px solid var(--red)"><h5>Spent</h5><p id="totalSpent" style="color:var(--red)">$0</p></div>
-                <div class="stat-card" style="border-bottom:3px solid var(--blue)"><h5>Income</h5><p id="totalIncome" style="color:var(--blue)">$0</p></div>
-                <div class="stat-card" style="border-bottom:3px solid var(--green)"><h5>Saved</h5><p id="totalSaved" style="color:var(--green)">$0</p></div>
-            </div>
-            <div class="filter-section">
-                <button class="filter-btn active" id="fAll" onclick="setViewMode('all')">All</button>
-                <button class="filter-btn" id="fCategory" onclick="setViewMode('category')">Category</button>
-                <button class="filter-btn" id="fWeek" onclick="setViewMode('week')">Week</button>
-            </div>
-            <div id="purchaseList" style="padding: 0 15px"></div>
-        </section>
-
-        <section id="trendsView" class="hidden" style="padding: 0 15px">
-            <h2 style="margin: 10px 0 20px">Trends</h2>
-            <div class="filter-section" style="padding: 0 0 20px">
-                <button class="filter-btn active" id="tM" onclick="setTrendScale('M')">Month</button>
-                <button class="filter-btn" id="tY" onclick="setTrendScale('Y')">Year</button>
-            </div>
-            <div class="chart-container">
-                <div class="chart-title">Spending History</div>
-                <div id="spendingChart" class="bar-chart"></div>
-            </div>
-            <div class="chart-container">
-                <div class="chart-title">Savings History</div>
-                <div id="savingsChart" class="bar-chart"></div>
-            </div>
-            <div class="chart-container">
-                <div class="chart-title">Top Categories (This Month)</div>
-                <div id="categoryBreakdown"></div>
-            </div>
-        </section>
-
-        <section id="archiveView" class="hidden" style="padding: 0 15px">
-            <h2 style="margin: 10px 0 20px">Archive</h2>
-            <div id="archiveList"></div>
-        </section>
-    </main>
-
-    <div id="overlay" class="overlay" onclick="closeAll()"></div>
-
-    <div id="settingsSheet" class="sheet">
-        <h3 style="margin:0 0 25px">Settings</h3>
-        <div class="input-group">
-            <label class="input-label">Biweekly Paycheck ($)</label>
-            <input type="number" id="payInput" placeholder="e.g. 2285">
+<main id="mainContent">
+    <section id="monthView">
+        <div class="summary-grid">
+            <div class="stat-card" style="border-bottom:3px solid var(--red)"><h5>Spent</h5><p id="totalSpent" style="color:var(--red)">$0</p></div>
+            <div class="stat-card" style="border-bottom:3px solid var(--blue)"><h5>Income</h5><p id="totalIncome" style="color:var(--blue)">$0</p></div>
+            <div class="stat-card" style="border-bottom:3px solid var(--green)"><h5>Saved</h5><p id="totalSaved" style="color:var(--green)">$0</p></div>
         </div>
-        <div class="input-group">
-            <label class="input-label">Pay Period Start Date</label>
-            <input type="date" id="payDateInput">
+        <div class="filter-section">
+            <button class="filter-btn active" id="fAll" onclick="setViewMode('all')">All</button>
+            <button class="filter-btn" id="fCategory" onclick="setViewMode('category')">Category</button>
+            <button class="filter-btn" id="fWeek" onclick="setViewMode('week')">Week</button>
         </div>
-        <button style="width:100%; padding:16px; background:var(--blue); color:white; border:none; border-radius:14px; font-weight:700; font-size:16px" onclick="saveSettings()">Save Changes</button>
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:15px">
-            <button style="padding:12px; background:#e3e3e8; border:none; border-radius:12px; font-weight:600; font-size:13px" onclick="exportData()">Export JSON</button>
-            <button style="padding:12px; background:#e3e3e8; border:none; border-radius:12px; font-weight:600; font-size:13px" onclick="document.getElementById('importFile').click()">Import JSON</button>
+        <div id="purchaseList" style="padding: 0 15px"></div>
+    </section>
+
+    <section id="trendsView" class="hidden" style="padding: 0 15px">
+        <h2 style="margin: 10px 0 20px">Trends</h2>
+        <div class="filter-section" style="padding: 0 0 20px">
+            <button class="filter-btn active" id="tM" onclick="setTrendScale('M')">Month</button>
+            <button class="filter-btn" id="tY" onclick="setTrendScale('Y')">Year</button>
         </div>
-        <input type="file" id="importFile" class="hidden" onchange="importData(event)">
+        <div class="chart-container">
+            <div class="chart-title">Spending History</div>
+            <div id="spendingChart" class="bar-chart"></div>
+        </div>
+        <div class="chart-container">
+            <div class="chart-title">Savings History</div>
+            <div id="savingsChart" class="bar-chart"></div>
+        </div>
+        <div class="chart-container">
+            <!-- Category breakdown: yearly totals + 3-month average -->
+            <div class="chart-title">Top Categories (This Year)</div>
+            <div style="display:grid; grid-template-columns:1fr auto auto; gap:0; padding-bottom:8px; border-bottom:0.5px solid #eee; margin-bottom:4px;">
+                <span style="font-size:10px; color:var(--gray); font-weight:700; text-transform:uppercase;">Category</span>
+                <span style="font-size:10px; color:var(--gray); font-weight:700; text-transform:uppercase; text-align:right; padding-right:16px;">3-mo avg</span>
+                <span style="font-size:10px; color:var(--gray); font-weight:700; text-transform:uppercase; text-align:right;">This Year</span>
+            </div>
+            <div id="categoryBreakdown"></div>
+        </div>
+    </section>
+
+    <section id="archiveView" class="hidden" style="padding: 0 15px">
+        <h2 style="margin: 10px 0 20px">Archive</h2>
+        <div id="archiveList"></div>
+    </section>
+</main>
+
+<div id="overlay" class="overlay" onclick="closeAll()"></div>
+
+<div id="settingsSheet" class="sheet">
+    <h3 style="margin:0 0 25px">Settings</h3>
+    <div class="input-group">
+        <label class="input-label">Biweekly Paycheck ($)</label>
+        <input type="number" id="payInput" placeholder="e.g. 2285">
     </div>
-
-    <div id="addSheet" class="sheet">
-        <h3 id="stepTitle" style="margin:0 0 15px">Amount</h3>
-        <div id="stepContainer"></div>
-        <button style="width:100%; padding:16px; background:var(--blue); color:white; border:none; border-radius:14px; font-weight:700; margin-top:15px" onclick="handleNext()">Next</button>
+    <div class="input-group">
+        <label class="input-label">Pay Period Start Date</label>
+        <input type="date" id="payDateInput">
     </div>
+    <button style="width:100%; padding:16px; background:var(--blue); color:white; border:none; border-radius:14px; font-weight:700; font-size:16px" onclick="saveSettings()">Save Changes</button>
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:15px">
+        <button style="padding:12px; background:#e3e3e8; border:none; border-radius:12px; font-weight:600; font-size:13px" onclick="exportData()">Export JSON</button>
+        <button style="padding:12px; background:#e3e3e8; border:none; border-radius:12px; font-weight:600; font-size:13px" onclick="document.getElementById('importFile').click()">Import JSON</button>
+    </div>
+    <input type="file" id="importFile" class="hidden" onchange="importData(event)">
+</div>
 
-    <nav class="bottom-nav">
-        <button class="nav-tab active" id="tabMonth" onclick="switchTab('month')">📅<span>MONTH</span></button>
-        <button class="nav-tab" id="tabTrends" onclick="switchTab('trends')">📈<span>TRENDS</span></button>
-        <button class="nav-tab" id="tabArchive" onclick="switchTab('archive')">📂<span>ARCHIVE</span></button>
-    </nav>
+<div id="addSheet" class="sheet">
+    <h3 id="stepTitle" style="margin:0 0 15px">Amount</h3>
+    <div id="stepContainer"></div>
+    <button id="nextBtn" style="width:100%; padding:16px; background:var(--blue); color:white; border:none; border-radius:14px; font-weight:700; margin-top:15px" onclick="handleNext()">Next</button>
+</div>
 
-    <button class="fab" onclick="openAdd()">+</button>
+<nav class="bottom-nav">
+    <button class="nav-tab active" id="tabMonth" onclick="switchTab('month')">📅<span>MONTH</span></button>
+    <button class="nav-tab" id="tabTrends" onclick="switchTab('trends')">📈<span>TRENDS</span></button>
+    <button class="nav-tab" id="tabArchive" onclick="switchTab('archive')">📂<span>ARCHIVE</span></button>
+</nav>
 
-    <script>
-        let purchases = JSON.parse(localStorage.getItem('bp_purchases') || '[]');
-        let settings = JSON.parse(localStorage.getItem('bp_settings') || '{"pay": 2285, "payDate": "", "history": []}');
-        let viewMode = 'all';
-        let trendScale = 'M';
+<button class="fab" onclick="openAdd()">+</button>
 
-        function getMonthKey(date) {
-            return new Date(date).toLocaleString('default', { month: 'long', year: 'numeric' });
-        }
+<script>
+    let purchases = JSON.parse(localStorage.getItem('bp_purchases') || '[]');
+    let settings = JSON.parse(localStorage.getItem('bp_settings') || '{"pay": 2285, "payDate": "", "history": []}');
+    let viewMode = 'all';
+    let trendScale = 'M';
 
-        function getInc(monthKey) {
-            const h = settings.history.find(r => r.month === monthKey);
-            return (h ? h.pay : settings.pay) * 2;
-        }
+    const MONTH_ORDER = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-        function render() {
-            const now = new Date();
-            const currentMonthKey = getMonthKey(now);
-            const inc = getInc(currentMonthKey);
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            
-            const currentMonthPurchases = purchases.filter(p => getMonthKey(p.date) === currentMonthKey);
-            const filtered = currentMonthPurchases.filter(p => p.merchant.toLowerCase().includes(query));
-            const spent = filtered.reduce((s, p) => s + Number(p.amount), 0);
-            
-            document.getElementById('savingsBanner').innerHTML = `${now.toLocaleString('default', {month:'long'})} Savings: <b>$${(inc - spent).toFixed(2)}</b>`;
-            document.getElementById('totalSpent').innerText = `$${spent.toFixed(2)}`;
-            document.getElementById('totalIncome').innerText = `$${inc}`;
-            document.getElementById('totalSaved').innerText = `$${(inc - spent).toFixed(2)}`;
+    // ─── DATE HELPERS ────────────────────────────────────────────────────────────
 
-            const list = document.getElementById('purchaseList');
-            const sorted = filtered.slice().sort((a,b) => new Date(b.date) - new Date(a.date));
+    // Parse YYYY-MM-DD as a local date (avoids UTC midnight → previous-day shift)
+    function parseLocalDate(dateStr) {
+        const [year, month, day] = String(dateStr).split('T')[0].split('-').map(Number);
+        return new Date(year, month - 1, day);
+    }
 
-            if(viewMode === 'all') {
-                list.innerHTML = sorted.map(p => itemHtml(p)).join('');
-            } else if(viewMode === 'category') {
-                const cats = sorted.reduce((acc, p) => { acc[p.category] = (acc[p.category] || 0) + Number(p.amount); return acc; }, {});
-                list.innerHTML = Object.entries(cats).sort((a,b)=>b[1]-a[1]).map(([n, a], idx) => `
-                    <div class="accordion-header" style="margin-bottom:8px" onclick="toggleAcc('cat${idx}')">
-                        <div class="acc-row"><strong>${n}</strong><strong>$${a.toFixed(2)}</strong></div>
-                    </div>
-                    <div id="cat${idx}" class="accordion-content">${sorted.filter(p => p.category === n).map(p => itemHtml(p)).join('')}</div>
-                `).join('');
-            } else {
-                const ranges = getWeekRanges(now.getFullYear(), now.getMonth());
-                list.innerHTML = ranges.map((r, i) => {
-                    const items = sorted.filter(p => { const d = new Date(p.date); return d >= r.start && d <= r.end; });
-                    const total = items.reduce((s, x) => s + Number(x.amount), 0);
-                    return `
-                    <div class="accordion-header" style="margin-bottom:8px" onclick="toggleAcc('wk${i}')">
-                        <div class="acc-meta">${r.label}</div>
-                        <div class="acc-row"><strong>Week ${i+1}</strong><strong>$${total.toFixed(2)}</strong></div>
-                    </div>
-                    <div id="wk${i}" class="accordion-content">${items.map(x => itemHtml(x)).join('')}</div>`;
-                }).join('');
+    // "January 2026" key from a YYYY-MM-DD string
+    function getMonthKey(dateStr) {
+        const d = parseLocalDate(dateStr);
+        return d.toLocaleString('default', { month: 'long', year: 'numeric' });
+    }
+
+    // "Jan|2026" → "January 2026" (used to match history entries from trend chart keys)
+    function abbrevMonthToKey(abbrev, year) {
+        const idx = MONTH_ORDER.indexOf(abbrev);
+        if (idx === -1) return '';
+        return new Date(year, idx, 1).toLocaleString('default', { month: 'long', year: 'numeric' });
+    }
+
+    // Today as YYYY-MM-DD in local time
+    function todayStr() {
+        const n = new Date();
+        return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}`;
+    }
+
+    // ─── SETTINGS / INCOME ───────────────────────────────────────────────────────
+
+    function getInc(monthKey) {
+        if (!settings.history) settings.history = [];
+        const h = settings.history.find(r => r.month === monthKey);
+        return (h ? h.pay : settings.pay) * 2;
+    }
+
+    function snapshotCurrentPayToHistory() {
+        if (!settings.history) settings.history = [];
+        const key = getMonthKey(todayStr());
+        const existing = settings.history.find(r => r.month === key);
+        if (existing) { existing.pay = settings.pay; }
+        else { settings.history.push({ month: key, pay: settings.pay }); }
+    }
+
+    // ─── RECURRING: AUTO-POPULATE ────────────────────────────────────────────────
+    // On every load, find all recurring transaction templates and add them to the
+    // current month if they're not already there. Preserves original day-of-month.
+
+    function autoPopulateRecurring() {
+        const currentMonthKey = getMonthKey(todayStr());
+        const now = new Date();
+
+        // Get the most-recent instance of each unique recurring item
+        const seen = new Set();
+        const templates = [];
+        purchases
+            .filter(p => p.recurring)
+            .slice()
+            .sort((a, b) => parseLocalDate(b.date) - parseLocalDate(a.date))
+            .forEach(p => {
+                const key = `${p.merchant}|${p.category}|${p.amount}`;
+                if (!seen.has(key)) { seen.add(key); templates.push(p); }
+            });
+
+        let added = false;
+        templates.forEach(t => {
+            // Only add if this month doesn't already have it
+            const exists = purchases.some(p =>
+                p.recurring &&
+                p.merchant === t.merchant &&
+                p.category === t.category &&
+                getMonthKey(p.date) === currentMonthKey
+            );
+            if (!exists) {
+                const originalDay = parseLocalDate(t.date).getDate();
+                const maxDay = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+                const day = Math.min(originalDay, maxDay);
+                const dateStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+                purchases.push({
+                    id: Date.now() + Math.random(),
+                    merchant: t.merchant,
+                    category: t.category,
+                    subcategory: t.subcategory || '',
+                    amount: t.amount,
+                    date: dateStr,
+                    recurring: true,
+                    autoAdded: true
+                });
+                added = true;
             }
-        }
+        });
 
-        function itemHtml(p) {
-            const d = new Date(p.date + 'T12:00:00');
-            const dateStr = d.toLocaleString('default', { month: 'short', day: 'numeric' });
-            return `<div class="item-card">
-                <div class="item-main">
-                    <span class="item-date">${dateStr}</span>
-                    <strong>${p.merchant}</strong>
-                    <span class="item-sub">${p.category}${p.subcategory ? ' • '+p.subcategory : ''}</span>
-                </div>
-                <div style="display:flex; align-items:center; gap:12px">
-                    <strong style="font-size:16px">$${Number(p.amount).toFixed(2)}</strong>
-                    <button style="border:none; background:none; font-size:18px" onclick="deleteItem(${p.id})">🗑️</button>
-                </div>
-            </div>`;
-        }
+        if (added) localStorage.setItem('bp_purchases', JSON.stringify(purchases));
+    }
 
-        function renderArchive() {
-            const now = new Date();
-            const currentMonthKey = getMonthKey(now);
-            const archiveList = document.getElementById('archiveList');
-            const months = [...new Set(purchases.map(p => getMonthKey(p.date)))]
-                            .filter(m => m !== currentMonthKey)
-                            .sort((a,b) => new Date(b) - new Date(a));
+    // ─── RENDER: MONTH VIEW ──────────────────────────────────────────────────────
 
-            archiveList.innerHTML = months.map((m, idx) => {
-                const items = purchases.filter(p => getMonthKey(p.date) === m).sort((a,b) => new Date(b.date) - new Date(a.date));
-                const total = items.reduce((s, p) => s + Number(p.amount), 0);
+    function render() {
+        const now = new Date();
+        const currentMonthKey = getMonthKey(todayStr());
+        const inc = getInc(currentMonthKey);
+        const query = document.getElementById('searchInput').value.toLowerCase();
+
+        const currentMonthPurchases = purchases.filter(p => getMonthKey(p.date) === currentMonthKey);
+
+        // FEATURE: Search now matches merchant, category, AND subcategory
+        const filtered = currentMonthPurchases.filter(p =>
+            p.merchant.toLowerCase().includes(query) ||
+            p.category.toLowerCase().includes(query) ||
+            (p.subcategory || '').toLowerCase().includes(query)
+        );
+
+        const spent = filtered.reduce((s, p) => s + Number(p.amount), 0);
+
+        document.getElementById('savingsBanner').innerHTML = `${now.toLocaleString('default', {month:'long'})} Savings: <b>$${(inc - spent).toFixed(2)}</b>`;
+        document.getElementById('totalSpent').innerText  = `$${spent.toFixed(2)}`;
+        document.getElementById('totalIncome').innerText = `$${inc}`;
+        document.getElementById('totalSaved').innerText  = `$${(inc - spent).toFixed(2)}`;
+
+        const list   = document.getElementById('purchaseList');
+        const sorted = filtered.slice().sort((a,b) => parseLocalDate(b.date) - parseLocalDate(a.date));
+
+        if (viewMode === 'all') {
+            list.innerHTML = sorted.map(p => itemHtml(p)).join('');
+
+        } else if (viewMode === 'category') {
+            // FEATURE: Month-over-month comparison per category
+            // Build last month's totals for comparison
+            const lastMonthDate = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+            const lastMonthKey  = getMonthKey(`${lastMonthDate.getFullYear()}-${String(lastMonthDate.getMonth()+1).padStart(2,'0')}-01`);
+            const lastMonthPurchases = purchases.filter(p => getMonthKey(p.date) === lastMonthKey);
+            const lastCats = lastMonthPurchases.reduce((acc, p) => {
+                acc[p.category] = (acc[p.category] || 0) + Number(p.amount);
+                return acc;
+            }, {});
+
+            const cats = sorted.reduce((acc, p) => {
+                acc[p.category] = (acc[p.category] || 0) + Number(p.amount);
+                return acc;
+            }, {});
+
+            list.innerHTML = Object.entries(cats).sort((a,b) => b[1]-a[1]).map(([n, amt], idx) => {
+                const last = lastCats[n] || 0;
+                const diff = amt - last;
+                let momHtml = '';
+                if (last === 0) {
+                    momHtml = `<span class="mom-badge mom-flat">New</span>`;
+                } else if (Math.abs(diff) < 0.01) {
+                    momHtml = `<span class="mom-badge mom-flat">= same</span>`;
+                } else if (diff > 0) {
+                    momHtml = `<span class="mom-badge mom-up">↑ $${diff.toFixed(2)}</span>`;
+                } else {
+                    momHtml = `<span class="mom-badge mom-down">↓ $${Math.abs(diff).toFixed(2)}</span>`;
+                }
+
                 return `
-                    <div class="archive-group">
-                        <div class="accordion-header" onclick="toggleAcc('arc${idx}')">
-                            <div class="acc-row">
-                                <div style="display:flex; flex-direction:column"><strong>${m}</strong><small style="color:var(--gray)">${items.length} Transactions</small></div>
+                <div class="accordion-header" style="margin-bottom:8px" onclick="toggleAcc('cat${idx}')">
+                    <div class="acc-row">
+                        <strong>${n}</strong>
+                        <div style="display:flex; align-items:center; gap:8px">
+                            ${momHtml}
+                            <strong>$${amt.toFixed(2)}</strong>
+                        </div>
+                    </div>
+                </div>
+                <div id="cat${idx}" class="accordion-content">${sorted.filter(p => p.category === n).map(p => itemHtml(p)).join('')}</div>`;
+            }).join('');
+
+        } else {
+            // Week view
+            const ranges = getWeekRanges(now.getFullYear(), now.getMonth());
+            list.innerHTML = ranges.map((r, i) => {
+                const items = sorted.filter(p => {
+                    const d = parseLocalDate(p.date);
+                    return d >= r.start && d <= r.end;
+                });
+                const total = items.reduce((s, x) => s + Number(x.amount), 0);
+                return `
+                <div class="accordion-header" style="margin-bottom:8px" onclick="toggleAcc('wk${i}')">
+                    <div class="acc-meta">${r.label}</div>
+                    <div class="acc-row"><strong>Week ${i+1}</strong><strong>$${total.toFixed(2)}</strong></div>
+                </div>
+                <div id="wk${i}" class="accordion-content">${items.map(x => itemHtml(x)).join('')}</div>`;
+            }).join('');
+        }
+    }
+
+    function itemHtml(p) {
+        const d = parseLocalDate(p.date);
+        const dateStr = d.toLocaleString('default', { month: 'short', day: 'numeric' });
+        const recurringTag = p.recurring ? `<span class="recurring-badge">🔁 Recurring</span>` : '';
+        return `<div class="item-card">
+            <div class="item-main">
+                <span class="item-date">${dateStr}</span>
+                <strong>${p.merchant}</strong>
+                <span class="item-sub">${p.category}${p.subcategory ? ' • '+p.subcategory : ''}</span>
+                ${recurringTag}
+            </div>
+            <div style="display:flex; align-items:center; gap:12px">
+                <strong style="font-size:16px">$${Number(p.amount).toFixed(2)}</strong>
+                <button style="border:none; background:none; font-size:18px" onclick="deleteItem(${p.id})">🗑️</button>
+            </div>
+        </div>`;
+    }
+
+    // ─── RENDER: ARCHIVE ─────────────────────────────────────────────────────────
+
+    function renderArchive() {
+        const currentMonthKey = getMonthKey(todayStr());
+        const archiveList = document.getElementById('archiveList');
+        const months = [...new Set(purchases.map(p => getMonthKey(p.date)))]
+            .filter(m => m !== currentMonthKey)
+            .sort((a,b) => new Date(b) - new Date(a));
+
+        archiveList.innerHTML = months.map((m, idx) => {
+            const items = purchases.filter(p => getMonthKey(p.date) === m)
+                .sort((a,b) => parseLocalDate(b.date) - parseLocalDate(a.date));
+            const total = items.reduce((s, p) => s + Number(p.amount), 0);
+            return `
+                <div class="archive-group">
+                    <div class="accordion-header" onclick="toggleAcc('arc${idx}')">
+                        <div class="acc-row">
+                            <div style="display:flex; flex-direction:column">
+                                <strong>${m}</strong>
+                                <small style="color:var(--gray)">${items.length} Transactions</small>
+                            </div>
+                            <div style="display:flex; align-items:center; gap:10px">
                                 <strong style="color:var(--red)">-$${total.toFixed(2)}</strong>
+                                <button class="export-month-btn" onclick="event.stopPropagation(); exportMonth('${m}')">⬇ Export</button>
                             </div>
                         </div>
-                        <div id="arc${idx}" class="accordion-content">${items.map(p => itemHtml(p)).join('')}</div>
-                    </div>`;
-            }).join('') || `<div style="text-align:center; padding:40px; color:var(--gray)">No archived months yet.</div>`;
-        }
+                    </div>
+                    <div id="arc${idx}" class="accordion-content">${items.map(p => itemHtml(p)).join('')}</div>
+                </div>`;
+        }).join('') || `<div style="text-align:center; padding:40px; color:var(--gray)">No archived months yet.</div>`;
+    }
 
-        function renderTrends() {
-            let sData = {}; let cData = {};
-            purchases.forEach(p => {
-                const d = new Date(p.date);
-                const k = trendScale === 'M' ? d.toLocaleString('default', {month:'short'}) : d.getFullYear();
-                sData[k] = (sData[k]||0) + Number(p.amount);
-                if (trendScale === 'M' && d.getMonth() === new Date().getMonth()) {
-                    cData[p.category] = (cData[p.category]||0) + Number(p.amount);
-                }
-            });
-            const keys = Object.keys(sData).sort((a,b) => new Date(a) - new Date(b));
-            const sMax = Math.max(...Object.values(sData), 1);
-            
-            const createChart = (isSavings) => {
-                return keys.map(k => {
-                    const spent = sData[k];
-                    const monthYear = trendScale === 'M' ? k + " " + new Date().getFullYear() : k;
-                    const income = isSavings ? getInc(monthYear) : 0;
-                    const val = isSavings ? Math.max(0, income - spent) : spent;
-                    const h = (val / (isSavings ? (income || 5000) : sMax)) * 130;
-                    return `<div style="display:flex; flex-direction:column; align-items:center; flex:1">
-                        <span style="font-size:9px; color:var(--gray); margin-bottom:4px">$${val.toFixed(0)}</span>
-                        <div style="width:70%; max-width:30px; height:${Math.max(h,4)}px; background:${isSavings ? 'var(--green)' : 'var(--blue)'}; border-radius:6px 6px 2px 2px"></div>
-                        <span style="font-size:10px; font-weight:700; margin-top:8px">${k}</span>
-                    </div>`;
-                }).join('');
-            };
+    function exportMonth(monthKey) {
+        const items = purchases.filter(p => getMonthKey(p.date) === monthKey);
+        const total = items.reduce((s, p) => s + Number(p.amount), 0);
+        const inc   = getInc(monthKey);
+        const payload = {
+            month: monthKey, income: inc,
+            totalSpent: parseFloat(total.toFixed(2)),
+            totalSaved: parseFloat((inc - total).toFixed(2)),
+            transactions: items.sort((a,b) => parseLocalDate(b.date) - parseLocalDate(a.date))
+        };
+        const b = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(b);
+        a.download = `budget_${monthKey.replace(/\s/g, '_')}.json`;
+        a.click();
+    }
 
-            document.getElementById('spendingChart').innerHTML = createChart(false);
-            document.getElementById('savingsChart').innerHTML = createChart(true);
+    // ─── RENDER: TRENDS ──────────────────────────────────────────────────────────
 
-            const breakdown = Object.entries(cData).sort((a,b) => b[1]-a[1]);
-            document.getElementById('categoryBreakdown').innerHTML = breakdown.map(([n, t]) => `
-                <div style="display:flex; justify-content:space-between; padding:12px 0; border-bottom:0.5px solid #eee">
-                    <span style="font-weight:600">${n}</span><span style="color:var(--red); font-weight:700">$${t.toFixed(2)}</span>
-                </div>`).join('') || '<p style="text-align:center; color:var(--gray)">No category data this month</p>';
-        }
+    function renderTrends() {
+        const now = new Date();
+        const currentYear = now.getFullYear();
+        let sData = {}; let cData = {};
 
-        // UX HELPERS
-        function toggleSearch() { 
-            const sc = document.getElementById('searchContainer');
-            sc.classList.toggle('hidden'); 
-            if(!sc.classList.contains('hidden')) document.getElementById('searchInput').focus();
-        }
-        function handleSearchInput() {
-            const val = document.getElementById('searchInput').value;
-            document.getElementById('clearSearch').style.display = val ? 'block' : 'none';
-            render();
-        }
-        function clearSearch() {
-            document.getElementById('searchInput').value = '';
-            handleSearchInput();
-        }
-        function toggleAcc(id) {
-            const el = document.getElementById(id);
-            const isOpen = el.classList.contains('open');
-            document.querySelectorAll('.accordion-content').forEach(c => c.classList.remove('open'));
-            if(!isOpen) el.classList.add('open');
-        }
-        function switchTab(t) {
-            document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
-            document.getElementById(t + 'View').classList.remove('hidden');
-            document.querySelectorAll('.nav-tab').forEach(n => n.classList.remove('active'));
-            document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1)).classList.add('active');
-            if(t === 'archive') renderArchive();
-            if(t === 'trends') renderTrends();
-        }
-
-        // SYSTEM
-        function openSettings() { 
-            document.getElementById('payInput').value = settings.pay; 
-            document.getElementById('payDateInput').value = settings.payDate;
-            document.getElementById('settingsSheet').classList.add('active'); 
-            document.getElementById('overlay').style.display = 'block'; 
-        }
-        function saveSettings() {
-            settings.pay = Number(document.getElementById('payInput').value);
-            settings.payDate = document.getElementById('payDateInput').value;
-            localStorage.setItem('bp_settings', JSON.stringify(settings));
-            closeAll(); render();
-        }
-        function closeAll() { document.querySelectorAll('.sheet').forEach(s => s.classList.remove('active')); document.getElementById('overlay').style.display = 'none'; }
-        function setViewMode(m) { viewMode = m; document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); document.getElementById('f'+m.charAt(0).toUpperCase()+m.slice(1)).classList.add('active'); render(); }
-        function setTrendScale(s) { trendScale = s; renderTrends(); }
-        function deleteItem(id) { if(confirm("Delete this transaction?")) { purchases = purchases.filter(p => p.id !== id); localStorage.setItem('bp_purchases', JSON.stringify(purchases)); render(); } }
-
-        // ADD FLOW
-        const steps = ["amount", "merchant", "category", "subcategory", "date"];
-        let currentStep = 0; let tempItem = {};
-        function openAdd() { currentStep = 0; tempItem = { date: new Date().toISOString().split('T')[0] }; updateStepUI(); document.getElementById('addSheet').classList.add('active'); document.getElementById('overlay').style.display = 'block'; }
-        function updateStepUI() {
-            const container = document.getElementById('stepContainer');
-            const step = steps[currentStep];
-            document.getElementById('stepTitle').innerText = step.toUpperCase();
-            if(step === 'amount') container.innerHTML = `<input type="number" id="stepInput" placeholder="0.00" autofocus inputmode="decimal">`;
-            else if(step === 'merchant') container.innerHTML = `<input type="text" id="stepInput" placeholder="Store name">`;
-            else if(step === 'category') container.innerHTML = `<select id="stepInput"><option>Food</option><option>Groceries</option><option>Leisure</option><option>Bills</option><option>Travel</option></select>`;
-            else if(step === 'subcategory') container.innerHTML = `<input type="text" id="stepInput" placeholder="Optional context">`;
-            else container.innerHTML = `<input type="date" id="stepInput" value="${tempItem.date}">`;
-        }
-        function handleNext() { 
-            tempItem[steps[currentStep]] = document.getElementById('stepInput').value; 
-            if(currentStep < 4) { currentStep++; updateStepUI(); } 
-            else { purchases.push({...tempItem, id: Date.now()}); localStorage.setItem('bp_purchases', JSON.stringify(purchases)); closeAll(); render(); }
-        }
-
-        function getWeekRanges(year, month) {
-            let r = []; let start = new Date(year, month, 1); let endMonth = new Date(year, month + 1, 0);
-            while (start <= endMonth) {
-                let end = new Date(start); let daysToSat = 6 - start.getDay(); end.setDate(start.getDate() + daysToSat);
-                if (end > endMonth) end = new Date(endMonth);
-                const l = `${start.toLocaleString('default',{month:'short'})} ${start.getDate()} - ${end.toLocaleString('default',{month:'short'})} ${end.getDate()}`;
-                r.push({ start: new Date(start), end: new Date(end), label: l });
-                start = new Date(end); start.setDate(start.getDate() + 1);
+        purchases.forEach(p => {
+            const [year, month] = String(p.date).split('T')[0].split('-').map(Number);
+            const shortMonth = new Date(year, month - 1, 1).toLocaleString('default', {month:'short'});
+            const k = trendScale === 'M' ? `${shortMonth}|${year}` : String(year);
+            sData[k] = (sData[k]||0) + Number(p.amount);
+            if (year === currentYear) {
+                cData[p.category] = (cData[p.category]||0) + Number(p.amount);
             }
-            return r;
+        });
+
+        const keys = Object.keys(sData).sort((a, b) => {
+            if (trendScale === 'M') {
+                const [aM, aY] = a.split('|'); const [bM, bY] = b.split('|');
+                if (aY !== bY) return Number(aY) - Number(bY);
+                return MONTH_ORDER.indexOf(aM) - MONTH_ORDER.indexOf(bM);
+            }
+            return Number(a) - Number(b);
+        });
+
+        const sMax = Math.max(...Object.values(sData), 1);
+
+        const createChart = (isSavings) => keys.map(k => {
+            const spent = sData[k];
+            let incomeMonthKey;
+            if (trendScale === 'M') {
+                const [abbrev, year] = k.split('|');
+                incomeMonthKey = abbrevMonthToKey(abbrev, Number(year));
+            } else {
+                incomeMonthKey = getMonthKey(todayStr());
+            }
+            const income = isSavings ? getInc(incomeMonthKey) : 0;
+            const val    = isSavings ? Math.max(0, income - spent) : spent;
+            const h      = (val / (isSavings ? (income || 5000) : sMax)) * 130;
+            const label  = trendScale === 'M' ? k.split('|')[0] : k;
+            return `<div style="display:flex; flex-direction:column; align-items:center; flex:1">
+                <span style="font-size:9px; color:var(--gray); margin-bottom:4px">$${val.toFixed(0)}</span>
+                <div style="width:70%; max-width:30px; height:${Math.max(h,4)}px; background:${isSavings ? 'var(--green)' : 'var(--blue)'}; border-radius:6px 6px 2px 2px"></div>
+                <span style="font-size:10px; font-weight:700; margin-top:8px">${label}</span>
+            </div>`;
+        }).join('');
+
+        document.getElementById('spendingChart').innerHTML = createChart(false);
+        document.getElementById('savingsChart').innerHTML  = createChart(true);
+
+        // FEATURE: 3-month average per category alongside yearly total
+        // Gather monthly totals per category over the last 3 complete months
+        const threeMonthAvg = computeCategoryThreeMonthAvg();
+
+        const breakdown = Object.entries(cData).sort((a,b) => b[1]-a[1]);
+        document.getElementById('categoryBreakdown').innerHTML = breakdown.map(([n, t]) => {
+            const avg = threeMonthAvg[n];
+            const avgHtml = avg !== undefined
+                ? `<span style="color:var(--gray); font-weight:600; text-align:right; padding-right:16px;">$${avg.toFixed(2)}</span>`
+                : `<span style="color:var(--gray); font-weight:600; text-align:right; padding-right:16px;">—</span>`;
+            return `<div style="display:grid; grid-template-columns:1fr auto auto; align-items:center; padding:12px 0; border-bottom:0.5px solid #eee">
+                <span style="font-weight:600">${n}</span>
+                ${avgHtml}
+                <span style="color:var(--red); font-weight:700; text-align:right;">$${t.toFixed(2)}</span>
+            </div>`;
+        }).join('') || '<p style="text-align:center; color:var(--gray)">No category data this year</p>';
+    }
+
+    // Returns { categoryName: avgMonthlySpend } over the last 3 complete months
+    function computeCategoryThreeMonthAvg() {
+        const now = new Date();
+        const monthKeys = [];
+        for (let i = 1; i <= 3; i++) {
+            const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+            monthKeys.push(getMonthKey(`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-01`));
         }
 
-        function exportData() {
-            const b = new Blob([JSON.stringify({purchases, settings})], {type:'application/json'});
-            const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download=`budget_pro_final.json`; a.click();
-        }
+        const totals = {}; // { cat: [total per month that had any data] }
+        monthKeys.forEach(mk => {
+            const monthItems = purchases.filter(p => getMonthKey(p.date) === mk);
+            if (monthItems.length === 0) return;
+            const catTotals = {};
+            monthItems.forEach(p => {
+                catTotals[p.category] = (catTotals[p.category] || 0) + Number(p.amount);
+            });
+            Object.entries(catTotals).forEach(([cat, amt]) => {
+                if (!totals[cat]) totals[cat] = [];
+                totals[cat].push(amt);
+            });
+        });
 
-        function importData(e) {
-            const f = e.target.files[0]; if(!f) return;
-            const r = new FileReader(); r.onload = (ev) => {
-                const d = JSON.parse(ev.target.result);
-                purchases = d.purchases; settings = d.settings;
-                localStorage.setItem('bp_purchases', JSON.stringify(purchases)); localStorage.setItem('bp_settings', JSON.stringify(settings));
-                render(); alert("Data Imported!"); closeAll();
-            }; r.readAsText(f);
-        }
+        const avg = {};
+        Object.entries(totals).forEach(([cat, vals]) => {
+            avg[cat] = vals.reduce((s, v) => s + v, 0) / vals.length;
+        });
+        return avg;
+    }
 
+    // ─── UX HELPERS ──────────────────────────────────────────────────────────────
+
+    function toggleSearch() {
+        const sc = document.getElementById('searchContainer');
+        sc.classList.toggle('hidden');
+        if (!sc.classList.contains('hidden')) document.getElementById('searchInput').focus();
+    }
+    function handleSearchInput() {
+        const val = document.getElementById('searchInput').value;
+        document.getElementById('clearSearch').style.display = val ? 'block' : 'none';
         render();
-    </script>
+    }
+    function clearSearch() { document.getElementById('searchInput').value = ''; handleSearchInput(); }
+
+    function toggleAcc(id) {
+        const el = document.getElementById(id);
+        const isOpen = el.classList.contains('open');
+        document.querySelectorAll('.accordion-content').forEach(c => c.classList.remove('open'));
+        if (!isOpen) el.classList.add('open');
+    }
+    function switchTab(t) {
+        document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
+        document.getElementById(t + 'View').classList.remove('hidden');
+        document.querySelectorAll('.nav-tab').forEach(n => n.classList.remove('active'));
+        document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1)).classList.add('active');
+        if (t === 'archive') renderArchive();
+        if (t === 'trends')  renderTrends();
+    }
+
+    // ─── SYSTEM ──────────────────────────────────────────────────────────────────
+
+    function openSettings() {
+        document.getElementById('payInput').value    = settings.pay;
+        document.getElementById('payDateInput').value = settings.payDate;
+        document.getElementById('settingsSheet').classList.add('active');
+        document.getElementById('overlay').style.display = 'block';
+    }
+    function saveSettings() {
+        settings.pay     = Number(document.getElementById('payInput').value);
+        settings.payDate = document.getElementById('payDateInput').value;
+        snapshotCurrentPayToHistory();
+        localStorage.setItem('bp_settings', JSON.stringify(settings));
+        closeAll(); render();
+    }
+    function closeAll() {
+        document.querySelectorAll('.sheet').forEach(s => s.classList.remove('active'));
+        document.getElementById('overlay').style.display = 'none';
+    }
+    function setViewMode(m) {
+        viewMode = m;
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('f' + m.charAt(0).toUpperCase() + m.slice(1)).classList.add('active');
+        render();
+    }
+    function setTrendScale(s) {
+        trendScale = s;
+        document.getElementById('tM').classList.toggle('active', s === 'M');
+        document.getElementById('tY').classList.toggle('active', s === 'Y');
+        renderTrends();
+    }
+    function deleteItem(id) {
+        if (confirm("Delete this transaction?")) {
+            purchases = purchases.filter(p => p.id !== id);
+            localStorage.setItem('bp_purchases', JSON.stringify(purchases));
+            if (!document.getElementById('archiveView').classList.contains('hidden')) renderArchive();
+            else if (!document.getElementById('trendsView').classList.contains('hidden')) renderTrends();
+            else render();
+        }
+    }
+
+    // ─── ADD FLOW ────────────────────────────────────────────────────────────────
+    // Steps: amount → merchant → category → subcategory → date → recurring
+
+    const steps = ["amount", "merchant", "category", "subcategory", "date", "recurring"];
+    let currentStep = 0;
+    let tempItem = {};
+    let recurringSelection = false; // tracks Yes/No on the recurring step
+
+    function openAdd() {
+        currentStep = 0;
+        tempItem = { date: todayStr() };
+        recurringSelection = false;
+        updateStepUI();
+        document.getElementById('addSheet').classList.add('active');
+        document.getElementById('overlay').style.display = 'block';
+    }
+
+    function updateStepUI() {
+        const container = document.getElementById('stepContainer');
+        const nextBtn   = document.getElementById('nextBtn');
+        const step      = steps[currentStep];
+        document.getElementById('stepTitle').innerText = step === 'recurring' ? 'RECURRING?' : step.toUpperCase();
+        nextBtn.innerText = currentStep === steps.length - 1 ? 'Save' : 'Next';
+
+        if (step === 'amount') {
+            container.innerHTML = `<input type="number" id="stepInput" placeholder="0.00" autofocus inputmode="decimal">`;
+        } else if (step === 'merchant') {
+            container.innerHTML = `<input type="text" id="stepInput" placeholder="Store name">`;
+        } else if (step === 'category') {
+            container.innerHTML = `<select id="stepInput"><option>Food</option><option>Groceries</option><option>Leisure</option><option>Bills</option><option>Travel</option></select>`;
+        } else if (step === 'subcategory') {
+            container.innerHTML = `<input type="text" id="stepInput" placeholder="Optional context">`;
+        } else if (step === 'date') {
+            container.innerHTML = `<input type="date" id="stepInput" value="${tempItem.date}">`;
+        } else if (step === 'recurring') {
+            // Yes/No toggle — no stepInput needed, value tracked via recurringSelection
+            container.innerHTML = `
+                <p style="color:var(--gray); font-size:13px; margin:0 0 12px">Does this transaction repeat every month?<br><small>(e.g. rent, subscriptions, gym)</small></p>
+                <div class="recur-row">
+                    <button class="recur-btn ${recurringSelection === true  ? 'selected' : ''}" onclick="selectRecurring(true)">🔁 Yes, monthly</button>
+                    <button class="recur-btn ${recurringSelection === false ? 'selected' : ''}" onclick="selectRecurring(false)">✕ No, one-time</button>
+                </div>`;
+        }
+    }
+
+    function selectRecurring(val) {
+        recurringSelection = val;
+        updateStepUI(); // re-render to show selected state
+    }
+
+    function handleNext() {
+        const step = steps[currentStep];
+
+        if (step === 'recurring') {
+            // Final step — save and close
+            tempItem.recurring = recurringSelection;
+            purchases.push({ ...tempItem, id: Date.now() });
+            localStorage.setItem('bp_purchases', JSON.stringify(purchases));
+            closeAll();
+            render();
+            return;
+        }
+
+        // For all other steps, grab the input value
+        const input = document.getElementById('stepInput');
+        if (input) tempItem[step] = input.value;
+
+        currentStep++;
+        updateStepUI();
+    }
+
+    // ─── WEEK RANGES ─────────────────────────────────────────────────────────────
+
+    function getWeekRanges(year, month) {
+        let r = []; let start = new Date(year, month, 1); const endMonth = new Date(year, month + 1, 0);
+        while (start <= endMonth) {
+            let end = new Date(start); end.setDate(start.getDate() + (6 - start.getDay()));
+            if (end > endMonth) end = new Date(endMonth);
+            const l = `${start.toLocaleString('default',{month:'short'})} ${start.getDate()} – ${end.toLocaleString('default',{month:'short'})} ${end.getDate()}`;
+            r.push({ start: new Date(start), end: new Date(end), label: l });
+            start = new Date(end); start.setDate(start.getDate() + 1);
+        }
+        return r;
+    }
+
+    // ─── IMPORT / EXPORT ─────────────────────────────────────────────────────────
+
+    function exportData() {
+        const b = new Blob([JSON.stringify({purchases, settings})], {type:'application/json'});
+        const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'budget_pro_final.json'; a.click();
+    }
+    function importData(e) {
+        const f = e.target.files[0]; if (!f) return;
+        const r = new FileReader();
+        r.onload = (ev) => {
+            const d = JSON.parse(ev.target.result);
+            purchases = d.purchases; settings = d.settings;
+            if (!settings.history) settings.history = [];
+            localStorage.setItem('bp_purchases', JSON.stringify(purchases));
+            localStorage.setItem('bp_settings',  JSON.stringify(settings));
+            render(); alert("Data Imported!"); closeAll();
+        };
+        r.readAsText(f);
+    }
+
+    // ─── INIT ────────────────────────────────────────────────────────────────────
+
+    snapshotCurrentPayToHistory();
+    autoPopulateRecurring();
+    localStorage.setItem('bp_settings', JSON.stringify(settings));
+    render();
+</script>
+```
+
 </body>
 </html>
