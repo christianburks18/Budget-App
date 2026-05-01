@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -12,293 +11,241 @@
             --gray: #8e8e93; --shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
-        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); padding-bottom: 120px; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg); color: var(--text);
+            padding-bottom: 120px;
+            padding-top: env(safe-area-inset-top, 0px);
+        }
 
-```
-    /* ══ FIX 1: Hero card contains search + month + settings ══ */
-    body {
-        padding-top: env(safe-area-inset-top, 0px);
-    }
-    .hero-card {
-        margin: 12px 16px 14px;
-        border-radius: 24px;
-        background: linear-gradient(135deg, #007aff 0%, #5856d6 100%);
-        box-shadow: 0 8px 28px rgba(0,122,255,0.38);
-        padding: 14px 16px 16px;
-        color: white;
-    }
-    /* 3-column grid — iOS Safari proof */
-    .hero-topbar {
-        display: grid;
-        grid-template-columns: 32px 1fr 32px;
-        align-items: center;
-        column-gap: 8px;
-        margin-bottom: 14px;
-    }
-    .hero-icon-btn {
-        width: 32px; height: 32px; border-radius: 16px;
-        background: rgba(255,255,255,0.2); border: none;
-        color: white; font-size: 15px; cursor: pointer;
-        display: flex; align-items: center; justify-content: center;
-        backdrop-filter: blur(4px);
-    }
-    .hero-month-label {
-        text-align: center; font-size: 14px; font-weight: 700;
-        opacity: 0.92; letter-spacing: -0.1px;
-    }
-    .hero-sub-label { font-size: 11px; font-weight: 600; opacity: 0.8; margin-bottom: 3px; }
-    .hero-top-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
-    .hero-amount { font-size: 32px; font-weight: 800; letter-spacing: -0.5px; }
-    .hero-badge {
-        background: rgba(255,255,255,0.2); border-radius: 10px;
-        padding: 4px 10px; font-size: 12px; font-weight: 800;
-        backdrop-filter: blur(4px); white-space: nowrap;
-    }
-    .hero-bar-track { height: 6px; background: rgba(255,255,255,0.2); border-radius: 10px; overflow: hidden; margin-bottom: 6px; }
-    .hero-bar-fill { height: 100%; border-radius: 10px; background: linear-gradient(90deg, rgba(255,255,255,0.85), #30d158); transition: width 0.6s cubic-bezier(0.25,1,0.5,1); }
-    .hero-bar-labels { display: flex; justify-content: space-between; margin-bottom: 13px; }
-    .hero-bar-labels span { font-size: 10px; font-weight: 600; opacity: 0.7; }
-    .hero-pills { display: flex; gap: 7px; }
-    .hero-pill { flex: 1; background: rgba(255,255,255,0.15); border-radius: 11px; padding: 7px 4px; text-align: center; backdrop-filter: blur(4px); }
-    .hero-pill h5 { font-size: 8px; font-weight: 700; opacity: 0.75; text-transform: uppercase; margin-bottom: 2px; letter-spacing: 0.2px; }
-    .hero-pill p  { font-size: 12px; font-weight: 800; }
+        /* ── Hero card (contains search + month + settings) ── */
+        .hero-card {
+            margin: 12px 16px 14px;
+            border-radius: 24px;
+            background: linear-gradient(135deg, #007aff 0%, #5856d6 100%);
+            box-shadow: 0 8px 28px rgba(0,122,255,0.38);
+            padding: 14px 16px 16px;
+            color: white;
+        }
+        .hero-topbar {
+            display: grid;
+            grid-template-columns: 32px 1fr 32px;
+            align-items: center;
+            column-gap: 8px;
+            margin-bottom: 14px;
+        }
+        .hero-icon-btn {
+            width: 32px; height: 32px; border-radius: 16px;
+            background: rgba(255,255,255,0.2); border: none;
+            color: white; font-size: 15px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .hero-month-label { text-align: center; font-size: 14px; font-weight: 700; opacity: 0.92; }
+        .hero-sub-label   { font-size: 11px; font-weight: 600; opacity: 0.8; margin-bottom: 3px; }
+        .hero-top-row     { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+        .hero-amount      { font-size: 32px; font-weight: 800; letter-spacing: -0.5px; }
+        .hero-badge       { background: rgba(255,255,255,0.2); border-radius: 10px; padding: 4px 10px; font-size: 12px; font-weight: 800; white-space: nowrap; }
+        .hero-bar-track   { height: 6px; background: rgba(255,255,255,0.2); border-radius: 10px; overflow: hidden; margin-bottom: 6px; }
+        .hero-bar-fill    { height: 100%; border-radius: 10px; background: linear-gradient(90deg, rgba(255,255,255,0.85), #30d158); transition: width 0.6s cubic-bezier(0.25,1,0.5,1); }
+        .hero-bar-labels  { display: flex; justify-content: space-between; margin-bottom: 13px; }
+        .hero-bar-labels span { font-size: 10px; font-weight: 600; opacity: 0.7; }
+        .hero-pills       { display: flex; gap: 7px; }
+        .hero-pill        { flex: 1; background: rgba(255,255,255,0.15); border-radius: 11px; padding: 7px 4px; text-align: center; }
+        .hero-pill h5     { font-size: 8px; font-weight: 700; opacity: 0.75; text-transform: uppercase; margin-bottom: 2px; }
+        .hero-pill p      { font-size: 12px; font-weight: 800; }
 
-    /* Search bar — slides down from below card */
-    .search-box { position: relative; padding: 0 16px 12px; }
-    .search-input { width: 100%; padding: 12px 40px 12px 16px; border-radius: 12px; border: 1px solid #d1d1d6; background: var(--card); font-size: 16px; outline: none; }
-    .clear-btn { position: absolute; right: 26px; top: 12px; font-size: 18px; color: var(--gray); border: none; background: none; display: none; cursor: pointer; }
+        /* ── Search ── */
+        .search-box    { position: relative; padding: 0 16px 12px; }
+        .search-input  { width: 100%; padding: 12px 40px 12px 16px; border-radius: 12px; border: 1px solid #d1d1d6; background: var(--card); font-size: 16px; outline: none; }
+        .clear-btn     { position: absolute; right: 26px; top: 12px; font-size: 18px; color: var(--gray); border: none; background: none; display: none; cursor: pointer; }
 
-    /* ── Filter tabs ── */
-    .filter-section { padding: 0 16px 14px; display: flex; gap: 8px; }
-    .filter-btn { flex: 1; padding: 11px; border-radius: 12px; border: none; background: #e3e3e8; font-weight: 700; font-size: 13px; cursor: pointer; }
-    .filter-btn.active { background: var(--blue); color: white; }
+        /* ── Filter tabs ── */
+        .filter-section { padding: 0 16px 14px; display: flex; gap: 8px; }
+        .filter-btn     { flex: 1; padding: 11px; border-radius: 12px; border: none; background: #e3e3e8; font-weight: 700; font-size: 13px; cursor: pointer; }
+        .filter-btn.active { background: var(--blue); color: white; }
 
-    /* ── Item cards ── */
-    .item-card { background: var(--card); padding: 14px 16px; border-radius: 18px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; box-shadow: var(--shadow); }
-    .item-main { display: flex; flex-direction: column; gap: 2px; }
-    .item-date { font-size: 10px; color: var(--blue); font-weight: 700; text-transform: uppercase; }
-    .item-sub  { font-size: 12px; color: var(--gray); }
-    .recurring-badge { font-size: 9px; font-weight: 700; color: var(--blue); background: #e8f0fe; border-radius: 6px; padding: 2px 6px; display: inline-block; margin-top: 2px; width: fit-content; }
+        /* ── Item cards ── */
+        .item-card  { background: var(--card); padding: 14px 16px; border-radius: 18px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; box-shadow: var(--shadow); }
+        .item-main  { display: flex; flex-direction: column; gap: 2px; }
+        .item-date  { font-size: 10px; color: var(--blue); font-weight: 700; text-transform: uppercase; }
+        .item-sub   { font-size: 12px; color: var(--gray); }
+        .recurring-badge { font-size: 9px; font-weight: 700; color: var(--blue); background: #e8f0fe; border-radius: 6px; padding: 2px 6px; display: inline-block; margin-top: 2px; width: fit-content; }
 
-    /* ── Month-over-month badges ── */
-    .mom-badge { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 8px; white-space: nowrap; }
-    .mom-up    { color: var(--red);   background: #fff0ef; }
-    .mom-down  { color: var(--green); background: #edfaf1; }
-    .mom-flat  { color: var(--gray);  background: #f2f2f7; }
+        /* ── MoM badges ── */
+        .mom-badge { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 8px; white-space: nowrap; }
+        .mom-up    { color: var(--red);   background: #fff0ef; }
+        .mom-down  { color: var(--green); background: #edfaf1; }
+        .mom-flat  { color: var(--gray);  background: #f2f2f7; }
 
-    /* ── Accordions ── */
-    .archive-group { margin-bottom: 12px; }
-    .accordion-header { background: var(--card); padding: 16px 18px; border-radius: 18px; display: flex; flex-direction: column; align-items: flex-start; box-shadow: var(--shadow); cursor: pointer; }
-    .acc-meta { font-size: 10px; color: var(--gray); font-weight: 700; text-transform: uppercase; margin-bottom: 4px; }
-    .acc-row  { display: flex; justify-content: space-between; width: 100%; align-items: center; }
-    .accordion-content { overflow: hidden; max-height: 0; transition: max-height 0.3s ease; padding: 0 4px; }
-    .accordion-content.open { max-height: 5000px; padding-top: 10px; }
+        /* ── Accordions ── */
+        .accordion-header   { background: var(--card); padding: 16px 18px; border-radius: 18px; display: flex; flex-direction: column; box-shadow: var(--shadow); cursor: pointer; margin-bottom: 8px; }
+        .acc-meta           { font-size: 10px; color: var(--gray); font-weight: 700; text-transform: uppercase; margin-bottom: 4px; }
+        .acc-row            { display: flex; justify-content: space-between; width: 100%; align-items: center; }
+        .accordion-content  { overflow: hidden; max-height: 0; transition: max-height 0.3s ease; padding: 0 4px; }
+        .accordion-content.open { max-height: 5000px; padding-top: 10px; }
 
-    /* ══ FIX 2: Apple Health style chart cards ══ */
-    .health-chart-card {
-        background: var(--card); border-radius: 20px;
-        padding: 16px 16px 10px; margin-bottom: 14px;
-        box-shadow: var(--shadow);
-    }
-    .health-chart-title { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
-    .health-chart-sub   { font-size: 11px; color: var(--gray); margin-bottom: 10px; }
-    .chart-svg-wrap svg { width: 100%; display: block; overflow: visible; }
+        /* ── Health-style chart cards ── */
+        .health-chart-card  { background: var(--card); border-radius: 20px; padding: 16px 14px 10px; margin-bottom: 14px; box-shadow: var(--shadow); }
+        .health-chart-title { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+        .health-chart-sub   { font-size: 11px; color: var(--gray); margin-bottom: 10px; }
+        .health-chart-card svg { width: 100%; display: block; overflow: visible; }
 
-    /* ══ FIX 3: Category table ══ */
-    .cat-table-card {
-        background: var(--card); border-radius: 20px;
-        padding: 16px; margin-bottom: 14px;
-        box-shadow: var(--shadow);
-    }
-    .cat-table-title { font-size: 14px; font-weight: 700; margin-bottom: 12px; }
-    .cat-header-row {
-        display: grid; grid-template-columns: 1fr 72px 72px;
-        padding-bottom: 8px; border-bottom: 0.5px solid #eee; margin-bottom: 2px;
-    }
-    .cat-header-row span { font-size: 9px; color: var(--gray); font-weight: 700; text-transform: uppercase; }
-    .cat-header-row span:nth-child(2),
-    .cat-header-row span:nth-child(3) { text-align: right; }
-    .cat-data-row {
-        display: grid; grid-template-columns: 1fr 72px 72px;
-        padding: 10px 0; border-bottom: 0.5px solid #f2f2f7; align-items: center;
-    }
-    .cat-name  { font-size: 13px; font-weight: 600; }
-    .cat-avg   { font-size: 12px; color: var(--gray); font-weight: 600; text-align: right; }
-    .cat-total { font-size: 13px; font-weight: 700; text-align: right; }
-    .cat-total.over { color: var(--red); }
-    .cat-total.norm { color: var(--gray); }
+        /* ── Category table ── */
+        .cat-table-card   { background: var(--card); border-radius: 20px; padding: 16px; margin-bottom: 14px; box-shadow: var(--shadow); }
+        .cat-table-title  { font-size: 14px; font-weight: 700; margin-bottom: 12px; }
+        .cat-header-row   { display: grid; grid-template-columns: 1fr 72px 72px; padding-bottom: 8px; border-bottom: 0.5px solid #eee; margin-bottom: 2px; }
+        .cat-header-row span { font-size: 9px; color: var(--gray); font-weight: 700; text-transform: uppercase; }
+        .cat-header-row span:nth-child(2),
+        .cat-header-row span:nth-child(3) { text-align: right; }
+        .cat-data-row  { display: grid; grid-template-columns: 1fr 72px 72px; padding: 10px 0; border-bottom: 0.5px solid #f2f2f7; align-items: center; }
+        .cat-name      { font-size: 13px; font-weight: 600; }
+        .cat-avg       { font-size: 12px; color: var(--gray); font-weight: 600; text-align: right; }
+        .cat-total     { font-size: 13px; font-weight: 700; text-align: right; }
+        .cat-total.over { color: var(--red); }
+        .cat-total.norm { color: var(--gray); }
 
-    /* ══ FIX 4: Archive cards with income/saved/spent stats ══ */
-    .arc-card {
-        background: var(--card); border-radius: 18px;
-        box-shadow: var(--shadow); margin-bottom: 12px;
-        overflow: hidden; cursor: pointer;
-    }
-    .arc-card-header { padding: 16px 18px 12px; }
-    .arc-top-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
-    .arc-title-block strong { font-size: 15px; font-weight: 700; display: block; margin-bottom: 2px; }
-    .arc-title-block small  { font-size: 11px; color: var(--gray); }
-    .arc-spent { font-size: 15px; font-weight: 800; color: var(--red); }
-    .arc-stat-row {
-        display: grid; grid-template-columns: repeat(3,1fr);
-        background: #f8f8fc; border-radius: 12px; padding: 8px 4px;
-    }
-    .arc-stat { text-align: center; border-right: 0.5px solid #e3e3e8; }
-    .arc-stat:last-child { border-right: none; }
-    .arc-stat h6 { font-size: 8px; color: var(--gray); font-weight: 700; text-transform: uppercase; margin-bottom: 3px; }
-    .arc-stat p  { font-size: 12px; font-weight: 800; }
-    .arc-export-btn {
-        display: block; width: calc(100% - 36px); margin: 10px 18px 14px;
-        padding: 9px; background: none; border: 1px solid var(--blue);
-        border-radius: 10px; color: var(--blue); font-size: 12px; font-weight: 700; cursor: pointer;
-    }
-    .arc-items-wrap { padding: 0 8px; }
+        /* ── Archive cards ── */
+        .arc-card         { background: var(--card); border-radius: 18px; box-shadow: var(--shadow); margin-bottom: 12px; overflow: hidden; }
+        .arc-card-header  { padding: 16px 18px 12px; cursor: pointer; }
+        .arc-top-row      { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+        .arc-title-block strong { font-size: 15px; font-weight: 700; display: block; margin-bottom: 2px; }
+        .arc-title-block small  { font-size: 11px; color: var(--gray); }
+        .arc-stat-row     { display: grid; grid-template-columns: repeat(3,1fr); background: #f8f8fc; border-radius: 12px; padding: 8px 4px; }
+        .arc-stat         { text-align: center; border-right: 0.5px solid #e3e3e8; }
+        .arc-stat:last-child { border-right: none; }
+        .arc-stat h6      { font-size: 8px; color: var(--gray); font-weight: 700; text-transform: uppercase; margin-bottom: 3px; }
+        .arc-stat p       { font-size: 12px; font-weight: 800; }
+        .arc-export-btn   { display: block; width: calc(100% - 36px); margin: 10px 18px 14px; padding: 9px; background: none; border: 1px solid var(--blue); border-radius: 10px; color: var(--blue); font-size: 12px; font-weight: 700; cursor: pointer; }
+        .arc-items-wrap   { padding: 0 8px; }
 
-    /* ── Sheets & overlay ── */
-    .sheet { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card); border-radius: 24px 24px 0 0; padding: 25px 25px 40px; z-index: 1000; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.15,0.85,0.35,1); box-shadow: 0 -5px 20px rgba(0,0,0,0.1); max-height: 90vh; overflow-y: auto; }
-    .sheet.active { transform: translateY(0); }
-    .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); z-index: 999; display: none; }
-    .input-group { margin-bottom: 18px; }
-    .input-label { font-size: 11px; color: var(--gray); font-weight: 700; text-transform: uppercase; margin-bottom: 8px; display: block; }
-    input, select { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #d1d1d6; background: #f2f2f7; font-size: 16px; outline: none; }
+        /* ── Sheets & overlay ── */
+        .sheet    { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card); border-radius: 24px 24px 0 0; padding: 25px 25px 40px; z-index: 1000; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.15,0.85,0.35,1); box-shadow: 0 -5px 20px rgba(0,0,0,0.1); max-height: 90vh; overflow-y: auto; }
+        .sheet.active { transform: translateY(0); }
+        .overlay  { position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); z-index: 999; display: none; }
+        .input-group  { margin-bottom: 18px; }
+        .input-label  { font-size: 11px; color: var(--gray); font-weight: 700; text-transform: uppercase; margin-bottom: 8px; display: block; }
+        input, select { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #d1d1d6; background: #f2f2f7; font-size: 16px; outline: none; }
+        .recur-row    { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px; }
+        .recur-btn    { padding: 18px; border-radius: 14px; border: 2px solid #d1d1d6; background: #f2f2f7; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+        .recur-btn.selected { border-color: var(--blue); background: #e8f0fe; color: var(--blue); }
 
-    /* ── Recurring Yes/No ── */
-    .recur-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px; }
-    .recur-btn { padding: 18px; border-radius: 14px; border: 2px solid #d1d1d6; background: #f2f2f7; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.15s; }
-    .recur-btn.selected { border-color: var(--blue); background: #e8f0fe; color: var(--blue); }
+        /* ── Nav & FAB ── */
+        .bottom-nav {
+            position: fixed; bottom: 0; width: 100%;
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(20px);
+            display: flex; padding: 10px 0;
+            padding-bottom: max(28px, env(safe-area-inset-bottom));
+            border-top: 0.5px solid #d1d1d6; z-index: 100;
+        }
+        .nav-tab { flex: 1; border: none; background: none; display: flex; flex-direction: column; align-items: center; color: var(--gray); font-size: 10px; font-weight: 700; gap: 4px; cursor: pointer; }
+        .nav-tab.active { color: var(--blue); }
+        .fab { position: fixed; bottom: max(90px, calc(env(safe-area-inset-bottom) + 70px)); right: 20px; width: 56px; height: 56px; border-radius: 28px; background: var(--blue); color: white; border: none; font-size: 28px; box-shadow: 0 8px 20px rgba(0,122,255,0.4); z-index: 90; cursor: pointer; }
 
-    /* ── Nav & FAB ── */
-    .bottom-nav {
-        position: fixed; bottom: 0; width: 100%;
-        background: rgba(255,255,255,0.95); backdrop-filter: blur(20px);
-        display: flex; padding: 10px 0;
-        padding-bottom: max(28px, env(safe-area-inset-bottom));
-        border-top: 0.5px solid #d1d1d6; z-index: 100;
-    }
-    .nav-tab { flex: 1; border: none; background: none; display: flex; flex-direction: column; align-items: center; color: var(--gray); font-size: 10px; font-weight: 700; gap: 4px; cursor: pointer; }
-    .nav-tab.active { color: var(--blue); }
-    .fab { position: fixed; bottom: max(90px, calc(env(safe-area-inset-bottom) + 70px)); right: 20px; width: 56px; height: 56px; border-radius: 28px; background: var(--blue); color: white; border: none; font-size: 28px; box-shadow: 0 8px 20px rgba(0,122,255,0.4); z-index: 90; cursor: pointer; }
-
-    .hidden { display: none !important; }
-</style>
-```
-
+        .hidden { display: none !important; }
+    </style>
 </head>
 <body>
 
-```
-<!-- No standalone header — search+settings live inside hero card -->
-
-<div id="searchContainer" class="search-box hidden" style="padding-top:8px">
-    <input type="text" id="searchInput" class="search-input" placeholder="Search merchant, category..." oninput="handleSearchInput()">
-    <button id="clearSearch" class="clear-btn" onclick="clearSearch()">✕</button>
-</div>
-
-<main>
-    <!-- ── Month view ── -->
-    <section id="monthView">
-        <div class="hero-card">
-            <!-- FIX 1: search + month + settings all in the card -->
-            <div class="hero-topbar">
-                <button class="hero-icon-btn" onclick="toggleSearch()">🔍</button>
-                <span class="hero-month-label" id="headerMonth"></span>
-                <button class="hero-icon-btn" onclick="openSettings()">⚙️</button>
-            </div>
-            <div class="hero-sub-label">Total Saved</div>
-            <div class="hero-top-row">
-                <div class="hero-amount" id="heroSaved"></div>
-                <div class="hero-badge" id="heroRate"></div>
-            </div>
-            <div class="hero-bar-track"><div class="hero-bar-fill" id="heroBar"></div></div>
-            <div class="hero-bar-labels">
-                <span>$0</span>
-                <span id="heroBarLabel"></span>
-            </div>
-            <div class="hero-pills">
-                <div class="hero-pill"><h5>Income</h5><p id="heroIncome"></p></div>
-                <div class="hero-pill"><h5>Spent</h5><p id="heroSpent"></p></div>
-                <div class="hero-pill"><h5>Remaining</h5><p id="heroRemaining"></p></div>
-            </div>
-        </div>
-
-        <div class="filter-section">
-            <button class="filter-btn active" id="fAll"      onclick="setViewMode('all')">All</button>
-            <button class="filter-btn"         id="fCategory" onclick="setViewMode('category')">Category</button>
-            <button class="filter-btn"         id="fWeek"     onclick="setViewMode('week')">Week</button>
-        </div>
-        <div id="purchaseList" style="padding: 0 16px"></div>
-    </section>
-
-    <!-- ── Trends view ── -->
-    <section id="trendsView" class="hidden" style="padding: 0 16px">
-        <h2 style="margin: 12px 0 16px; font-size:22px">Trends</h2>
-        <div class="filter-section" style="padding: 0 0 16px">
-            <button class="filter-btn active" id="tM" onclick="setTrendScale('M')">Month</button>
-            <button class="filter-btn"         id="tY" onclick="setTrendScale('Y')">Year</button>
-        </div>
-        <div class="health-chart-card">
-            <div class="health-chart-title">Spending History</div>
-            <div class="health-chart-sub" id="spendingSub"></div>
-            <div class="chart-svg-wrap"><svg id="spendingChart" viewBox="0 0 300 180"></svg></div>
-        </div>
-        <div class="health-chart-card">
-            <div class="health-chart-title">Savings History</div>
-            <div class="health-chart-sub" id="savingsSub"></div>
-            <div class="chart-svg-wrap"><svg id="savingsChart" viewBox="0 0 300 180"></svg></div>
-        </div>
-        <!-- FIX 3: properly formatted category table -->
-        <div class="cat-table-card">
-            <div class="cat-table-title">Top Categories (This Year)</div>
-            <div class="cat-header-row">
-                <span>Category</span>
-                <span>3-mo avg</span>
-                <span>This Year</span>
-            </div>
-            <div id="categoryBreakdown"></div>
-        </div>
-    </section>
-
-    <!-- ── Archive view ── -->
-    <section id="archiveView" class="hidden" style="padding: 0 16px">
-        <h2 style="margin: 12px 0 16px; font-size:22px">Archive</h2>
-        <div id="archiveList"></div>
-    </section>
-</main>
-
-<div id="overlay" class="overlay" onclick="closeAll()"></div>
-
-<!-- Settings sheet -->
-<div id="settingsSheet" class="sheet">
-    <h3 style="margin:0 0 25px">Settings</h3>
-    <div class="input-group">
-        <label class="input-label">Biweekly Paycheck ($)</label>
-        <input type="number" id="payInput" placeholder="e.g. 2285">
+    <div id="searchContainer" class="search-box hidden" style="padding-top:8px">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search merchant, category..." oninput="handleSearchInput()">
+        <button id="clearSearch" class="clear-btn" onclick="clearSearch()">✕</button>
     </div>
-    <div class="input-group">
-        <label class="input-label">Pay Period Start Date</label>
-        <input type="date" id="payDateInput">
-    </div>
-    <button style="width:100%;padding:16px;background:var(--blue);color:white;border:none;border-radius:14px;font-weight:700;font-size:16px;cursor:pointer" onclick="saveSettings()">Save Changes</button>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:15px">
-        <button style="padding:12px;background:#e3e3e8;border:none;border-radius:12px;font-weight:600;font-size:13px;cursor:pointer" onclick="exportData()">Export JSON</button>
-        <button style="padding:12px;background:#e3e3e8;border:none;border-radius:12px;font-weight:600;font-size:13px;cursor:pointer" onclick="document.getElementById('importFile').click()">Import JSON</button>
-    </div>
-    <input type="file" id="importFile" class="hidden" onchange="importData(event)">
-</div>
 
-<!-- Add transaction sheet -->
-<div id="addSheet" class="sheet">
-    <h3 id="stepTitle" style="margin:0 0 15px">Amount</h3>
-    <div id="stepContainer"></div>
-    <button id="nextBtn" style="width:100%;padding:16px;background:var(--blue);color:white;border:none;border-radius:14px;font-weight:700;margin-top:15px;font-size:16px;cursor:pointer" onclick="handleNext()">Next</button>
-</div>
+    <main>
+        <!-- Month view -->
+        <section id="monthView">
+            <div class="hero-card">
+                <div class="hero-topbar">
+                    <button class="hero-icon-btn" onclick="toggleSearch()">🔍</button>
+                    <span class="hero-month-label" id="headerMonth"></span>
+                    <button class="hero-icon-btn" onclick="openSettings()">⚙️</button>
+                </div>
+                <div class="hero-sub-label">Total Saved</div>
+                <div class="hero-top-row">
+                    <div class="hero-amount" id="heroSaved"></div>
+                    <div class="hero-badge"  id="heroRate"></div>
+                </div>
+                <div class="hero-bar-track"><div class="hero-bar-fill" id="heroBar"></div></div>
+                <div class="hero-bar-labels"><span>$0</span><span id="heroBarLabel"></span></div>
+                <div class="hero-pills">
+                    <div class="hero-pill"><h5>Income</h5><p id="heroIncome"></p></div>
+                    <div class="hero-pill"><h5>Spent</h5><p id="heroSpent"></p></div>
+                    <div class="hero-pill"><h5>Remaining</h5><p id="heroRemaining"></p></div>
+                </div>
+            </div>
+            <div class="filter-section">
+                <button class="filter-btn active" id="fAll"      onclick="setViewMode('all')">All</button>
+                <button class="filter-btn"         id="fCategory" onclick="setViewMode('category')">Category</button>
+                <button class="filter-btn"         id="fWeek"     onclick="setViewMode('week')">Week</button>
+            </div>
+            <div id="purchaseList" style="padding:0 16px"></div>
+        </section>
 
-<nav class="bottom-nav">
-    <button class="nav-tab active" id="tabMonth"   onclick="switchTab('month')">📅<span>MONTH</span></button>
-    <button class="nav-tab"        id="tabTrends"  onclick="switchTab('trends')">📈<span>TRENDS</span></button>
-    <button class="nav-tab"        id="tabArchive" onclick="switchTab('archive')">📂<span>ARCHIVE</span></button>
-</nav>
-<button class="fab" onclick="openAdd()">+</button>
+        <!-- Trends view -->
+        <section id="trendsView" class="hidden" style="padding:0 16px">
+            <h2 style="margin:12px 0 16px;font-size:22px">Trends</h2>
+            <div class="filter-section" style="padding:0 0 16px">
+                <button class="filter-btn active" id="tM" onclick="setTrendScale('M')">Month</button>
+                <button class="filter-btn"         id="tY" onclick="setTrendScale('Y')">Year</button>
+            </div>
+            <div class="health-chart-card">
+                <div class="health-chart-title">Spending History</div>
+                <div class="health-chart-sub" id="spendingSub"></div>
+                <svg id="spendingChart" viewBox="0 0 300 190"></svg>
+            </div>
+            <div class="health-chart-card">
+                <div class="health-chart-title">Savings History</div>
+                <div class="health-chart-sub" id="savingsSub"></div>
+                <svg id="savingsChart" viewBox="0 0 300 190"></svg>
+            </div>
+            <div class="cat-table-card">
+                <div class="cat-table-title">Top Categories (This Year)</div>
+                <div class="cat-header-row">
+                    <span>Category</span><span>3-mo avg</span><span>This Year</span>
+                </div>
+                <div id="categoryBreakdown"></div>
+            </div>
+        </section>
+
+        <!-- Archive view -->
+        <section id="archiveView" class="hidden" style="padding:0 16px">
+            <h2 style="margin:12px 0 16px;font-size:22px">Archive</h2>
+            <div id="archiveList"></div>
+        </section>
+    </main>
+
+    <div id="overlay" class="overlay" onclick="closeAll()"></div>
+
+    <div id="settingsSheet" class="sheet">
+        <h3 style="margin:0 0 25px">Settings</h3>
+        <div class="input-group">
+            <label class="input-label">Biweekly Paycheck ($)</label>
+            <input type="number" id="payInput" placeholder="e.g. 2285">
+        </div>
+        <div class="input-group">
+            <label class="input-label">Pay Period Start Date</label>
+            <input type="date" id="payDateInput">
+        </div>
+        <button style="width:100%;padding:16px;background:var(--blue);color:white;border:none;border-radius:14px;font-weight:700;font-size:16px;cursor:pointer" onclick="saveSettings()">Save Changes</button>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:15px">
+            <button style="padding:12px;background:#e3e3e8;border:none;border-radius:12px;font-weight:600;font-size:13px;cursor:pointer" onclick="exportData()">Export JSON</button>
+            <button style="padding:12px;background:#e3e3e8;border:none;border-radius:12px;font-weight:600;font-size:13px;cursor:pointer" onclick="document.getElementById('importFile').click()">Import JSON</button>
+        </div>
+        <input type="file" id="importFile" class="hidden" onchange="importData(event)">
+    </div>
+
+    <div id="addSheet" class="sheet">
+        <h3 id="stepTitle" style="margin:0 0 15px">Amount</h3>
+        <div id="stepContainer"></div>
+        <button id="nextBtn" style="width:100%;padding:16px;background:var(--blue);color:white;border:none;border-radius:14px;font-weight:700;margin-top:15px;font-size:16px;cursor:pointer" onclick="handleNext()">Next</button>
+    </div>
+
+    <nav class="bottom-nav">
+        <button class="nav-tab active" id="tabMonth"   onclick="switchTab('month')">📅<span>MONTH</span></button>
+        <button class="nav-tab"        id="tabTrends"  onclick="switchTab('trends')">📈<span>TRENDS</span></button>
+        <button class="nav-tab"        id="tabArchive" onclick="switchTab('archive')">📂<span>ARCHIVE</span></button>
+    </nav>
+    <button class="fab" onclick="openAdd()">+</button>
 
 <script>
     let purchases = JSON.parse(localStorage.getItem('bp_purchases') || '[]');
@@ -308,7 +255,7 @@
 
     const MONTH_ORDER = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-    // ── Date helpers ──────────────────────────────────────────────────────────
+    // ── Date helpers ─────────────────────────────────────────────────────────────
     function parseLocalDate(s) {
         const [y,m,d] = String(s).split('T')[0].split('-').map(Number);
         return new Date(y, m-1, d);
@@ -326,21 +273,37 @@
         return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}`;
     }
 
-    // ── Income ────────────────────────────────────────────────────────────────
-    function getInc(monthKey) {
+    // ── Income helpers ────────────────────────────────────────────────────────────
+    // Monthly income for a given month key
+    function getMonthlyInc(monthKey) {
         if (!settings.history) settings.history = [];
         const h = settings.history.find(r => r.month === monthKey);
         return (h ? h.pay : settings.pay) * 2;
+    }
+    // Annual income: sum of getMonthlyInc across all months that appear in purchases for that year
+    function getAnnualInc(year) {
+        const monthsInYear = [...new Set(
+            purchases
+                .filter(p => String(p.date).split('T')[0].split('-')[0] === String(year))
+                .map(p => getMonthKey(p.date))
+        )];
+        // Also include current month if it's in that year
+        const curKey = getMonthKey(todayStr());
+        if (new Date().getFullYear() === year && !monthsInYear.includes(curKey)) {
+            monthsInYear.push(curKey);
+        }
+        return monthsInYear.reduce((sum, mk) => sum + getMonthlyInc(mk), 0);
     }
     function snapshotCurrentPayToHistory() {
         if (!settings.history) settings.history = [];
         const key = getMonthKey(todayStr());
         const ex  = settings.history.find(r => r.month === key);
-        if (ex) ex.pay = settings.pay;
-        else settings.history.push({ month: key, pay: settings.pay });
+        // Only write a new entry — never overwrite an existing month.
+        // This means a pay change takes effect next month, not retroactively.
+        if (!ex) settings.history.push({ month: key, pay: settings.pay });
     }
 
-    // ── Recurring ─────────────────────────────────────────────────────────────
+    // ── Recurring ─────────────────────────────────────────────────────────────────
     function autoPopulateRecurring() {
         const curKey = getMonthKey(todayStr());
         const now    = new Date();
@@ -369,22 +332,19 @@
         if (added) localStorage.setItem('bp_purchases', JSON.stringify(purchases));
     }
 
-    // ── Hero card ─────────────────────────────────────────────────────────────
+    // ── Hero card ─────────────────────────────────────────────────────────────────
     function renderHero(spent, inc) {
         const saved    = inc - spent;
         const pct      = inc > 0 ? Math.min(100, Math.max(0, saved/inc*100)) : 0;
         const spendPct = inc > 0 ? Math.min(100, spent/inc*100) : 0;
-        const now      = new Date();
-
-        document.getElementById('headerMonth').textContent    = now.toLocaleString('default', {month:'long'});
-        document.getElementById('heroSaved').textContent      = `$${saved.toFixed(2)}`;
-        document.getElementById('heroRate').textContent       = `${pct.toFixed(0)}% saved`;
-        document.getElementById('heroBar').style.width        = `${spendPct}%`;
-        document.getElementById('heroBarLabel').textContent   = `$${spent.toFixed(2)} of $${inc.toLocaleString()} spent`;
-        document.getElementById('heroIncome').textContent     = `$${inc.toLocaleString()}`;
-        document.getElementById('heroSpent').textContent      = `$${spent.toFixed(2)}`;
-        document.getElementById('heroRemaining').textContent  = `$${saved.toFixed(2)}`;
-
+        document.getElementById('headerMonth').textContent   = new Date().toLocaleString('default',{month:'long'});
+        document.getElementById('heroSaved').textContent     = `$${saved.toFixed(2)}`;
+        document.getElementById('heroRate').textContent      = `${pct.toFixed(0)}% saved`;
+        document.getElementById('heroBar').style.width       = `${spendPct}%`;
+        document.getElementById('heroBarLabel').textContent  = `$${spent.toFixed(2)} of $${inc.toLocaleString()} spent`;
+        document.getElementById('heroIncome').textContent    = `$${inc.toLocaleString()}`;
+        document.getElementById('heroSpent').textContent     = `$${spent.toFixed(2)}`;
+        document.getElementById('heroRemaining').textContent = `$${saved.toFixed(2)}`;
         const fill  = document.getElementById('heroBar');
         const badge = document.getElementById('heroRate');
         if (saved < 0) {
@@ -396,20 +356,19 @@
         }
     }
 
-    // ── Month view ────────────────────────────────────────────────────────────
+    // ── Month view ────────────────────────────────────────────────────────────────
     function render() {
         const now    = new Date();
         const curKey = getMonthKey(todayStr());
-        const inc    = getInc(curKey);
+        const inc    = getMonthlyInc(curKey);
         const query  = document.getElementById('searchInput').value.toLowerCase();
-
-        const cur = purchases.filter(p => getMonthKey(p.date) === curKey);
-        const flt = cur.filter(p =>
+        const cur    = purchases.filter(p => getMonthKey(p.date) === curKey);
+        const flt    = cur.filter(p =>
             p.merchant.toLowerCase().includes(query) ||
             p.category.toLowerCase().includes(query) ||
             (p.subcategory||'').toLowerCase().includes(query)
         );
-        const spent = flt.reduce((s,p) => s+Number(p.amount), 0);
+        const spent  = flt.reduce((s,p) => s+Number(p.amount), 0);
         renderHero(spent, inc);
 
         const sorted = flt.slice().sort((a,b) => parseLocalDate(b.date)-parseLocalDate(a.date));
@@ -419,23 +378,20 @@
             list.innerHTML = sorted.map(itemHtml).join('');
 
         } else if (viewMode === 'category') {
-            const lastDate   = new Date(now.getFullYear(), now.getMonth()-1, 1);
-            const lastKey    = getMonthKey(`${lastDate.getFullYear()}-${String(lastDate.getMonth()+1).padStart(2,'0')}-01`);
-            const lastCats   = purchases.filter(p => getMonthKey(p.date)===lastKey)
+            const lastDate = new Date(now.getFullYear(), now.getMonth()-1, 1);
+            const lastKey  = getMonthKey(`${lastDate.getFullYear()}-${String(lastDate.getMonth()+1).padStart(2,'0')}-01`);
+            const lastCats = purchases.filter(p => getMonthKey(p.date)===lastKey)
                 .reduce((a,p) => { a[p.category]=(a[p.category]||0)+Number(p.amount); return a; }, {});
             const cats = sorted.reduce((a,p) => { a[p.category]=(a[p.category]||0)+Number(p.amount); return a; }, {});
-
             list.innerHTML = Object.entries(cats).sort((a,b)=>b[1]-a[1]).map(([n,amt],i) => {
                 const last=lastCats[n]||0, diff=amt-last;
-                let mom='';
-                if      (!last)            mom=`<span class="mom-badge mom-flat">New</span>`;
-                else if (Math.abs(diff)<.01) mom=`<span class="mom-badge mom-flat">= same</span>`;
-                else if (diff>0)            mom=`<span class="mom-badge mom-up">↑ $${diff.toFixed(2)}</span>`;
-                else                        mom=`<span class="mom-badge mom-down">↓ $${Math.abs(diff).toFixed(2)}</span>`;
+                let mom = !last ? `<span class="mom-badge mom-flat">New</span>`
+                    : Math.abs(diff)<.01 ? `<span class="mom-badge mom-flat">= same</span>`
+                    : diff>0 ? `<span class="mom-badge mom-up">↑ $${diff.toFixed(2)}</span>`
+                    : `<span class="mom-badge mom-down">↓ $${Math.abs(diff).toFixed(2)}</span>`;
                 return `
-                    <div class="accordion-header" style="margin-bottom:8px" onclick="toggleAcc('cat${i}')">
-                        <div class="acc-row">
-                            <strong>${n}</strong>
+                    <div class="accordion-header" onclick="toggleAcc('cat${i}')">
+                        <div class="acc-row"><strong>${n}</strong>
                             <div style="display:flex;align-items:center;gap:8px">${mom}<strong>$${amt.toFixed(2)}</strong></div>
                         </div>
                     </div>
@@ -448,7 +404,7 @@
                 const items = sorted.filter(p => { const d=parseLocalDate(p.date); return d>=r.start&&d<=r.end; });
                 const tot   = items.reduce((s,x)=>s+Number(x.amount),0);
                 return `
-                    <div class="accordion-header" style="margin-bottom:8px" onclick="toggleAcc('wk${i}')">
+                    <div class="accordion-header" onclick="toggleAcc('wk${i}')">
                         <div class="acc-meta">${r.label}</div>
                         <div class="acc-row"><strong>Week ${i+1}</strong><strong>$${tot.toFixed(2)}</strong></div>
                     </div>
@@ -474,18 +430,17 @@
         </div>`;
     }
 
-    // ── Archive — FIX 4 ───────────────────────────────────────────────────────
+    // ── Archive ───────────────────────────────────────────────────────────────────
     function renderArchive() {
         const curKey = getMonthKey(todayStr());
         const months = [...new Set(purchases.map(p=>getMonthKey(p.date)))]
             .filter(m=>m!==curKey).sort((a,b)=>new Date(b)-new Date(a));
-
         document.getElementById('archiveList').innerHTML = months.map((m,idx) => {
             const items = purchases.filter(p=>getMonthKey(p.date)===m)
                 .sort((a,b)=>parseLocalDate(b.date)-parseLocalDate(a.date));
-            const spent  = items.reduce((s,p)=>s+Number(p.amount),0);
-            const inc    = getInc(m);
-            const saved  = inc - spent;
+            const spent = items.reduce((s,p)=>s+Number(p.amount),0);
+            const inc   = getMonthlyInc(m);
+            const saved = inc - spent;
             return `<div class="arc-card">
                 <div class="arc-card-header" onclick="toggleAcc('arc${idx}')">
                     <div class="arc-top-row">
@@ -495,7 +450,6 @@
                         </div>
                         <span style="font-size:15px;font-weight:800;color:${saved>=0?'var(--green)':'var(--red)'}">$${saved.toFixed(2)} saved</span>
                     </div>
-                    <!-- FIX 4: income / spent / saved row -->
                     <div class="arc-stat-row">
                         <div class="arc-stat"><h6>Income</h6><p style="color:var(--blue)">$${inc.toLocaleString()}</p></div>
                         <div class="arc-stat"><h6>Spent</h6><p style="color:var(--red)">$${spent.toFixed(2)}</p></div>
@@ -511,27 +465,27 @@
     function exportMonth(monthKey) {
         const items = purchases.filter(p=>getMonthKey(p.date)===monthKey);
         const spent = items.reduce((s,p)=>s+Number(p.amount),0);
-        const inc   = getInc(monthKey);
-        const blob  = new Blob([JSON.stringify({ month:monthKey, income:inc, totalSpent:+spent.toFixed(2), totalSaved:+(inc-spent).toFixed(2), transactions:items }, null, 2)], {type:'application/json'});
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = `budget_${monthKey.replace(/\s/g,'_')}.json`;
-        a.click();
+        const inc   = getMonthlyInc(monthKey);
+        const blob  = new Blob([JSON.stringify({ month:monthKey, income:inc, totalSpent:+spent.toFixed(2), totalSaved:+(inc-spent).toFixed(2), transactions:items },null,2)],{type:'application/json'});
+        const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`budget_${monthKey.replace(/\s/g,'_')}.json`; a.click();
     }
 
-    // ── Trends — FIX 2 (Apple Health SVG chart) ──────────────────────────────
+    // ── Trends ────────────────────────────────────────────────────────────────────
     function renderTrends() {
         const curYear = new Date().getFullYear();
-        let sData = {}, cData = {};
+        const curMo   = new Date().toLocaleString('default',{month:'short'});
+        const curYrStr = String(curYear);
 
+        // Build spend data keyed by "Abbrev|Year" (month) or "Year" (year)
+        let sData = {};
         purchases.forEach(p => {
-            const [y,mo] = String(p.date).split('T')[0].split('-').map(Number);
-            const abbrev = new Date(y,mo-1,1).toLocaleString('default',{month:'short'});
+            const [y, mo] = String(p.date).split('T')[0].split('-').map(Number);
+            const abbrev  = new Date(y, mo-1, 1).toLocaleString('default',{month:'short'});
             const k = trendScale==='M' ? `${abbrev}|${y}` : String(y);
             sData[k] = (sData[k]||0) + Number(p.amount);
-            if (y===curYear) cData[p.category]=(cData[p.category]||0)+Number(p.amount);
         });
 
+        // Sort keys chronologically
         const keys = Object.keys(sData).sort((a,b) => {
             if (trendScale==='M') {
                 const [aM,aY]=a.split('|'), [bM,bY]=b.split('|');
@@ -540,94 +494,120 @@
             return Number(a)-Number(b);
         });
 
-        // Subtitle
-        const subLabel = keys.length
-            ? trendScale==='M'
-                ? `${keys[0].split('|')[0]} – ${keys[keys.length-1].split('|')[0]} ${keys[keys.length-1].split('|')[1]}`
-                : `${keys[0]} – ${keys[keys.length-1]}`
-            : '';
-        document.getElementById('spendingSub').textContent = subLabel;
-        document.getElementById('savingsSub').textContent  = subLabel;
+        // FIX 4: subtitle — avoid "2026 – 2026" for single entry
+        const makeSubtitle = () => {
+            if (!keys.length) return '';
+            if (trendScale === 'M') {
+                const first = `${keys[0].split('|')[0]} ${keys[0].split('|')[1]}`;
+                const last  = `${keys[keys.length-1].split('|')[0]} ${keys[keys.length-1].split('|')[1]}`;
+                return first === last ? first : `${keys[0].split('|')[0]} – ${keys[keys.length-1].split('|')[0]} ${keys[keys.length-1].split('|')[1]}`;
+            } else {
+                return keys.length === 1 ? keys[0] : `${keys[0]} – ${keys[keys.length-1]}`;
+            }
+        };
+        const sub = makeSubtitle();
+        document.getElementById('spendingSub').textContent = sub;
+        document.getElementById('savingsSub').textContent  = sub;
 
-        // Draw Health-style SVG chart
-        // Layout: viewBox 300x180, chart area y:20→155, x:0→255, y-axis labels at x:258
-        const CHART_LEFT = 0, CHART_RIGHT = 255, CHART_TOP = 20, CHART_BOTTOM = 155;
-        const CHART_H = CHART_BOTTOM - CHART_TOP;
+        // Build savings values per key
+        // FIX 2: for year mode, use getAnnualInc(year); for month mode use getMonthlyInc(monthKey)
+        const savingsVals = keys.map(k => {
+            const spent = sData[k];
+            let inc;
+            if (trendScale === 'M') {
+                const mk = abbrevMonthToKey(k.split('|')[0], Number(k.split('|')[1]));
+                inc = getMonthlyInc(mk);
+            } else {
+                inc = getAnnualInc(Number(k));
+            }
+            return Math.max(0, inc - spent);
+        });
+
+        const spendVals = keys.map(k => sData[k]);
+
+        // Draw both charts
+        document.getElementById('spendingChart').innerHTML = buildSVG(keys, spendVals, '#007aff', curMo, curYrStr);
+        document.getElementById('savingsChart').innerHTML  = buildSVG(keys, savingsVals, '#34c759', curMo, curYrStr);
+
+        // Category table (unchanged)
+        const cData = {};
+        purchases.forEach(p => {
+            const y = Number(String(p.date).split('T')[0].split('-')[0]);
+            if (y === curYear) cData[p.category] = (cData[p.category]||0) + Number(p.amount);
+        });
+        const avg3 = computeCategoryThreeMonthAvg();
+        document.getElementById('categoryBreakdown').innerHTML =
+            Object.entries(cData).sort((a,b)=>b[1]-a[1]).map(([n,total]) => {
+                const avg = avg3[n];
+                const avgHtml = avg !== undefined ? `<span class="cat-avg">$${avg.toFixed(2)}</span>` : `<span class="cat-avg">—</span>`;
+                const cls  = (avg !== undefined && total > avg * 1.05) ? 'over' : 'norm';
+                return `<div class="cat-data-row">
+                    <span class="cat-name">${n}</span>
+                    ${avgHtml}
+                    <span class="cat-total ${cls}">$${total.toFixed(2)}</span>
+                </div>`;
+            }).join('') || '<p style="color:var(--gray);padding:16px 0;text-align:center">No data this year</p>';
+    }
+
+    // FIX 1: value labels on every bar; FIX 3: correct bar heights
+    function buildSVG(keys, vals, color, curMo, curYrStr) {
+        if (!keys.length) return '<text x="150" y="95" text-anchor="middle" font-size="12" fill="#aaa">No data yet</text>';
+
+        const CHART_TOP = 24, CHART_BOTTOM = 155, CHART_H = CHART_BOTTOM - CHART_TOP;
+        const CHART_LEFT = 0, CHART_RIGHT = 255;
         const CHART_W = CHART_RIGHT - CHART_LEFT;
 
-        function buildSVG(data, color, isSavings) {
-            if (!keys.length) return '<text x="140" y="90" text-anchor="middle" font-size="12" fill="#aaa">No data yet</text>';
+        const maxVal  = Math.max(...vals, 1);
+        const niceMax = niceNumber(maxVal);
+        const mid     = niceMax / 2;
 
-            const vals = keys.map(k => {
-                const spent  = data[k]||0;
-                if (!isSavings) return spent;
-                const imk = trendScale==='M' ? abbrevMonthToKey(k.split('|')[0], Number(k.split('|')[1])) : getMonthKey(todayStr());
-                return Math.max(0, getInc(imk) - spent);
-            });
+        const barW = Math.min(40, Math.floor((CHART_W / keys.length) * 0.52));
+        const slot = CHART_W / keys.length;
 
-            const maxVal = Math.max(...vals, 1);
-            // Nice round y-axis max
-            const niceMax = niceNumber(maxVal);
-            const mid     = niceMax / 2;
+        let parts = [];
 
-            const barW  = Math.min(36, Math.floor((CHART_W / keys.length) * 0.55));
-            const slot  = CHART_W / keys.length;
-            const curMo = new Date().toLocaleString('default',{month:'short'});
-            const curYr = String(new Date().getFullYear());
+        // Gridlines + y-axis labels
+        [[0, CHART_BOTTOM], [mid, CHART_TOP + CHART_H/2], [niceMax, CHART_TOP]].forEach(([v, y]) => {
+            const dash = v === 0 ? '' : 'stroke-dasharray="4,4"';
+            parts.push(`<line x1="${CHART_LEFT}" y1="${y}" x2="${CHART_RIGHT}" y2="${y}" stroke="#eee" stroke-width="1" ${dash}/>`);
+            parts.push(`<text x="259" y="${y+4}" font-size="9" fill="#bbb" font-family="-apple-system,sans-serif">${formatK(v)}</text>`);
+        });
 
-            let parts = [];
+        // Bars + labels — FIX 1: label every bar; FIX 3: correct height math
+        keys.forEach((k, i) => {
+            const val  = vals[i];
+            // FIX 3: use niceMax as the scale ceiling so all bars are proportional
+            const barH = Math.max(4, (val / niceMax) * CHART_H);
+            const x    = CHART_LEFT + slot * i + (slot - barW) / 2;
+            const y    = CHART_BOTTOM - barH;
+            const label = trendScale === 'M' ? k.split('|')[0] : k;
+            const isCur = trendScale === 'M'
+                ? (k.split('|')[0] === curMo && k.split('|')[1] === curYrStr)
+                : k === curYrStr;
+            const opacity  = isCur ? '1' : '0.45';
+            const lblColor = isCur ? color : '#888';
+            const lblW     = isCur ? '700' : '500';
 
-            // Gridlines + y labels
-            [[0, CHART_BOTTOM], [mid, CHART_TOP + CHART_H/2], [niceMax, CHART_TOP]].forEach(([val, y]) => {
-                const dash = val===0 ? '' : 'stroke-dasharray="4,4"';
-                parts.push(`<line x1="${CHART_LEFT}" y1="${y}" x2="${CHART_RIGHT}" y2="${y}" stroke="#eee" stroke-width="1" ${dash}/>`);
-                parts.push(`<text x="258" y="${y+4}" font-size="9" fill="#bbb" font-family="-apple-system,sans-serif">${formatK(val)}</text>`);
-            });
+            parts.push(`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${barW}" height="${barH.toFixed(1)}" rx="5" fill="${color}" opacity="${opacity}"/>`);
+            // FIX 1: always show value label above bar
+            parts.push(`<text x="${(x+barW/2).toFixed(1)}" y="${(y-5).toFixed(1)}" font-size="9" fill="${color}" text-anchor="middle" font-weight="${lblW}" font-family="-apple-system,sans-serif">$${val >= 1000 ? (val/1000).toFixed(1)+'k' : val.toFixed(0)}</text>`);
+            parts.push(`<text x="${(x+barW/2).toFixed(1)}" y="177" font-size="10" fill="${lblColor}" text-anchor="middle" font-weight="${lblW}" font-family="-apple-system,sans-serif">${label}</text>`);
+        });
 
-            // Bars + x labels
-            keys.forEach((k, i) => {
-                const val   = vals[i];
-                const barH  = Math.max(4, (val/niceMax)*CHART_H);
-                const x     = CHART_LEFT + slot*i + (slot-barW)/2;
-                const y     = CHART_BOTTOM - barH;
-                const label = trendScale==='M' ? k.split('|')[0] : k;
-                const isCur = trendScale==='M'
-                    ? (k.split('|')[0]===curMo && k.split('|')[1]===curYr)
-                    : k===curYr;
-                const opacity = isCur ? '1' : '0.55';
-                const lblColor = isCur ? color : '#888';
-                const lblWeight = isCur ? '700' : '500';
+        return parts.join('\n');
+    }
 
-                parts.push(`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${barW}" height="${barH.toFixed(1)}" rx="5" fill="${color}" opacity="${opacity}"/>`);
-                // Value label above bar — only show for current month and tallest bar
-                if (isCur || val === maxVal) {
-                    parts.push(`<text x="${(x+barW/2).toFixed(1)}" y="${(y-4).toFixed(1)}" font-size="9" fill="${color}" text-anchor="middle" font-family="-apple-system,sans-serif">$${val.toFixed(0)}</text>`);
-                }
-                parts.push(`<text x="${(x+barW/2).toFixed(1)}" y="175" font-size="10" fill="${lblColor}" text-anchor="middle" font-weight="${lblWeight}" font-family="-apple-system,sans-serif">${label}</text>`);
-            });
-
-            return parts.join('\n');
-        }
-
-        document.getElementById('spendingChart').innerHTML = buildSVG(sData, '#007aff', false);
-        document.getElementById('savingsChart').innerHTML  = buildSVG(sData, '#34c759', true);
-
-        // FIX 3: Category table
-        const avg3  = computeCategoryThreeMonthAvg();
-        const breakdown = Object.entries(cData).sort((a,b)=>b[1]-a[1]);
-        document.getElementById('categoryBreakdown').innerHTML = breakdown.map(([n,total]) => {
-            const avg = avg3[n];
-            const avgHtml = avg !== undefined
-                ? `<span class="cat-avg">$${avg.toFixed(2)}</span>`
-                : `<span class="cat-avg">—</span>`;
-            // Show red only when yearly total is notably above 3-mo avg
-            const cls = (avg !== undefined && total > avg * 1.05) ? 'over' : 'norm';
-            return `<div class="cat-data-row">
-                <span class="cat-name">${n}</span>
-                ${avgHtml}
-                <span class="cat-total ${cls}">$${total.toFixed(2)}</span>
-            </div>`;
-        }).join('') || '<p style="color:var(--gray);padding:16px 0;text-align:center">No data this year</p>';
+    function niceNumber(v) {
+        if (v <= 0) return 1000;
+        const mag  = Math.pow(10, Math.floor(Math.log10(v)));
+        const norm = v / mag;
+        const nice = norm <= 1 ? 1 : norm <= 2 ? 2 : norm <= 5 ? 5 : 10;
+        return nice * mag;
+    }
+    function formatK(v) {
+        if (v === 0) return '$0';
+        if (v >= 1000) return `$${(v/1000) % 1 === 0 ? v/1000 : (v/1000).toFixed(1)}k`;
+        return `$${v}`;
     }
 
     function computeCategoryThreeMonthAvg() {
@@ -635,7 +615,7 @@
         for (let i=1; i<=3; i++) {
             const d  = new Date(now.getFullYear(), now.getMonth()-i, 1);
             const mk = getMonthKey(`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-01`);
-            const mi = purchases.filter(p=>getMonthKey(p.date)===mk);
+            const mi = purchases.filter(p => getMonthKey(p.date)===mk);
             if (!mi.length) continue;
             const ct = {};
             mi.forEach(p => { ct[p.category]=(ct[p.category]||0)+Number(p.amount); });
@@ -646,20 +626,7 @@
         return avg;
     }
 
-    function niceNumber(v) {
-        if (v <= 0) return 1000;
-        const mag = Math.pow(10, Math.floor(Math.log10(v)));
-        const norm = v / mag;
-        let nice = norm <= 1 ? 1 : norm <= 2 ? 2 : norm <= 5 ? 5 : 10;
-        return nice * mag;
-    }
-    function formatK(v) {
-        if (v === 0) return '$0';
-        if (v >= 1000) return `$${(v/1000).toFixed(v%1000===0?0:1)}k`;
-        return `$${v}`;
-    }
-
-    // ── UX helpers ────────────────────────────────────────────────────────────
+    // ── UX helpers ────────────────────────────────────────────────────────────────
     function toggleSearch() {
         const sc = document.getElementById('searchContainer');
         sc.classList.toggle('hidden');
@@ -671,7 +638,6 @@
         render();
     }
     function clearSearch() { document.getElementById('searchInput').value=''; handleSearchInput(); }
-
     function toggleAcc(id) {
         const el=document.getElementById(id), open=el.classList.contains('open');
         document.querySelectorAll('.accordion-content').forEach(c=>c.classList.remove('open'));
@@ -685,7 +651,6 @@
         if (t==='archive') renderArchive();
         if (t==='trends')  renderTrends();
     }
-
     function openSettings() {
         document.getElementById('payInput').value     = settings.pay;
         document.getElementById('payDateInput').value = settings.payDate;
@@ -711,8 +676,8 @@
     }
     function setTrendScale(s) {
         trendScale=s;
-        document.getElementById('tM').classList.toggle('active',s==='M');
-        document.getElementById('tY').classList.toggle('active',s==='Y');
+        document.getElementById('tM').classList.toggle('active', s==='M');
+        document.getElementById('tY').classList.toggle('active', s==='Y');
         renderTrends();
     }
     function deleteItem(id) {
@@ -724,10 +689,9 @@
         else render();
     }
 
-    // ── Add flow ──────────────────────────────────────────────────────────────
+    // ── Add flow ──────────────────────────────────────────────────────────────────
     const STEPS = ["amount","merchant","category","subcategory","date","recurring"];
     let curStep=0, tempItem={}, recurSel=false;
-
     function openAdd() {
         curStep=0; tempItem={date:todayStr()}; recurSel=false;
         updateStepUI();
@@ -763,7 +727,7 @@
         curStep++; updateStepUI();
     }
 
-    // ── Week ranges ───────────────────────────────────────────────────────────
+    // ── Week ranges ───────────────────────────────────────────────────────────────
     function getWeekRanges(year, month) {
         let r=[], s=new Date(year,month,1); const end=new Date(year,month+1,0);
         while (s<=end) {
@@ -776,7 +740,7 @@
         return r;
     }
 
-    // ── Import / export ───────────────────────────────────────────────────────
+    // ── Import / export ───────────────────────────────────────────────────────────
     function exportData() {
         const b=new Blob([JSON.stringify({purchases,settings})],{type:'application/json'});
         const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='budget_pro.json'; a.click();
@@ -795,13 +759,11 @@
         r.readAsText(f);
     }
 
-    // ── Init ──────────────────────────────────────────────────────────────────
+    // ── Init ──────────────────────────────────────────────────────────────────────
     snapshotCurrentPayToHistory();
     autoPopulateRecurring();
     localStorage.setItem('bp_settings', JSON.stringify(settings));
     render();
 </script>
-```
-
 </body>
 </html>
